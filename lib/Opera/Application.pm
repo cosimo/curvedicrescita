@@ -1,4 +1,4 @@
-# $Id: Application.pm,v 1.13 2007/06/05 23:11:27 cosimo Exp $
+# $Id$
 
 package Opera::Application;
 

@@ -1,4 +1,4 @@
-# $Id: DBI.pm,v 1.7 2007/06/05 21:55:15 cosimo Exp $
+# $Id$
 
 # Model class to access all DBI sources
 package Opera::File::DBI;

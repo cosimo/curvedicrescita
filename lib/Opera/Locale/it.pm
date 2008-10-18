@@ -1,4 +1,4 @@
-# $Id: it.pm,v 1.3 2007/06/05 21:55:15 cosimo Exp $
+# $Id$
 
 package Opera::Locale::it;
 use strict;

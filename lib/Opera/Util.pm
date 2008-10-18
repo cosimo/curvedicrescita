@@ -1,4 +1,4 @@
-# $Id: Util.pm,v 1.4 2007/06/05 21:55:15 cosimo Exp $
+# $Id$
 
 # Misc utility functions
 package Opera::Util;

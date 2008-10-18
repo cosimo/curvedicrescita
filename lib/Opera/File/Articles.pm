@@ -1,4 +1,4 @@
-# $Id: Articles.pm,v 1.6 2007/06/05 21:55:15 cosimo Exp $
+# $Id$
 
 # Model class to access articles file on database
 package Opera::File::Articles;

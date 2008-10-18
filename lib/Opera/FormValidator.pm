@@ -1,4 +1,4 @@
-# $Id: FormValidator.pm,v 1.2 2007/06/05 21:55:15 cosimo Exp $
+# $Id$
 
 # Generic Form validation class
 package Opera::FormValidator;

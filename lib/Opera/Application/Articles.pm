@@ -1,4 +1,4 @@
-# $Id: Articles.pm,v 1.7 2007/06/05 21:55:15 cosimo Exp $
+# $Id$
 
 # Controller methods related to Articles section
 package Opera::Application;

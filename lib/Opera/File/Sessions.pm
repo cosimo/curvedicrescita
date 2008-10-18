@@ -1,4 +1,4 @@
-# $Id: Sessions.pm,v 1.1 2007/05/26 19:04:54 cosimo Exp $
+# $Id$
 
 package Opera::File::Sessions;
 

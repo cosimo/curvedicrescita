@@ -1,4 +1,4 @@
-# $Id: Base.pm,v 1.5 2007/06/05 21:55:15 cosimo Exp $
+# $Id$
 
 # Base model class to access *every* type of file
 package Opera::File::Base;

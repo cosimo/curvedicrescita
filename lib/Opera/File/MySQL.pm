@@ -1,4 +1,4 @@
-# $Id: MySQL.pm,v 1.7 2007/06/05 22:38:03 cosimo Exp $
+# $Id$
 
 # Custom MYSQL driver for Opera::File::Base class
 package Opera::File::MySQL;

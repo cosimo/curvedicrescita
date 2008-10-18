@@ -1,4 +1,4 @@
-# $Id: Articles.pm,v 1.3 2007/06/05 21:55:15 cosimo Exp $
+# $Id$
 
 # View class. Contains methods to visually present information to user.
 package Opera::View::Articles;
