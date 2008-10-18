@@ -1,0 +1,295 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>Curvedicrescita.com</title>
+<style type="text/css" media="screen,tv,projection">
+  body {
+    background-color:#fff;
+    font-style: normal;
+    color:#333;
+    font-family:"segoe ui",geneva,verdana;
+    margin-left: 16px;
+    margin-right: 0px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    padding:0;
+    width: 950px;
+  }
+
+  h1, h2, h3 {
+    font-weight: 400;
+    font-family: Georgia, 'Times New Roman';
+  }
+
+  p {
+    font-family: "segoe ui",geneva,verdana;
+    font-size: 11px;
+  }
+  #header {
+    display:block;
+    height:110px;
+    font-family:Georgia;
+    font-weight: 400;
+    margin:0;
+    padding:0;
+    border-bottom:1px solid #ccc;
+  } 
+  #header h1 {
+    color: #232121;
+    display: block;
+    clear:both;
+    float: left;
+    font-size: 30px;
+    text-align: left;
+    margin:0;
+    padding:0;
+  }
+  #header h1 em {
+    color:#99f;
+    font-style:normal;
+  }
+  #menu {
+    display:block;
+    float: right;
+    width: 600px;
+  }
+  #menu ul a {
+    background: #99f;
+    color: #fff;
+    font-weight: 400;
+    float: left;
+    margin-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  #menu ul li {
+    list-style: none;
+    float: left;
+  }
+  #menu ul a {
+    text-decoration: none;
+  }
+  #menu a:hover {
+    background-color: #f9f;
+  }
+  #header h3 {
+    clear:both;
+    display:block;
+    font-size:12px;
+  }
+  #current-user {
+    width: 600px;
+    float: right;
+    text-align: right;
+    vertical-align: bottom;
+    height: 32px;
+  }
+  #current-user input {
+    height: 24px;
+    font-family: 'Segoe UI', Verdana, Arial;
+    font-size: 11px;
+    color: #ccc;
+  }
+  #current-user ul li {
+    font-weight: 400;
+    font-family: 'Segoe UI', Verdana, Arial;
+    font-size: 11px;
+    list-style: none;
+    margin-right: 50px;
+    float: left;
+  }
+  #content {
+    clear: both;
+  } 
+  #leftcol {
+    float: left;
+    width: 60%
+  }
+  #chart {
+    text-align: left;
+  }
+  #rightcol {
+    margin-left: 60%
+  }
+  #rightcol h2 {
+    border-bottom: 1px solid #ccc;
+    line-height: 0.65em;
+  }
+  #footer {
+    clear: both
+  }
+</style>
+<style type="text/css" media="print">
+  body.home { margin: 0em; background-color: #fff; color: #000; font-family: Times New Roman; font-size: 10pt; }
+  h1,h2,h3,table { padding: 0em; margin: 0em; }
+</style>
+</head>
+
+<body>
+
+<!-- Header -->
+<div id="header">
+
+<div id="current-user">
+<ul>
+    <li style="margin-top: 5px">[] ciao mamma</li>
+    <li>cerca
+        <input type="text" name="q" value="qualcosa" size="10" onclick="this.value='';this.style.background='#ffd';this.style.color='#000'" onchange="alert('non funziona')"/>
+    </li>
+    <li style="margin-top: 5px">email?</li>
+</ul> 
+</div>
+
+<!-- Titolo -->
+<h1>
+<em>curve</em>di<em>crescita</em>.com
+</h1>
+
+<!-- Menu -->
+<div id="menu">
+    <h2>
+        <ul>
+        <li><a href="/tags">tags</a></li>
+        <li><a href="/questions">domande</a></li>
+        <li><a href="/faq">faq</a></li>
+        <li><a href="/users">utenti</a></li>
+        <li><a href="/badges">badges</a></li>
+        </ul>
+    </h2>
+</div>
+
+<h3>
+Cresce? Ma quanto mi cresce?
+</h3>
+</div>
+
+<br/>
+
+<div id="content">
+
+<!-- Left column -->
+<div id="leftcol">
+
+<!-- Grafico della curva -->
+<div id="chart">
+    <img src="img/cht_wfa_boys_p_0_2.png"><br/><br/>
+</div>
+
+<!-- Form -->
+<div id="chart_form">
+<form action="chart.pl" method="post">
+
+<table id="weights" cellspacing="5" cellpadding="2">
+
+<tr>
+    <td><label for="name">Nome</label></td>
+    <td colspan="2"><input tabindex="1" type="text" size="26"></td>
+</tr>
+
+<tr>
+    <th rowspan="7">
+    <th><label for="name">Data</label></th>
+    <th><label for="name">Peso (kg)</label></th>
+</tr>
+
+<tr>
+    <td><input tabindex="10" type="text" size="10"></td>
+    <td><input tabindex="11" type="text" size="12"></td>
+</tr>
+
+<tr>
+    <td><input tabindex="12" type="text" size="10"></td>
+    <td><input tabindex="13" type="text" size="12"></td>
+</tr>
+
+<tr>
+    <td><input tabindex="14" type="text" size="10"></td>
+    <td><input tabindex="15" type="text" size="12"></td>
+</tr>
+
+<tr>
+    <td>...</td>
+    <td>...</td>
+</tr>
+
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+
+
+<tr>
+    <td colspan="2" align="right">
+    <input tabindex="99" type="button" value="Calcola le curve!" onclick="alert('Pazienza, stiamo arrivando!')">
+    </td>
+</tr>
+
+
+</table>
+
+</form>
+</div>
+
+</p>
+</div><!-- leftcol -->
+
+<!-- Right column -->
+<div id="rightcol">
+
+<table cellspacing="3" cellpadding="5">
+<tbody>
+<tr valign="top">
+<td width="50%">
+
+    <h2>profilo utente</h2>
+
+    <p>
+    Un sacco di cose interessanti
+    di cui a nessuno gli frega niente...
+    Un sacco di cose interessanti
+    di cui a nessuno gli frega niente...
+
+    Un sacco di cose interessanti
+    di cui a nessuno gli frega niente...
+
+    Un sacco di cose interessanti
+    di cui a nessuno gli frega niente...
+
+    Un sacco di cose interessanti
+    di cui a nessuno gli frega niente...
+    </p>
+
+</td>
+
+<td width="50%">
+    <h2>tag popolari</h2>
+
+    Blah Blah Blah Blah
+    Blah Blah Blah Blah
+    Blah Blah Blah Blah
+    Blah Blah Blah Blah
+
+    <h2>tag preferite</h2>
+
+    Blah Blah Blah Blah
+    Blah Blah Blah Blah
+    Blah Blah Blah Blah
+    Blah Blah Blah Blah
+</td>
+</tr>
+</tbody>
+</table>
+
+</div><!-- rightcol -->
+</div><!-- content -->
+
+<!-- Footer -->
+<div id="footer"></div>
+
+<script language="javascript" src="js/audio.js"></script>
+<script language="javascript">
+document.forms[0].elements[0].focus();
+audio_play('sounds/alarm.wav');
+</script>
+
+</body></html>
+

@@ -1,0 +1,193 @@
+/* curvedicrescita.com */
+html, body {
+    margin:0; padding:0
+}
+
+body {
+    background-color: #fff;
+    font-family: Geneva, Trebuchet MS, Verdana, Times New Roman;
+    font-size: 12px;
+    color: #44a;
+}
+
+div#signin {
+    width:100%;
+    text-align:right;
+    letter-spacing: 2px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+div#header {
+    float:left;
+    width:100%;
+    display:block;
+    margin:0;
+    padding:0;
+}
+
+div#logo {
+    float:left;
+    display:block;
+    width:380px;
+    margin:0;
+    padding:0;
+}
+
+div#menu {
+    float:right;
+    display:block;
+}
+
+div#header, div#menu, div#logo {
+    height: 44px;
+    border-bottom: 1px solid #ccf;
+}
+
+div#logo #logotitle {
+    margin-bottom: 7px;
+}
+
+#article h1 {
+    font-family: 'Myriad Web Pro', 'Trebuchet MS', 'Times New Roman', serif;
+    font-weight: 800;
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+#article hr {
+    margin-bottom: 20px;
+    text-align: center;
+    opacity:0.3;
+    width:75%;
+}
+
+#article #author, #article #tags {
+    font-size: 11px;
+}
+
+#article blockquote {
+    margin: 0;
+    padding-left: 30px;
+    background: url(../img/quotes.gif) no-repeat 5px 0px;
+}
+
+ul#nav, ul#nav li {
+    list-style-type:none;
+    margin:0;
+    margin-top: 10px;
+    padding:0;
+}
+
+ul#nav {
+    width: 100%;
+    font-family: Trebuchet MS, Georgia;
+    font-size: 18px;
+    letter-spacing: -1px;
+    font-weight: 400;
+}
+
+ul#nav li {
+    float:left;
+    margin-right:5px;
+    text-align:center;
+}
+
+ul#nav a{
+    float:left;
+    width:5em;
+    background:url(../img/button_bg_10_25.jpg);
+    text-decoration:none;
+    color: #48f;
+    border: 1px solid #aaf;
+}
+
+ul#nav a:hover {
+    background:#48f;
+    color: #fff;
+}
+
+ul#nav li.activelink a,ul#nav li.activelink a:hover {
+    background: #48c;
+    color: #fff;
+}
+
+div#content {
+    clear:both;
+    float:left;
+    display:block;
+    padding:0;
+    margin:0;
+    margin-top: 15px;
+}
+
+#content #topics { 
+    float:left;
+    width:20%;
+    display:block;
+    padding:5px;
+}
+
+#content #article {
+    float:left;
+    width:50%;
+    padding-left: 15px;
+    font-size: 13px;
+    display:block;
+}
+
+#content #sidebar {
+    float:right;
+    width:25%;
+    display:block;
+}
+
+#topics h2, #sidebar h2 {
+    font-family: 'Myriad Web Pro', 'Trebuchet MS', 'Times New Roman', serif;
+    font-variant: small-caps;
+    font-weight: 800;
+    padding-top: 3px;
+    font-size: 18px;
+    height: 22px;
+    background: url(../img/button_bg_10_25.jpg);
+    padding-left: 5px;
+    border: 1px solid #aaf;
+}
+
+/* Sidebar lists */
+#topics ul, #sidebar ul {
+    list-style-type: none;
+    margin-left: 12px;
+    line-height: 14px;
+    padding:0;
+}
+
+#topics li, #sidebar li {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Footer */
+div#footer {
+    display:block;
+    float:left;
+    width:100%;
+    margin-top: 60px;
+    text-align:center;
+}
+
+/* Form and controls */
+input {
+    border: 1px solid #48c;
+    background: #eee;
+    color: #000;
+    font-family: Geneva, Verdana, Times New Roman;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+input#search {
+    color: #bbb; 
+}
+
