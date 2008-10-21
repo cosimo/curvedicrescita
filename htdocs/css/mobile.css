@@ -1,33 +1,26 @@
-/* curvedicrescita.com */
+/* curvedicrescita.com - mobile css */
 /* $Id$ */
 
 html, body {
-    margin:0;
-    padding:0;
+    margin:0; padding:0
 }
 
 body {
     background-color: #fff;
-    font-family: 'Trebuchet MS', Verdana, Arial, Helvetica;
+    font-family: serif;
     font-size: 13px;
     color: #226;
 }
 
-a {
-    color: blue;
-    text-decoration: underline;
-}
-
-a:visited {
-    color: #226;
-}
-
 div#signin {
+    display:none;
+    /*
     width:100%;
     text-align:right;
     letter-spacing: 2px;
     font-weight: bold;
     font-size: 13px;
+    */
 }
 
 div#header {
@@ -47,54 +40,44 @@ div#logo {
 }
 
 div#menu {
-    float:right;
+    width:100%;
+    float:left;
     display:block;
 }
 
-div#header {
-/*, div#menu, div#logo {*/
-    /*height: 44px;*/
+div#header, div#menu, div#logo {
+    height: 44px;
     border-bottom: 1px solid #ccf;
 }
 
-div#logo #logoimg {
-    margin-bottom: -9px;
-}
-
 div#logo #logotitle {
-    margin-bottom: 3px;
+    margin-bottom: 7px;
 }
 
 #article h1 {
-    font-family: 'Myriad Web Pro', 'Trebuchet MS', 'Times New Roman', serif;
+    font-family: sans-serif;
     font-weight: 800;
-    font-size: 32px;
+    font-size: 24px;
     margin-bottom: 8px;
 }
 
 #article hr {
-    margin-bottom: 20px;
-    text-align: center;
-    opacity:0.4;
-    width:75%;
+    display: none;
 }
 
 #article #author, #article #tags {
-    font-family: 'Trebuchet MS', Verdana, Arial, Helvetica;
-    font-size: 13px;
+    font-family: serif;
+    font-size: 12px;
 }
 
 #article p {
-    font-family: 'Trebuchet MS', Verdana, Arial, Helvetica;
-    font-size: 14px;
+    font-family: serif;
+    font-size: 12px;
 }
 
 #article blockquote {
     margin: 0;
     padding-left: 30px;
-    font-size: 14px;
-    font-style: italic;
-    letter-spacing: 1px;
     background: url(../img/quotes.gif) no-repeat 5px 0px;
 }
 
@@ -107,7 +90,7 @@ ul#nav, ul#nav li {
 
 ul#nav {
     width: 100%;
-    font-family: Trebuchet MS, Georgia;
+    font-family: serif;
     font-size: 18px;
     letter-spacing: -1px;
     font-weight: 400;
@@ -115,13 +98,13 @@ ul#nav {
 
 ul#nav li {
     float:left;
-    margin-right:5px;
+    margin-right:2px;
     text-align:center;
 }
 
 ul#nav a{
     float:left;
-    width:5em;
+    width:4em;
     background:url(../img/button_bg_10_25.jpg);
     text-decoration:none;
     color: #228; /*48f*/
@@ -148,35 +131,33 @@ div#content {
     margin-top: 10px;
 }
 
-#content #topics { 
+#content #topics {
+    display:none;
+    /*
     float:left;
-    width:20%;
+    width:100%;
     display:block;
     padding:5px;
+    */
 }
 
 #content #article {
     float:left;
-    width:55%;
-    padding-left: 15px;
-    font-size: 13px;
+    width:100%;
+    font-size: 12px;
     display:block;
 }
 
 #content #sidebar {
-    float:right;
-    width:20%;
-    display:block;
+    display:none;
 }
 
 #topics h2, #sidebar h2 {
-    font-family: 'Myriad Web Pro', 'Trebuchet MS', 'Times New Roman', serif;
-    font-variant: small-caps;
-    font-weight: 800;
+    font-family: sans-serif;
+    font-weight: bold;
     padding-top: 3px;
-    font-size: 18px;
-    height: 22px;
-    background: url(../img/button_bg_10_25.jpg) repeat;
+    font-size: 13px;
+    background: #ddf;
     padding-left: 5px;
     border: 1px solid #aaf;
 }
@@ -190,7 +171,7 @@ div#content {
 }
 
 #topics li, #sidebar li {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
     margin-bottom: 10px;
 }

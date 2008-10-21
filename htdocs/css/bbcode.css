@@ -1,0 +1,13 @@
+/* curvedicrescita.com */
+
+div.bbcode_quote_header {
+    display:none;
+}
+
+div.bbcode_quote_body {
+    margin-top: 30px;
+    padding-left: 20px;
+    background: url(../img/quotes.gif) no-repeat 0px 0px; 
+}
+
+
