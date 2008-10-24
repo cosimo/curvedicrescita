@@ -68,7 +68,8 @@ div#logo #logotitle {
 #article h1 {
     font-family: 'Myriad Web Pro', 'Trebuchet MS', 'Times New Roman', serif;
     font-weight: 800;
-    font-size: 32px;
+    font-size: 2.2em;
+    margin:0;
     margin-bottom: 8px;
 }
 
@@ -81,7 +82,13 @@ div#logo #logotitle {
 
 #article #author, #article #tags {
     font-family: 'Trebuchet MS', Verdana, Arial, Helvetica;
-    font-size: 13px;
+    font-size: 1em;
+    padding: 3px 0 0 22px;
+}
+
+#article #tags {
+    background: url(../img/tag.gif) no-repeat;
+    font-weight: bold;
 }
 
 #article p {
@@ -129,12 +136,12 @@ ul#nav a{
 }
 
 ul#nav a:hover {
-    background:#48f;
+    background:#228;
     color: #fff;
 }
 
 ul#nav li.activelink a,ul#nav li.activelink a:hover {
-    background: #48c;
+    background: #228;
     color: #fff;
 }
 
@@ -144,20 +151,23 @@ div#content {
     float:left;
     display:block;
     padding:0;
-    margin:0;
-    margin-top: 10px;
+    margin:20px 0 0 0;
 }
 
 #content #topics { 
     float:left;
     width:20%;
+    background-color:#eef;
     display:block;
-    padding:5px;
+    padding:4px;
+    margin:0;
 }
 
 #content #article {
     float:left;
     width:55%;
+    padding:0;
+    margin:0;
     padding-left: 15px;
     font-size: 13px;
     display:block;
@@ -165,19 +175,21 @@ div#content {
 
 #content #sidebar {
     float:right;
+    background:#eef;
     width:20%;
     display:block;
+    padding:4px;
+    margin:0;
 }
 
 #topics h2, #sidebar h2 {
     font-family: 'Myriad Web Pro', 'Trebuchet MS', 'Times New Roman', serif;
     font-variant: small-caps;
-    font-weight: 800;
-    padding-top: 3px;
-    font-size: 18px;
+    font-size: 1.4em;
     height: 22px;
     background: url(../img/button_bg_10_25.jpg) repeat;
-    padding-left: 5px;
+    padding: 3px 0 0 5px;
+    margin:0;
     border: 1px solid #aaf;
 }
 
