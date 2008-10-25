@@ -1,0 +1,5 @@
+attach database "e:\users\cosimo\Desktop\curvedicrescita.com\database\data\babydiary.sqlite" as babydiary;
+.mode column
+.databases
+.tables
+
