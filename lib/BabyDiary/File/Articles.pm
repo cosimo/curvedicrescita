@@ -1,10 +1,10 @@
-# $Id$
+# $Id: Articles.pm 17 2008-10-18 20:28:17Z Cosimo $
 
 # Model class to access articles file on database
-package Opera::File::Articles;
+package BabyDiary::File::Articles;
 
 use strict;
-use base qw(Opera::File::SQLite);
+use base qw(BabyDiary::File::SQLite);
 
 use constant TABLE  => 'articles';
 use constant FIELDS => [ qw(id title content createdon createdby lastupdateon lastupdateby keywords views) ];
@@ -64,7 +64,7 @@ sub post
     }
 
     # Put default data
-    $art->{createdon} = Opera::Util::current_timestamp();
+    $art->{createdon} = BabyDiary::Util::current_timestamp();
     $art->{views}     = 0;
 
     # Insert record and retrieve the primary key id
@@ -133,15 +133,15 @@ sub tags_frequency
 
 =head1 NAME
 
-Opera::File::Articles - Model class to access articles file
+BabyDiary::File::Articles - Model class to access articles file
 
 =head1 SYNOPSIS
 
     # Instance object
-    my $art = Opera::File::Articles->new();
+    my $art = BabyDiary::File::Articles->new();
 
-    # Use methods from super-classes, like Opera::File::MySQL
-    # or Opera::File::DBI
+    # Use methods from super-classes, like BabyDiary::File::MySQL
+    # or BabyDiary::File::DBI
     my $rec = $art->get({ where=> { id=>18 } });
     if($rec) {
         # Article found ...
@@ -166,7 +166,7 @@ Opera::File::Articles - Model class to access articles file
 Model class. Allows to access the MySQL articles table abstracting DBI and SQL aspects,
 providing methods to retrieve single or list of records and delete/modify records.
 
-Check out C<Opera::File::MySQL> and C<Opera::File::DBI> classes documentation for more
+Check out C<BabyDiary::File::MySQL> and C<BabyDiary::File::DBI> classes documentation for more
 details about supported methods.
 
 =head1 METHODS
@@ -198,7 +198,7 @@ It can be useful to cache this information, because probably doesn't change much
 Example:
 
     # Get an array with tags in popularity order
-    my $art  = Opera::File::Articles->new();
+    my $art  = BabyDiary::File::Articles->new();
     my %tags = $art->tags_frequency();
     my @popular = sort { $tags{$b} <=> $tags{$a} } keys %tags;
 

@@ -7,6 +7,10 @@ use strict;
 use Carp;
 use base qw(Opera::File::DBI);
 
+use constant DBNAME => 'babydiary';
+use constant DBUSER => '';
+use constant DBPASS => '';
+
 #
 # Class constructor
 #
