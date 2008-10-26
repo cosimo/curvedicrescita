@@ -42,9 +42,9 @@ sub delete
     my $users      = BabyDiary::File::Users->new();
     my $articles   = BabyDiary::File::Articles->new();
     my $curr_user  = $self->session->param('user');
-    my $can_delete =
-           $users->is_admin($curr_user)                  # User is an admin: can delete everything
-        || ($articles->owner($art_id) eq $curr_user);    # User is owner of this article
+    my $can_delete = 1;
+    #       $users->is_admin($curr_user)                  # User is an admin: can delete everything
+    #    || ($articles->owner($art_id) eq $curr_user);    # User is owner of this article
 
     if(!$can_delete)
     {
@@ -196,13 +196,13 @@ sub post
     # XXX To be done more seriously...
     for($prm{title}, $prm{keywords})
     {
-        tr(A-Za-z0-9 _/)()cds;
+        tr{<>}{}ds;
     }
 
     # Clean up content. Detect and strip html code, either
     # in "<...>" format, or "&lt;...&gt", or "<..."
-    $prm{content} =~ s/<[^>]*>?//g;
-    $prm{content} =~ s/&lt;[^>]*(&gt;)?//g;
+    #$prm{content} =~ s/<[^>]*>?//g;
+    #$prm{content} =~ s/&lt;[^>]*(&gt;)?//g;
 
     # Check credentials against password saved in users file
     my $art = BabyDiary::File::Articles->new();
@@ -261,9 +261,7 @@ sub search
         $keyword = Opera::Util::btrim($keyword);
         $list = $articles->match({
             matchstring => $keyword,
-            matchfields => 'title,content,keywords', # keywords',
-            # TODO Allow to select boolean or nl modes??
-            #mode        => 'boolean',
+            matchfields => 'title,keywords',
         });
     }
     elsif(defined $term && $term ne '')
@@ -298,11 +296,10 @@ sub search
             highlight_term($term,    $art);
             highlight_term($keyword, $art);
 
-            $art->{article_link}     = Opera::View::Articles::format_title($art);
-            $art->{article_author}   = Opera::View::Articles::format_author($art);
-            $art->{article_keywords} = Opera::View::Articles::format_keywords($art);
-            $art->{article_excerpt}  = Opera::View::Articles::format_article_excerpt($art);
-
+            $art->{article_link}     = BabyDiary::View::Articles::format_title($art);
+            $art->{article_author}   = BabyDiary::View::Articles::format_author($art);
+            $art->{article_keywords} = BabyDiary::View::Articles::format_keywords($art);
+            $art->{article_excerpt}  = BabyDiary::View::Articles::format_article_excerpt($art);
         }
 
         $tmpl->param( search_results => $list );
@@ -342,14 +339,43 @@ sub view
     my $art_id = $query->param('id');
     $self->log('notice', 'Displaying article id:', $art_id);
 
-    # Load article (if present)
-    my $art = BabyDiary::File::Articles->new();
-    my $rec = $art->get({
-        where => { id => $art_id }
-    });
-
     # Fill all template parameters
     my $tmpl = $self->fill_params();
+
+    # Render selected article to template
+    render($self, $tmpl, $art_id);
+
+    # Generate template output
+    return $tmpl->output();
+}
+
+sub render {
+    my ($self, $tmpl, $art_id) = @_;
+
+    # Load article (if present)
+    my $ok  = 0;
+    my $art = BabyDiary::File::Articles->new();
+   
+    # If no article selected, fetch the latest
+    my $rec;
+    if (defined $art_id)
+    {
+        $rec = $art->get({
+            where => { id => $art_id }
+        });
+    }
+    else
+    {
+        $self->log('notice', 'Fetching latest article');
+        my $list = $art->list({
+            order => 'id DESC',
+            limit => 1,
+        });
+        if ($list) {
+            $rec = $list->[0];
+            $art_id = $rec->{id};
+        }
+    }
 
     #
     # Now overwrite content with a nicely formatted article content...
@@ -358,13 +384,13 @@ sub view
     # If article is not found, display a notice
     if(!$rec)
     {
-        $tmpl->param( article_content => '<h2>No article found...</h2>' );
+        $tmpl->param( article_content => '<h2>Nessun articolo trovato...</h2>' );
     }
     # Article is found, display it nicely formatted
     else
     {
         $self->log('notice', 'Found article `', $rec->{title}, '\'');
-  
+
         # Increase number of views of article
         #
         # XXX This is obviously not going to work in this way for highly concurrent environments
@@ -406,10 +432,10 @@ sub view
         $tmpl->param( article_remove_allowed => $modify_allowed );
         $tmpl->param( article_modify_allowed => $modify_allowed );
 
+        $ok = 1;
     }
 
-    # Generate template output
-    return $tmpl->output();
+    return $ok;
 }
 
 #
@@ -450,6 +476,8 @@ sub latest_n
         );
     }
 
+    $html_list .= '</ul>';
+
     $self->log('notice', 'Latest n articles completed');
 
     return($html_list);
@@ -489,7 +517,7 @@ sub tags_cloud
 
     for my $tag (keys %tags)
     {
-        $cloud->add( $tag, 'articles_search?keyword='.CGI::escape($tag), $tags{$tag});
+        $cloud->add( $tag, '/exec/home/article_search?keyword='.CGI::escape($tag), $tags{$tag});
     }
 
     $self->log('notice', 'Tag cloud completed (' . scalar(keys %tags) . ' tags found)');

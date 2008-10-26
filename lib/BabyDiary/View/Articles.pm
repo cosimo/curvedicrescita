@@ -3,7 +3,9 @@
 # View class. Contains methods to visually present information to user.
 package BabyDiary::View::Articles;
 
+use strict;
 use HTML::BBCode;
+use HTML::Strip;
 
 #
 # Format and display article content
@@ -35,14 +37,25 @@ sub format_article_excerpt
 
     # Take first two lines of the article
     my $content = $art->{content};
+
+    my $html_stripper = HTML::Strip->new();
+    $content = $html_stripper->parse($content);
+
     my @lines = split /\r?\n/, $content;
-    splice(@lines, 2);
+    my @excerpt;
+
+    my $chars = 0;
+    for (@lines) {
+        push @excerpt, $_;
+        $chars += length;
+        last if $chars > 150;
+    }
 
     # Add dots `...' to denote continued content
-    $lines[1] .= ' ...';
+    $excerpt[$#excerpt] .= ' ...';
 
     # Return the first two lines as excerpt
-    $content = join("\r\n", @lines);
+    $content = join("\r\n", @excerpt);
     return($content);
 }
 
@@ -71,7 +84,7 @@ sub format_keywords
     my($art) = @_;
 
     # Separate keywords
-    my @kwords = split /[\s\,\.\;\:]+/, $art->{keywords};
+    my @kwords = split m{\s* , \s*}x => $art->{keywords};
 
     # Every keyword becomes an anchor to search by *that* keyword
     for(@kwords)

@@ -50,7 +50,6 @@ sub post
     }
 
     if(    (! exists $art->{title}    || ! $art->{title})
-        || (! exists $art->{keywords} || ! $art->{keywords})
         || (! exists $art->{content}  || ! $art->{content})
     )
     {
@@ -112,10 +111,11 @@ sub tags_frequency
             while(defined(my $rec = $sth->fetch))
             {
                 # Tokenize words and isolate single tags
-                for(split /[\s\,\.\;\:]+/, $rec->[0])
-                {
+                for(split m{\s* , \s*}x => $rec->[0]) {
                     # Count +1 for this tag
-                    $tags{$_}++;
+                    my $tag = $_;
+                    $self->log('notice', 'Tag {' . $tag . '}');
+                    $tags{$tag}++;
                 }
             }
             # Close SQL statement

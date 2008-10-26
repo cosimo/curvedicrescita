@@ -1,0 +1,57 @@
+<tmpl_include name="document/open.html">
+<tmpl_include name="document/header.html">
+
+<body>
+<tmpl_include name="components/signin.html">
+<tmpl_include name="components/header.html">
+
+<div id="content">
+
+    <tmpl_include name="components/topics.html">
+
+    <div id="article">
+
+    <h1>Risultati della ricerca</h1>
+
+    <br/>
+
+    <!-- tmpl_if search_results -->
+    <ol type="number">
+    <!-- tmpl_loop search_results -->
+    <li>
+        <div id="search_result">
+        <!-- tmpl_var article_link --> da <!-- tmpl_var article_author --><br/>
+
+            <div id="author">
+            Pubblicato il <!-- tmpl_var createdon -->
+            <!-- tmpl_if changedby -->Modificato il <!-- tmpl_var changedon --> da <!-- tmpl_var changedby --><!-- /tmpl_if -->
+            </div>
+            
+            <div id="tags">
+            <!-- tmpl_var keywords -->
+            </div>
+
+            <div id="excerpt">
+            <!-- tmpl_var article_excerpt -->
+            </div>
+
+        </div>
+    </li>
+    <!-- /tmpl_loop -->
+    </ol>
+
+    <!-- tmpl_else -->
+    <h2>Nessun risultato trovato.</h2>
+
+    <p>Prova a specificare meno termini di ricerca, o a <a href="<tmpl_var mycgi_path>/tags">cercare tra le tag</a>.</p>
+    <!-- /tmpl_if -->
+
+    </div>
+
+    <tmpl_include name="components/sidebar.html">
+
+</div>
+
+<tmpl_include name="document/footer.html">
+<tmpl_include name="document/close.html">
+

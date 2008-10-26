@@ -83,11 +83,13 @@ div#logo #logotitle {
 #article #author, #article #tags {
     font-family: 'Trebuchet MS', Verdana, Arial, Helvetica;
     font-size: 1em;
-    padding: 3px 0 0 22px;
+    padding: 3px 0 0 40px;
 }
 
 #article #tags {
-    background: url(../img/tag.gif) no-repeat;
+    background: url(../img/icon-tags.png) no-repeat;
+    padding: 4px 0 0 40px;
+    height: 32px;
     font-weight: bold;
 }
 
@@ -232,5 +234,32 @@ input {
 
 input#search {
     color: #bbb; 
+}
+
+#article input, #article textarea {
+    border: 1px solid #48c;
+    background: #ddf;
+    color: #000;
+    font-family: Geneva, Verdana, Times New Roman;
+    font-size: 12px;
+    padding: 2px;
+}
+
+#article input#title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#article input#keywords, #article #content {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#article input.submit {
+    padding:5px;
+    background: #f88;
+    border:3px solid red;
+    font-size: 18px;
+    font-weight: bold;
 }
 

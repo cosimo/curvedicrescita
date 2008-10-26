@@ -1,0 +1,49 @@
+#!c:/dev/perl510/bin/perl.exe
+#
+# $Id: validate,v 1.2 2007/06/05 23:08:36 cosimo Exp $
+#
+# Helper CGI that validates user input
+#
+# Parameters: form, field, value
+#
+
+use strict;
+use CGI;
+use BabyDiary::FormValidator;
+use Opera::Logger;
+
+# Read web parameters
+my $query = CGI->new();
+my %prm   = $query->Vars();
+
+my $response = 0;
+my $reason   = '';
+my $json     = '';
+
+# Init logger class
+my $logger = Opera::Logger->new();
+
+$logger->warn('Validate ', \%prm);
+
+# If one of the required parameters is missing, validation fails
+if(    (defined $prm{form}  && $prm{form})
+    && (defined $prm{field} && $prm{field})
+    && (defined $prm{value} && $prm{value}) )
+{
+    my $fv = BabyDiary::FormValidator->new();
+    my $result = $fv->validate(\%prm);
+    $response  = $result->{ok};
+    $reason    = $result->{reason};
+    $json      = $result->{json};
+}
+
+my $out_str = join(';', $response, $reason, $json);
+$logger->warn('Validate result: ', $out_str );
+
+# Return text content for ajax javascript calls
+print
+    $query->header(-type => 'text/plain', -length => length $out_str),
+    $out_str;
+
+#
+# End of script

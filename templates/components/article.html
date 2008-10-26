@@ -1,27 +1,25 @@
 <div id="article">
-<tmpl_if name="article_title">
 
-<h1>
-    <tmpl_var name="article_title">
-    <tmpl_include name="article/buttons.html">
-</h1>
+    <tmpl_if name="article_title">
+    <h1>
+        <tmpl_var name="article_title">
+        <tmpl_include name="article/buttons.html">
+    </h1>
 
-<div id="author">
-    Pubblicato da <b><tmpl_var name="article_createdby"></b>,
-    <tmpl_var name="article_createdon"> (<tmpl_var name="article_views"> visite)
-    <tmpl_if name="article_lastupdateby">, modificato da <tmpl_var name="article_lastupdateby">
-    <tmpl_var name="article_lastupdateon"></tmpl_if>
-</div>
+    <div id="author">
+        Pubblicato da <b><tmpl_var name="article_createdby"></b>,
+        <tmpl_var name="article_createdon"> (<tmpl_var name="article_views"> visite)
+        <tmpl_if name="article_lastupdateby">, modificato da <tmpl_var name="article_lastupdateby">
+        <tmpl_var name="article_lastupdateon"></tmpl_if>
+    </div>
 
-<div id="tags">
-<img align="absmiddle" width="32" height="32" src="/img/icon-tags.png" alt="Tags" title="Tag associate all'articolo" />
-<tmpl_var name="article_keywords">
-</div>
+    <div id="tags">
+    <tmpl_var name="article_keywords">
+    </div>
 
-<hr noshade size="1"/>
+    <hr noshade size="1"/>
+    </tmpl_if>
 
-</tmpl_if>
-
-<tmpl_var name="article_content">
+    <tmpl_var name="article_content">
 
 </div>

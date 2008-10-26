@@ -22,7 +22,8 @@ use File::Spec ();
 
 # Special application runmodes for articles/users sections
 use BabyDiary::Application::Articles;
-#use BabyDiary::Application::Auth;
+use BabyDiary::Application::Auth;
+use BabyDiary::Application::StackTrace;
 #use BabyDiary::Application::Users;
 
 # Log-helper class
@@ -68,11 +69,13 @@ sub setup
         article_post    => \&BabyDiary::Application::Articles::post,
         article_search  => \&BabyDiary::Application::Articles::search,
 
+        login           => \&BabyDiary::Application::Auth::login,
+        logout          => \&BabyDiary::Application::Auth::logout,
+
     );
 
 =cut
         help            => \&default,
-        login           => \&login,             # in O::A::Auth
         logout          => \&logout,            # in O::A::Auth
         articles        => \&default,
         article_post    => \&article_post,      # in O::A::Articles
@@ -131,25 +134,7 @@ sub default_error
 
     $self->log('error', 'Oops!');
 
-    my @stack_trace = q{};
-    my $level = 1;
-    while (my @call = caller($level)) {
-        push @stack_trace, '<li>' . join(', ', @call) . '</li>';
-        $level++;
-    }
-
-    return
-        '<body style="background:white;color:#333;font-family:Monaco,\'Courier New\';font-size:12px">'
-        . '<h1 style="font-family: \'Myriad Web Pro\';color:red;font-size:30px;border-bottom:1px solid red">Oops!</h1>'
-        . '<p>The server generated an exception. Following information might help...</p>'
-        . '<h2 style="font-family: \'Myriad Web Pro\';color:#333;font-size:24px;border-bottom:1px solid red">Stack trace</h2>'
-        . '<ul>' . join("\n", @stack_trace) . '</ul>'
-        . '<h2 style="font-family: \'Myriad Web Pro\';color:#333;font-size:24px;border-bottom:1px solid red">Environment</h2>'
-        . $self->dump_html();
-
-    # TODO
-    # Extend with something meaningful
-    return 'Oops!';
+    return $self->BabyDiary::Application::StackTrace::dump();
 }
 
 #
@@ -239,24 +224,25 @@ sub fill_params
     # TODO For now this is ok. For very large applications, it's not
     #      so good to load *all* messages
     $self->fill_messages($tmpl);
-
-    # For articles-related sections, calculate also lists of latest/best articles
-    if(rand() >= 0.5)
-    {
-        $tmpl->param( articles_latest => $self->BabyDiary::Application::Articles::latest_n() );
-    }
-    else
-    {
-        $tmpl->param(
-            articles_latest => $self->BabyDiary::Application::Articles::best_n(),
-            # Replace also "latest article" message
-            msg_articles_sb_latest => $self->msg('msg_articles_sb_best')
-        );
-    }
-
-    $tmpl->param( articles_cloud => $self->BabyDiary::Application::Articles::tags_cloud() );
+    $self->render_components($tmpl);
 
     return $tmpl;
+}
+
+sub render_components {
+    my ($self, $tmpl) = @_;
+
+    # For articles-related sections, calculate also lists of latest/best articles
+    $tmpl->param( articles_latest => $self->BabyDiary::Application::Articles::latest_n() );
+    $tmpl->param( articles_cloud => $self->BabyDiary::Application::Articles::tags_cloud() );
+
+    # For the homepage, fetch last article id and render that
+    my $runmode = $self->get_current_runmode();
+    if ($runmode =~ m{homepage}) {
+        $self->BabyDiary::Application::Articles::render($tmpl);
+    }
+
+    return;
 }
 
 #

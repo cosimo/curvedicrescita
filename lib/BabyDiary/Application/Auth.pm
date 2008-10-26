@@ -1,6 +1,6 @@
 # $Id$
 
-package Opera::Application;
+package BabyDiary::Application::Auth;
 
 #
 # Handles authentication-related tasks, such as login credentials check
@@ -31,7 +31,7 @@ sub login
     }
 
     # Check credentials against password saved in users file
-    my $users = Opera::File::Users->new();
+    my $users = BabyDiary::File::Users->new();
     my $user  = $users->get({where=>{username=>$prm{user}}});
 
     if(!$user)

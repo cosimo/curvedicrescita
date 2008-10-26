@@ -233,7 +233,7 @@ sub match
     my $match_fields = $filter->{matchfields};
     if(! ref $match_fields)
     {
-        $match_fields = [ $match_fields ];
+        $match_fields = [ split ',' => $match_fields ];
     }
 
     # Build SQL statement to run
