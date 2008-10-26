@@ -65,7 +65,7 @@ sub validate
     my $result= { ok => 1 };
 
     # Require form module
-    my $vld_class = 'Opera::FormValidator::' . $form;
+    my $vld_class = join ('::', ref($self), $form);
     eval "use $vld_class";
     if($@)
     {

@@ -86,6 +86,36 @@ sub get
     return($rec);
 }
 
+#
+# Retrieve last insert id after an insert.
+# By default, primary key id is called 'id' (only by convention)
+# 
+sub last_insert_id
+{
+    my($self, $id_fld) = @_;
+    my $dbh  = $self->dbh();
+    my $id;
+
+    # Default auto-increment field is `id'
+    $id_fld ||= 'id';
+
+    eval {
+        $id = $dbh->last_insert_id(undef, $self->dbname, $self->table, 'id')
+    };
+
+    # Log everything ...
+    if($@)
+    {
+        $self->log('error', 'Failed call to last_insert_id: $@='.$@);
+    }
+    else
+    {
+        $self->log('notice', 'Fetched ', $self->table, '.last_insert_id = `', $id, '\'');
+    }
+
+    return($id);
+}
+
 sub list
 {
     my($self, $filter) = @_;
@@ -184,8 +214,91 @@ sub insert
     # Close statement handle and return last_insert_id, if available
     $sth->finish();
 
+    $self->log('notice', 'Insert succeeded');
+
     return(1);
 }
+
+#
+# Perform a basic matching using standard SQL LIKE operator
+#
+sub match
+{
+    my($self, $filter) = @_;
+    my $dbh = $self->dbh;
+    my $fld = $filter->{fields} || $self->fields;
+    my @list;
+
+    # Transform matchfields in a string anyway
+    my $match_fields = $filter->{matchfields};
+    if(! ref $match_fields)
+    {
+        $match_fields = [ $match_fields ];
+    }
+
+    # Build SQL statement to run
+    my $sql = SQL::Abstract->new();
+    my $rval = '%' . $filter->{matchstring} . '%';
+    my $where = join(' OR ',
+        map { $_ . ' LIKE ' . $dbh->quote($rval) }
+        @{$match_fields}
+    );
+
+    # Fake relevance here. No std SQL for that.
+    push @{$fld}, '1 AS relevance';
+
+    # Order by is irrelevant here
+    my $order = '';
+
+    my($match_sql, @bind) = $sql->select($self->table, $fld, $where, $order);
+    $self->log('notice', $self->table, ' match SQL ', $match_sql);
+
+    # Prepare DBI query
+    eval {
+
+        my $sth = $dbh->prepare($match_sql);
+        if(!$sth)
+        {
+            $self->log('warn', $self->table(), ' SQL Statement [', $match_sql, '] *FAILED* prepare');
+            return undef;
+        }
+
+        # Fire query to get a list of records
+        my $ok = $sth->execute(@bind);
+        if(!$ok)
+        {
+            $self->log('warn', $self->table(), ' SQL Statement [', $match_sql, '] *FAILED* execute');
+            return undef;
+        }
+
+        # Close statement handle and return hashref
+        my $limit = exists $filter->{limit} ? $filter->{limit} : 0;
+        my $nrec = 0;
+        my $rec;
+
+        while( $limit==0 || $nrec < $limit )
+        {
+            # Duplicate records because fetchrow_arrayref returns always the same ref
+            last unless ($rec = $sth->fetchrow_hashref());
+            push @list, { %$rec };
+            $nrec++;
+        }
+
+        $self->log('notice', 'Matched ' . scalar(@list) . ' records');
+
+        # Terminate sql statement
+        $sth->finish();
+    };
+
+    if($@)
+    {
+        $self->log('warn', $self->table(), ' match *FAILED* $@='.$@);
+        return undef;
+    }
+
+    return(\@list);
+}
+
 
 sub update
 {

@@ -6,21 +6,13 @@
 # $Id: start,v 1.3 2007/06/05 23:08:36 cosimo Exp $
 
 use strict;
-use File::Spec ();
 use lib '../lib';
-use CGI::Carp 'fatalsToBrowser';
 
 use BabyDiary::Application;
 
-# For Suse 10.x, Apache home dir is in /srv/www,
-# cgi-bin is into /srv/www/cgi-bin/ and
-# htdocs  is into /srv/www/htdocs/...
-
-my $server_home = 'E:/users/cosimo/Desktop/curvedicrescita.com';
-
 # Instance application object
 my $app = BabyDiary::Application->new(
-    TMPL_PATH => File::Spec->catfile($server_home, 'templates'),
+    PARAMS => { cfg_file => '../conf/babydiary.conf' }
 );
 
 # Gentleman, start your engines!

@@ -64,21 +64,31 @@ sub post
     }
 
     # Put default data
-    $art->{createdon} = BabyDiary::Util::current_timestamp();
+    $art->{createdby} ||= 'tamara';
+    $art->{createdon} = Opera::Util::current_timestamp();
     $art->{views}     = 0;
+    $art->{id}        = undef;
 
     # Insert record and retrieve the primary key id
-    $ok = $self->insert($art);
+    eval { $ok = $self->insert($art); };
+    if ($@) {
+        $self->log('error', 'Insert failed: ' . $@);
+        $ok = 0;
+    }
 
     # Retrieve last insert id
     if(!$ok)
     {
         $self->log('error', 'Article post failed because INSERT failed!');
-        return undef;
+        return;
     }
 
     # Article was posted correctly, retrieve auto-inc id
-    return $self->last_insert_id();
+    $self->log('notice', 'last_insert_id');
+    my $id = $self->last_insert_id();
+    $self->log('notice', 'last_insert_id = ' . $id);
+
+    return $id;
 }
 
 #

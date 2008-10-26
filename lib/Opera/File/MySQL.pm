@@ -49,36 +49,6 @@ sub new
 }
     
 #
-# Retrieve last insert id after an insert.
-# By default, primary key id is called 'id' (only by convention)
-# 
-sub last_insert_id
-{
-    my($self, $id_fld) = @_;
-    my $dbh  = $self->dbh();
-    my $id;
-
-    # Default auto-increment field is `id'
-    $id_fld ||= 'id';
-
-    eval {
-        $id = $dbh->last_insert_id(undef, $self->dbname, $self->table, 'id')
-    };
-
-    # Log everything ...
-    if($@)
-    {
-        $self->log('error', 'Failed call to last_insert_id: $@='.$@);
-    }
-    else
-    {
-        $self->log('notice', 'Fetched ', $self->table, '.last_insert_id = `', $id, '\'');
-    }
-
-    return($id);
-}
-
-#
 # Perform a full-text matching using MySQL MyISAM match feature
 # Automatically adds a "relevance" key in the records list
 #

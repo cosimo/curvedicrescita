@@ -1,0 +1,35 @@
+<tmpl_include name="document/open.html">
+<tmpl_include name="document/header.html">
+
+<body>
+<tmpl_include name="components/signin.html">
+<tmpl_include name="components/header.html">
+
+<div id="content">
+
+    <tmpl_include name="components/topics.html">
+
+    <div id="article">
+
+    <h2 style="padding:0;margin:0">Pubblica un nuovo articolo</h2>
+    <p>Per modificare un articolo esistente, &egrave; sufficiente cercarlo prima da questa pagina.<p>
+
+    <form name="f2" action="article_post" method="post">
+    <p><label for="title">Title of the new article <small>(ex.: My last trip to Trondheim)</small></label><br/><input type=text name="title"    size=74 maxlength=250></p>
+    <p><label for="keywords">List of Keywords <small>(ex.: mountain travel fjords oslo norway)</small></label><br/><input type=text name="keywords" size=74 maxlength=250></p>
+    <p><label for="body">Content <small>(text-only, html will be stripped)</small></label><br/>
+    <textarea name="content" cols="64" rows="20" maxlength="64000"></textarea></p>
+
+    <p><label for="submit">Review your content <small>(offensive material will be removed)</small></label><br/>
+    <input type="submit" value="Ok, submit!"></p>
+    </form>
+
+    </div>
+
+    <tmpl_include name="components/sidebar.html">
+
+</div>
+
+<tmpl_include name="document/footer.html">
+<tmpl_include name="document/close.html">
+

@@ -1,0 +1,51 @@
+<div id="sidebar">
+
+<h2><!-- tmpl_var msg_articles_sb_title --></h2>
+
+<div id="sidebox"><p>
+<script language="javascript" src="/MyOperaTest/js/DynamicLookup.js"></script>
+<form name="sideform" method="post" action="/cgi-bin/MyOperaTest/start/articles_search">
+<p><!-- tmpl_var msg_articles_sb_intro --></p>
+<input type="text" name="q" size=26 maxlength=64 id="q" onkeydown="ds_onkeydown(event,window,this.form,this,'articles',this.value)" onkeyup="ds_onkeyup(event,window,this.form,this,'articles',this.value)" autocomplete="off">
+<input type="image" src="/MyOperaTest/graphics/search.gif" align="absbottom">
+<div id="suggest_box" width="280"></div>
+
+<!-- Autofocus on search field -->
+<script language="javascript">
+    if(document.sideform && document.sideform.q)
+        document.sideform.q.focus();
+</script>
+
+</form>
+
+</p></div>
+
+<br/>
+
+<h2><!-- tmpl_var msg_articles_sb_tags --></h2>
+
+<div id="sidebox">
+<!-- tmpl_if name="articles_cloud" -->
+<!-- tmpl_var name="articles_cloud" -->
+<!-- tmpl_else -->
+<p><!-- tmpl_var msg_articles_sb_notags --></p>
+<!-- /tmpl_if -->
+</div>
+
+<br/>
+
+<h2><!-- tmpl_var msg_articles_sb_latest --></h2>
+
+<div id="sidebox">
+<!-- tmpl_if name="articles_latest" -->
+<!-- <p>Latest articles added to MyOperaTest</p> -->
+<!-- tmpl_var name="articles_latest" -->
+<!-- tmpl_else -->
+<p><!-- tmpl_var msg_articles_sb_nolatest --></p>
+<!-- /tmpl_if -->
+</div>
+
+<br/>
+
+</div>
+

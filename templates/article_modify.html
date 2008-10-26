@@ -1,0 +1,53 @@
+<tmpl_include name="document/open.html">
+<tmpl_include name="document/header.html">
+
+<body>
+<tmpl_include name="components/signin.html">
+<tmpl_include name="components/header.html">
+
+<div id="content">
+
+    <tmpl_include name="components/topics.html">
+
+    <div id="article">
+
+        <h1 style="padding:0;margin:0">Modifica articolo</h1>
+
+        <br/>
+
+        <form name="article_modify" action="article_modify" method="post">
+        Titolo<br/>
+        <input style="font-size: 16pt" size=40 maxlength=255 name="title" value="<!-- tmpl_var article_title -->">
+        <tmpl_include name="components/article/buttons.html">
+        </h1>
+
+        <p><small>Pubblicato da <!-- tmpl_var article_createdby -->, <!-- tmpl_var article_createdon --> (<!-- tmpl_var article_views --> visite)</small></p>
+
+        Tags<br/>
+        <img align="absmiddle" width="32" height="32" src="/img/icon-tags.png" alt="Tags" title="Tag associate all'articolo" />
+        <input name="keywords" size=65 maxlength=255 value="<!-- tmpl_var name=article_keywords -->"></p>
+
+        <br/>
+
+        <p>
+        Contenuto<br/>
+        <textarea name="content" cols=64 rows=15><!-- tmpl_var article_content -->
+        </textarea>
+        </p>
+
+        <p>Ricontrolla bene e ...</p>
+        <input type="button" value="Cancel" onclick="location.href='/exec/home/articles'"> &nbsp; or &nbsp; <input type="submit" value="Salva le modifiche">
+        <input type="hidden" name="id" value="<!-- tmpl_var article_id -->">
+
+        <br/>
+        </form>
+
+    </div>
+
+    <tmpl_include name="components/sidebar.html">
+
+</div>
+
+<tmpl_include name="document/footer.html">
+<tmpl_include name="document/close.html">
+
