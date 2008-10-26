@@ -1,4 +1,4 @@
-# $Id: SQLite.pm 17 2008-10-18 20:28:17Z Cosimo $
+# $Id$
 
 # Custom MYSQL driver for BabyDiary::File::Base class
 package BabyDiary::File::SQLite;

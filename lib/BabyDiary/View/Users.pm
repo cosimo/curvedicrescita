@@ -1,4 +1,4 @@
-# $Id: Users.pm,v 1.2 2007/06/05 21:55:15 cosimo Exp $
+# $Id$
 
 package BabyDiary::View::Users;
 
