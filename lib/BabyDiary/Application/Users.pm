@@ -1,29 +1,29 @@
 # $Id$
 
-package Opera::Application;
+package BabyDiary::Application::Users;
 
 use strict;
-use Opera::File::Users;
-use Opera::FormValidator;
+use BabyDiary::File::Users;
+use BabyDiary::FormValidator;
+use BabyDiary::View::Users;
 use Opera::Util;
-use Opera::View::Users;
 use HTML::FillInForm;
 
-sub user_create
+sub create
 {
     my $self = $_[0];
     my $query = $self->query();
 
     # Check form parameters
     my %prm = $query->Vars;
-    my $vld = Opera::FormValidator->new();
+    my $vld = BabyDiary::FormValidator->new();
     if(! $vld->validate_form($self, 'NewUser', \%prm))
     {
         return $self->forward('users');
     }
 
     # Load users file
-    my $users = Opera::File::Users->new();
+    my $users = BabyDiary::File::Users->new();
 
     # Check if username is already present on db
     my $rec   = $users->get({where => {username=>$prm{username}}});
@@ -62,7 +62,7 @@ sub user_create
 #
 # Delete a user that is in the database
 #
-sub user_delete
+sub delete
 {
     my $self  = $_[0];
     my $query = $self->query();
@@ -85,7 +85,7 @@ sub user_delete
     }
 
     # We can delete an user if current user is an admin
-    my $users      = Opera::File::Users->new();
+    my $users      = BabyDiary::File::Users->new();
     my $curr_user  = $self->session->param('user');
     my $can_delete = $users->is_admin($curr_user);
 
@@ -117,7 +117,7 @@ sub user_delete
 #
 # Display a form to modify user
 #
-sub user_modify
+sub modify
 {
     my $self = $_[0];
     my $query = $self->query();
@@ -142,7 +142,7 @@ sub user_modify
     $self->log('notice', 'Modifying user ', $user);
 
     # Load current user record
-    my $users = Opera::File::Users->new();
+    my $users = BabyDiary::File::Users->new();
     my $rec = $users->get({
         where => { username => $user }
     });
@@ -178,7 +178,7 @@ sub user_modify
         #
         # Try to validate provided information and  detect errors
         #
-        my $vld = Opera::FormValidator->new();
+        my $vld = BabyDiary::FormValidator->new();
         my %prm = $query->Vars();
         if(! $vld->validate_form($self, 'ModifyUser', \%prm))
         {
@@ -252,7 +252,7 @@ sub user_modify
 #
 # Display search results for users from suggest-style search-box,
 #
-sub user_search
+sub search
 {
     my $self = $_[0];
     my $query = $self->query();
@@ -265,7 +265,7 @@ sub user_search
     }
 
     # Load user record
-    my $users = Opera::File::Users->new();
+    my $users = BabyDiary::File::Users->new();
     my $list;
 
     if(defined $term && $term ne '')
@@ -299,7 +299,7 @@ sub user_search
 
         for my $usr (@$list)
         {
-            $usr->{username} = Opera::View::Users::format_username($usr);
+            $usr->{username} = BabyDiary::View::Users::format_username($usr);
         }
 
         $tmpl->param( search_results => $list );
@@ -312,7 +312,7 @@ sub user_search
 #
 # Display details about a single user
 #
-sub user_view
+sub view
 {
     my $self = $_[0];
     my $query = $self->query();
@@ -322,7 +322,7 @@ sub user_view
     $self->log('notice', 'Displaying user:', $user);
 
     # Load article (if present)
-    my $users = Opera::File::Users->new();
+    my $users = BabyDiary::File::Users->new();
     my $rec   = $users->get({
         where => { username => $user }
     });
@@ -348,7 +348,7 @@ sub user_view
         $tmpl->param( username  => $rec->{username} );
         $tmpl->param( createdon => $rec->{createdon});
         $tmpl->param( lastlogon => $rec->{lastlogon});
-        $tmpl->param( isadmin   => Opera::View::Users::format_isadmin($rec) );
+        $tmpl->param( isadmin   => BabyDiary::View::Users::format_isadmin($rec) );
         $tmpl->param( realname  => $rec->{realname} );
         $tmpl->param( language  => $rec->{language} );
 
@@ -378,11 +378,11 @@ sub user_view
 
 =head1 NAME
 
-Opera::Application::Users - Controller tasks related to Users section
+BabyDiary::Application::Users - Controller tasks related to Users section
 
 =head1 SYNOPSIS
 
-Not to be used directly. Is used by main Opera::Application class.
+Not to be used directly. Is used by main BabyDiary::Application class.
 
 =head1 DESCRIPTION
 

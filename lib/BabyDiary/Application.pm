@@ -24,7 +24,7 @@ use File::Spec ();
 use BabyDiary::Application::Articles;
 use BabyDiary::Application::Auth;
 use BabyDiary::Application::StackTrace;
-#use BabyDiary::Application::Users;
+use BabyDiary::Application::Users;
 
 # Log-helper class
 use Opera::Logger;
@@ -60,8 +60,9 @@ sub setup
 
     # Define all run modes
     $self->run_modes(
-        homepage => \&BabyDiary::Application::default,
-        articles => \&BabyDiary::Application::default,
+
+        homepage        => \&BabyDiary::Application::default,
+        articles        => \&BabyDiary::Application::default,
 
         article         => \&BabyDiary::Application::Articles::view,
         article_delete  => \&BabyDiary::Application::Articles::delete,
@@ -235,6 +236,9 @@ sub render_components {
     # For articles-related sections, calculate also lists of latest/best articles
     $tmpl->param( articles_latest => $self->BabyDiary::Application::Articles::latest_n() );
     $tmpl->param( articles_cloud => $self->BabyDiary::Application::Articles::tags_cloud() );
+
+    # Automatic topics left sidebar
+    $tmpl->param( topics => $self->BabyDiary::Application::Articles::topics() );
 
     # For the homepage, fetch last article id and render that
     my $runmode = $self->get_current_runmode();

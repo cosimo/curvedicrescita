@@ -445,6 +445,35 @@ sub render {
 }
 
 #
+# Build the list of topics on the left sidebar
+#
+sub topics
+{
+    my ($self) = @_;
+    my $keyword = 'scheda';
+
+    # Load list from database.
+    $self->log('notice', 'Getting list of articles for topics sidebar');
+
+    my $articles = BabyDiary::File::Articles->new();
+    my $art_list = $articles->list({
+        fields => ['id', 'title', 'createdby', 'views'], 
+        where  => q(keywords LIKE '%scheda%'),
+        order  => ['id'],
+    });
+
+    if(!$art_list)
+    {
+        $self->log('notice', 'No articles for the topics sidebar');
+        return;
+    }
+
+    $self->log('notice', 'Found ' . scalar(@$art_list) . ' articles for the topics sidebar');
+
+    return($art_list);
+}
+
+#
 # Retrieve the latest n articles and build an html list with them
 #
 sub latest_n

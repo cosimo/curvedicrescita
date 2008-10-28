@@ -1,19 +1,11 @@
     <div id="topics">
         <h2>schede</h2>
+
+        <tmpl_if name="topics">
         <ul>
-            <li><a href="<tmpl_var mycgi_path>/article/?id=8">Sviluppo psicomotorio</a></li>
-            <li><a href="<tmpl_var mycgi_path>/article/?id=9">Sviluppo intellettivo</a></li>
-            <li><a href="<tmpl_var mycgi_path>/article/?id=10">Svezzamento</a></li>
-            <li><a href="<tmpl_var mycgi_path>/article/?id=11">Allattamento</a></li>
-            <li><a href="<tmpl_var mycgi_path>/article/?id=12">Dentizione</a></li>
-            <li><a href="<tmpl_var mycgi_path>/article/?id=13">Vaccinazioni</a></li>
-            <li><a href="<tmpl_var mycgi_path>/article/?id=14">Quanto mangia un neonato?</a></li>
-            <li><a href="<tmpl_var mycgi_path>/article/?id=15">Quanto dorme un neonato?</a></li>
-            <li><a href="<tmpl_var mycgi_path>/article/?id=16">Quanto cresce un neonato?</a></li>
-            <li><a href="<tmpl_var mycgi_path>/article/?id=18">Quando nascer&agrave;?</a></li>
-            <li><a href="<tmpl_var mycgi_path>/article/?id=26">Numeri utili</a></li>
-            <li><a href="<tmpl_var mycgi_path>/article/?id=19">Quale nome scegliere per il tuo bimbo?</a></li>
-            <li><a href="<tmpl_var mycgi_path>/article/?id=20">Di che segno zodiacale &egrave; il tuo bambino?</a></li>
-            <li><a href="<tmpl_var mycgi_path>/article/?id=21">L'astrologia dei nove ki</a></li>
+        <tmpl_loop name="topics"><li><a href="/exec/home/article/?id=<tmpl_var id>"><tmpl_var title></a></li>
+        </tmpl_loop>
         </ul>
+        </tmpl_if>
+
     </div>
