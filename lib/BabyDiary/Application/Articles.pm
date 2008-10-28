@@ -432,6 +432,12 @@ sub render {
         $tmpl->param( article_remove_allowed => $modify_allowed );
         $tmpl->param( article_modify_allowed => $modify_allowed );
 
+        #
+        # Build related articles section
+        # 
+        my @related = $art->related($art_id);
+        $tmpl->param( article_related => \@related );
+
         $ok = 1;
     }
 
@@ -471,8 +477,8 @@ sub latest_n
     {
         $html_list .= CGI->li(
               BabyDiary::View::Articles::format_title($art)
-            . ' di '
-            . BabyDiary::View::Articles::format_author($art)
+            #. ' di '
+            #. BabyDiary::View::Articles::format_author($art)
         );
     }
 
@@ -522,7 +528,7 @@ sub tags_cloud
 
     $self->log('notice', 'Tag cloud completed (' . scalar(keys %tags) . ' tags found)');
 
-    return $cloud->html_and_css(25);
+    return $cloud->html(25);
 }
 
 1;

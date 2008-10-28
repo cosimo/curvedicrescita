@@ -263,3 +263,13 @@ input#search {
     font-weight: bold;
 }
 
+#article li.search_result {
+    font-size: 18px;
+    padding-top: 15px;
+    margin: 0 0 10px 0;
+}
+
+#article #excerpt {
+    font-size: 12px;
+}
+

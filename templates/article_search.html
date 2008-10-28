@@ -13,30 +13,25 @@
 
     <h1>Risultati della ricerca</h1>
 
-    <br/>
-
     <!-- tmpl_if search_results -->
     <ol type="number">
     <!-- tmpl_loop search_results -->
-    <li>
-        <div id="search_result">
-        <!-- tmpl_var article_link --> da <!-- tmpl_var article_author --><br/>
 
-            <div id="author">
-            Pubblicato il <!-- tmpl_var createdon -->
-            <!-- tmpl_if changedby -->Modificato il <!-- tmpl_var changedon --> da <!-- tmpl_var changedby --><!-- /tmpl_if -->
-            </div>
-            
-            <div id="tags">
-            <!-- tmpl_var keywords -->
-            </div>
+    <li class="search_result"><!-- tmpl_var article_link --></li>
 
-            <div id="excerpt">
-            <!-- tmpl_var article_excerpt -->
-            </div>
+    <div id="author">
+    Pubblicato il <!-- tmpl_var createdon -->
+    <!-- tmpl_if changedby -->Modificato il <!-- tmpl_var changedon --> da <!-- tmpl_var changedby --><!-- /tmpl_if -->
+    </div>
+    
+    <div id="tags">
+    <!-- tmpl_var keywords -->
+    </div>
 
-        </div>
-    </li>
+    <p id="excerpt">
+    <!-- tmpl_var article_excerpt -->
+    </p>
+
     <!-- /tmpl_loop -->
     </ol>
 

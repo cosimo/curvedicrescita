@@ -22,4 +22,13 @@
 
     <tmpl_var name="article_content">
 
+    <tmpl_if name="article_related">
+    <h2>Articoli correlati</h2>
+    <ul>
+    <tmpl_loop name="article_related">
+    <li><a href="/exec/home/article/?id=<tmpl_var id>"><tmpl_var title></a> (<b><tmpl_var relevance></b> punti)</li>
+    </tmpl_loop>
+    </ul>
+    </tmpl_if>
+
 </div>

@@ -90,6 +90,50 @@ sub post
     return $id;
 }
 
+sub related
+{
+    my ($self, $art) = @_;
+
+    # Get article keywords
+    my $rec = $self->get({ where => {id=>$art}});
+    my @keywords = split m{\s* , \s*}x => $rec->{keywords};
+    my %related;
+
+    # Get all articles with these keywords
+    for my $kw (@keywords) {
+
+        my $term = '%' . $kw . '%';
+
+        my $same_kw = $self->list({
+            where => 'keywords LIKE ' . $self->quote($term) . ' AND id <> ' . $self->quote($art),
+            fields => [ 'id', 'title' ],
+        });
+
+        if (! $same_kw || ! ref $same_kw) {
+            next;
+        }
+
+        for (@{$same_kw}) {
+            ++$related{ join("\t", $_->{id}, $_->{title}) };
+        }
+    }
+
+    my @articles;
+    my $n = 1;
+    for (sort { $related{$b} <=> $related{$a} } keys %related) {
+        my ($id, $title) = split "\t";
+        my $relevance = $related{$_};
+        if ($relevance < 2) {
+            next;
+        }
+        push @articles, { id=>$id, title =>$title, relevance=>$relevance};
+        $self->log('notice', 'Found related article: ' . $title . ' (' . $relevance . ' points)');
+        last if $n++ == 3;
+    }
+
+    return @articles;
+}
+
 #
 # Calculates tags frequency distribution, returning a hash
 # with (tag, count) pairs.
