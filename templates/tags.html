@@ -1,0 +1,38 @@
+<tmpl_include name="document/open.html">
+<tmpl_include name="document/header.html">
+
+<body>
+<tmpl_include name="components/signin.html">
+<tmpl_include name="components/header.html">
+
+<div id="content">
+
+    <tmpl_include name="components/topics.html">
+
+    <div id="taglist">
+
+        <h1>Elenco delle tag &nbsp; &rarr;</h1>
+
+        <tmpl_if name="tags"><ul>
+
+        <tmpl_loop name="tags">
+            <li class="tagcell">
+                <span class="tagname">
+                <a href="/exec/home/article_search/?keyword=<tmpl_var tag>"><tmpl_var name="tag"></a></span>
+                &nbsp;&times;&nbsp;<span class="tagfrequency"><tmpl_var name="occurrencies"></span>
+            </li>
+        </tmpl_loop>
+
+        </ul>
+
+        <tmpl_else>
+        <h2>Nessuna tag?</h2>
+        </tmpl_if>
+
+    </div>
+
+</div>
+
+<tmpl_include name="document/footer.html">
+<tmpl_include name="document/close.html">
+

@@ -70,6 +70,8 @@ sub setup
         article_post    => \&BabyDiary::Application::Articles::post,
         article_search  => \&BabyDiary::Application::Articles::search,
 
+        tags            => \&BabyDiary::Application::Articles::tags,
+
         login           => \&BabyDiary::Application::Auth::login,
         logout          => \&BabyDiary::Application::Auth::logout,
 
@@ -209,6 +211,7 @@ sub fill_params
     };
     if ($@) {
         $self->log('error', 'Template loading failed: ' . $@);
+        $self->{__error__} = $@;
         die "fail";
     }
 

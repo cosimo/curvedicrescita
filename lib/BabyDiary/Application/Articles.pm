@@ -526,6 +526,36 @@ sub best_n
 }
 
 #
+# Show a page with all the tags sorted
+#
+sub tags
+{
+    my $self = $_[0];
+
+    my $articles = BabyDiary::File::Articles->new();
+
+    # Get all distinct keywords from database and
+    # obtain a frequency distribution
+    my %tags = $articles->tags_frequency();
+    
+    # Fill all template parameters
+    my $tmpl = $self->fill_params();
+
+    # Sort tags in order of popularity and display them
+    my @tag_loop;
+    for (sort {$tags{$b} <=> $tags{$a}} keys %tags) {
+        push @tag_loop, {
+            tag => $_,
+            occurrencies => $tags{$_},
+        };
+    }
+
+    $tmpl->param(tags => \@tag_loop);
+
+    return $tmpl->output();
+}
+
+#
 # In the real-world, this "cloud" should be generated maybe daily
 # and then always cached...
 #
@@ -544,7 +574,6 @@ sub tags_cloud
     # Ok, HTML::TagCloud is present
     my $cloud = HTML::TagCloud->new(levels=>20);
     my $articles = BabyDiary::File::Articles->new();
-    my %tags;
 
     # Get all distinct keywords from database and
     # obtain a frequency distribution
