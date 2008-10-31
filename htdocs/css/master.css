@@ -101,9 +101,8 @@ h1 {
 #article blockquote {
     margin: 0;
     padding-left: 30px;
+    margin-top: 15px;
     font-size: 14px;
-    font-style: italic;
-    letter-spacing: 1px;
     background: url(../img/quotes.gif) no-repeat 5px 0px;
 }
 
