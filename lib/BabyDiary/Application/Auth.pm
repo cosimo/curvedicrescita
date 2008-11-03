@@ -27,7 +27,7 @@ sub login
     # FIXME Rather simple. Must define something more sophisticated.
     for($prm{user}, $prm{passwd})
     {
-        tr/A-Za-z0-9//cds;
+        tr{A-Za-z0-9}{}cds;
     }
 
     # Check credentials against password saved in users file
