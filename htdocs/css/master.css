@@ -327,3 +327,22 @@ input#search {
     font-size: 12px;
 }
 
+/* Notice box */
+div#notice_box {
+    float: left;
+    clear: both;
+    width: 100%;
+    margin-top: 10px;
+    display: block;
+    background: red;
+    color: white;
+    border: 1px solid #800;
+    text-align: center;
+}
+
+div#notice_box h3, div#notice_box p {
+    text-align: center;
+    margin:0;
+    padding:0 0 0 10px;
+}
+

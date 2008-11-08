@@ -85,7 +85,6 @@ sub setup
         article_view    => \&article_view,      # in O::A::Articles
         article_delete  => \&article_delete,    # in O::A::Articles
         article_modify  => \&article_modify,    # in O::A::Articles
-        users           => \&default,
         user_create     => \&user_create,       # in O::A::Users
         users_search    => \&user_search,       # in O::A::Users
         user_delete     => \&user_delete,       # in O::A::Users
@@ -146,8 +145,13 @@ sub default_error
 sub fill_messages
 {
     my($self, $tmpl) = @_;
+    my $locale = $self->locale;
 
-    for my $msgid ($self->locale->all_messages())
+    if (! $locale) {
+        return;
+    }
+
+    for my $msgid ($locale->all_messages())
     {
         # Replace TMPL_VARs inside language messages (this is an ugly solution,
         # but has much added flexibility in language messages writing)
@@ -174,6 +178,88 @@ sub fill_messages
 sub fill_params
 {
     my $self  = $_[0];
+
+    # Load template object
+    my $tmpl;
+    eval {
+        $tmpl = $self->load_tmpl(undef, die_on_bad_params => 0);
+    };
+    if ($@) {
+        $self->log('error', 'Template loading failed: ' . $@);
+        $self->{__error__} = $@;
+        die "fail";
+    }
+
+    $self->render_session($tmpl);
+    $self->fill_messages($tmpl);
+    $self->render_components($tmpl);
+    $self->render_menu($tmpl);
+
+    return $tmpl;
+}
+
+sub render_components {
+    my ($self, $tmpl) = @_;
+
+    # For articles-related sections, calculate also lists of latest/best articles
+    $tmpl->param( articles_latest => $self->BabyDiary::Application::Articles::latest_n() );
+    $tmpl->param( articles_cloud => $self->BabyDiary::Application::Articles::tags_cloud() );
+
+    # Automatic topics left sidebar
+    $tmpl->param( topics => $self->BabyDiary::Application::Articles::topics() );
+
+    # Copyright string on footer
+    my $start = 2008;
+    my $year  = 1900 + (localtime())[5];
+    if ($year > $start) {
+        $year = $start . '-' . $year;
+    }
+    $tmpl->param('copyright-year' => $year);
+
+    # For the homepage, fetch last article id and render that
+    my $runmode = $self->get_current_runmode();
+    if ($runmode =~ m{homepage}) {
+        $self->BabyDiary::Application::Articles::render($tmpl);
+    }
+
+    return;
+}
+    
+sub render_menu {
+    my ($self, $tmpl) = @_;
+
+    # Set a param with the current runmode to show the correct selected menu-item
+    my %param = ();
+
+    my $rm = $self->get_current_runmode() || 'homepage';
+    $param{mode} = $rm;
+    $param{"menu_$rm"} = 1;
+
+    # Special menu items
+    if ($rm eq 'article_search') {
+        my $kw = $self->query->param('keyword');
+        if ($kw eq 'faq' || $kw eq 'ostetrica' || $kw eq 'pediatra') {
+            $param{"menu_$kw"} = 1;
+        }
+    }
+    elsif ($rm eq 'article') {
+        my $id = $self->query->param('id');
+        $param{"menu_art_$id"} = 1;
+    }
+
+    while (my ($key, $val) = each %param) {
+        next unless defined $val;
+        $tmpl->param($key => $val);
+        $self->log('notice', 'render menu {', $key, '} => {', $val, '}');
+    }
+
+    return;
+}
+
+sub render_session {
+    my ($self, $tmpl) = @_;
+
+    # Add all calculated parameters to HTML::Template template object
     my %param;
 
     # Basic application parameters (cgi path, static resources path, ...)
@@ -184,11 +270,6 @@ sub fill_params
     my $users = BabyDiary::File::Users->new();
     $param{users_count} = $users->count();
     $param{current_timestamp} = time();
-
-    # Set a param with the current runmode to show the correct selected menu-item
-    my $rm = $self->get_current_runmode() || 'homepage';
-    $param{mode} = $rm;
-    $param{"menu_$rm"} = 1;
 
     # Get other params from session
     my $session = $self->session();
@@ -204,49 +285,12 @@ sub fill_params
         $param{notice_message} = $self->param('notice_message');
     }
 
-    # Load template object
-    my $tmpl;
-    eval {
-        $tmpl = $self->load_tmpl(undef, die_on_bad_params => 0);
-    };
-    if ($@) {
-        $self->log('error', 'Template loading failed: ' . $@);
-        $self->{__error__} = $@;
-        die "fail";
-    }
-
-    # Add all calculated parameters to HTML::Template template object
     while(my($key, $val) = each(%param))
     {
         # TODO remove debug
         next unless defined $val;
-        $self->log('notice', 'fill_params {', $key, '} => {', $val, '}');
+        $self->log('notice', 'render session {', $key, '} => {', $val, '}');
         $tmpl->param($key, $val);
-    }
-
-    # Add also the static messages
-    # TODO For now this is ok. For very large applications, it's not
-    #      so good to load *all* messages
-    $self->fill_messages($tmpl);
-    $self->render_components($tmpl);
-
-    return $tmpl;
-}
-
-sub render_components {
-    my ($self, $tmpl) = @_;
-
-    # For articles-related sections, calculate also lists of latest/best articles
-    $tmpl->param( articles_latest => $self->BabyDiary::Application::Articles::latest_n() );
-    $tmpl->param( articles_cloud => $self->BabyDiary::Application::Articles::tags_cloud() );
-
-    # Automatic topics left sidebar
-    $tmpl->param( topics => $self->BabyDiary::Application::Articles::topics() );
-
-    # For the homepage, fetch last article id and render that
-    my $runmode = $self->get_current_runmode();
-    if ($runmode =~ m{homepage}) {
-        $self->BabyDiary::Application::Articles::render($tmpl);
     }
 
     return;
@@ -271,7 +315,7 @@ sub locale
 
         if($curr_user)
         {
-            my $users = Opera::File::Users->new();
+            my $users = BabyDiary::File::Users->new();
             my $rec   = $users->get({where=>{username=>$curr_user}});
             if($rec && $rec->{language})
             {

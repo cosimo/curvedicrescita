@@ -1,8 +1,29 @@
 <form style="padding:0;margin:0;" action="<tmpl_var mycgi_path>/article_search" method="post">
 <div id="signin">
-    <a id="login" href="#" onclick="toggle_balloon('link','balloon',420,0,'/exec/login');">login</a> &nbsp; | &nbsp;
-    <a href="/exec/home/articles">pubblica nuovo articolo</a> &nbsp; | &nbsp;
-    <a href="mailto:domande@curvedicrescita.com">scrivici</a> &nbsp; | &nbsp;
+
+    <tmpl_if logged>
+    <img src="/img/avatar2.gif" align="absmiddle"> <tmpl_var user> 
+    <tmpl_else>
+    <a id="login" href="#" onclick="toggle_balloon('link','balloon',620,0,'/exec/login');">accedi</a>
+    </tmpl_if>
+
+    &nbsp; | &nbsp;
+
+    <tmpl_if admin>
+    <a href="/exec/home/articles">pubblica nuovo articolo</a>
+    &nbsp; | &nbsp;
+    </tmpl_if>
+
+    <tmpl_unless admin>
+    <a href="mailto:domande@curvedicrescita.com">scrivici</a>
+    &nbsp; | &nbsp;
+    </tmpl_unless>
+
+    <tmpl_if logged>
+    <a id="logout" href="/exec/home/logout">esci</a>
+    &nbsp; | &nbsp;
+    </tmpl_if>
+
     cerca
     <input id="search" type="text" size="14" name="q" value="argomento" onclick="this.value='';" onblur="if(this.value=='')this.value='argomento'">
 </div>

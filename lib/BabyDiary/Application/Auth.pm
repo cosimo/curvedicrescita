@@ -2,6 +2,9 @@
 
 package BabyDiary::Application::Auth;
 
+use strict;
+use BabyDiary::File::Users;
+
 #
 # Handles authentication-related tasks, such as login credentials check
 # and session modify to mark user as authenticated.
@@ -37,7 +40,7 @@ sub login
     if(!$user)
     {
         $self->log('warn', 'User [' . $prm{user} . '] not found on users file');
-        $self->user_warning('Authentication failed', 'User <b>' . $prm{user} . '</b> not found! Please retry...');
+        $self->user_warning('Problema nell\'accesso', 'L\'utente <b>' . $prm{user} . '</b> non esiste. Riprova...');
     }
     # User found, check password
     else
@@ -46,7 +49,8 @@ sub login
 
         # If stored pw hash == input passwd hash, user is authenticated
         my $stored_pw = $user->{password};
-        my $input_pw  = Digest::SHA1::sha1_hex($prm{passwd});
+        #my $input_pw  = Digest::SHA1::sha1_hex($prm{passwd});
+        my $input_pw  = $prm{passwd};
 
         #$self->log('info', 'Stored password hash [', $stored_pw, ']');
         #$self->log('info', 'Input  password hash [', $input_pw,  ']');
@@ -71,7 +75,7 @@ sub login
         else
         {
             $self->log('warn', 'Login of user [', $prm{user}, '] failed');
-            $self->user_warning('Authentication failed', 'Invalid password!');
+            $self->user_warning('Problema nell\'accesso', 'Nome utente o password sbagliata');
         }
     }
 

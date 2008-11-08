@@ -18,7 +18,7 @@ sub delete
     my $query = $self->query();
 
     # Check if user is logged in before allowing delete
-    if(0 && ! $self->user_logged())
+    if(! $self->user_logged())
     {
         $self->log('warn', 'User is not logged in. Don\'t allow to delete articles');
         $self->user_warning('Please login!', 'Login to application to delete articles');
@@ -42,9 +42,8 @@ sub delete
     my $users      = BabyDiary::File::Users->new();
     my $articles   = BabyDiary::File::Articles->new();
     my $curr_user  = $self->session->param('user');
-    my $can_delete = 1;
-    #       $users->is_admin($curr_user)                  # User is an admin: can delete everything
-    #    || ($articles->owner($art_id) eq $curr_user);    # User is owner of this article
+    my $can_delete = $users->is_admin($curr_user)                  # User is an admin: can delete everything
+                  || ($articles->owner($art_id) eq $curr_user);    # User is owner of this article
 
     if(!$can_delete)
     {
@@ -80,7 +79,7 @@ sub modify
     my $query = $self->query();
 
     # Check if user is logged in before allowing delete
-    if(0 && ! $self->user_logged())
+    if(! $self->user_logged())
     {
         $self->log('warn', 'User is not logged in. Don\'t allow to modify articles');
         $self->user_warning('Please login!', 'Login to application to modify articles');
@@ -109,9 +108,9 @@ sub modify
     my $curr_user  = $self->session->param('user');
 
     # Check that user can modify the article
-    my $can_modify = 1;
-        #$users->is_admin($curr_user)                     # User is an admin: can delete everything
-        #|| ($articles->owner($art_id) eq $curr_user);    # User is owner of this article
+    my $can_modify =
+        $users->is_admin($curr_user)                     # User is an admin: can delete everything
+        || ($articles->owner($art_id) eq $curr_user);    # User is owner of this article
 
     if(!$can_modify)
     {
@@ -419,7 +418,7 @@ sub render {
         # If not, allow remove/change only if logged user is the article author
         my $users = BabyDiary::File::Users->new();
         my $current_user   = $self->session->param('user');
-        my $is_admin       = 1; #$users->is_admin($current_user);
+        my $is_admin       = $users->is_admin($current_user);
         my $modify_allowed = $is_admin || $current_user eq $rec->{createdby};
 
         $self->log('notice', 'Current user [', $current_user, '] is', ($is_admin ? '' : ' *NOT*'), ' an admin');
