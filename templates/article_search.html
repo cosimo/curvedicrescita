@@ -11,35 +11,38 @@
 
     <div id="article">
 
-    <h1>Risultati della ricerca</h1>
+    <h1><tmpl_var search_title></h1>
 
-    <!-- tmpl_if search_results -->
+    <p>Trovati <tmpl_var search_results_count> risultati. </p>
+
+    <tmpl_if search_results>
     <ol type="number">
-    <!-- tmpl_loop search_results -->
+
+    <tmpl_loop search_results>
 
     <li class="search_result"><!-- tmpl_var article_link --></li>
 
-    <div id="author">
-    Pubblicato il <!-- tmpl_var createdon -->
-    <!-- tmpl_if changedby -->Modificato il <!-- tmpl_var changedon --> da <!-- tmpl_var changedby --><!-- /tmpl_if -->
-    </div>
-    
+    <!-- <div id="author">
+    Pubblicato il <tmpl_var createdon>
+    <tmpl_if changedby>Modificato il <tmpl_var changedon> da <tmpl_var changedby></tmpl_if>
+    </div> -->
+  
     <div id="tags">
-    <!-- tmpl_var keywords -->
+    <!-- tmpl_var article_keywords -->
     </div>
 
     <p id="excerpt">
     <!-- tmpl_var article_excerpt -->
     </p>
 
-    <!-- /tmpl_loop -->
+    </tmpl_loop>
     </ol>
 
     <!-- tmpl_else -->
     <h2>Nessun risultato trovato.</h2>
 
     <p>Prova a specificare meno termini di ricerca, o a <a href="<tmpl_var mycgi_path>/tags">cercare tra le tag</a>.</p>
-    <!-- /tmpl_if -->
+    </tmpl_if>
 
     </div>
 

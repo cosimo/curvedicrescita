@@ -48,7 +48,7 @@ sub format_article_excerpt
     for (@lines) {
         push @excerpt, $_;
         $chars += length;
-        last if $chars > 150;
+        last if $chars > 80;
     }
 
     # Add dots `...' to denote continued content

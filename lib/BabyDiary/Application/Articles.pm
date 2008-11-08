@@ -281,13 +281,17 @@ sub search
 
     $tmpl->param(
         search_title      => $self->msg('Search results for &quot;[_1]&quot;', $keyword || $term),
-        search_no_results => $self->msg('No results')
+        search_no_results => $self->msg('No results'),
     );
 
     # If some articles found, display them in a TMPL_LOOP
     if($list)
     {
-        $self->log('notice', 'Found ', scalar(@$list), ' articles that match');
+
+        my $count = scalar @$list;
+        $self->log('notice', 'Found ', $count, ' articles that match');
+        
+        $tmpl->param(search_results_count => $count);
 
         for my $art (@$list)
         {
