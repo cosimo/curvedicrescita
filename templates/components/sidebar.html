@@ -1,18 +1,18 @@
 <div id="sidebar">
 
-    <h2>ultimi articoli</h2>
+    <h2><tmpl_var name="msg:ultimi articoli"></h2>
 
     <!-- tmpl_if name="articles_latest" -->
     <!-- tmpl_var name="articles_latest" -->
     <!-- tmpl_else -->
-    <p>Ancora nessun articolo...</p>
+    <p><tmpl_var name="msg:Ancora nessun articolo..."></p>
     <!-- /tmpl_if -->
 
-    <h2>tags popolari</h2>
+    <h2><tmpl_var name="msg:tags popolari"></h2>
     <!-- tmpl_if name="articles_cloud" -->
     <!-- tmpl_var name="articles_cloud" -->
     <!-- tmpl_else -->
-    <p>Nessuna tag popolare...</p>
+    <p><tmpl_var name="msg:Nessuna tag popolare..."></p>
     <!-- /tmpl_if -->
 
     <!--
@@ -20,7 +20,7 @@
     <p>Quell'altra ancora, ma quest'altra, e poi chissa' quante altre ancora,</p>
     -->
 
-    <h2>archivio articoli</h2>
+    <h2><tmpl_var name="msg:archivio articoli"></h2>
     <p>Qui ci dovrebbero essere tutti gli articoli pubblicati in passato. Come?</p>
 
 </div>

@@ -5,12 +5,12 @@
     </div>
     <div id="menu">
         <ul id="nav">
-            <li id="tags"<tmpl_if menu_tags> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/tags">tags</a></li>
-            <li id="domande"<tmpl_if menu_art_69> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/article/?id=69">domande</a></li>
-            <li title="Non ancora funzionante!" id="curve"<tmpl_if menu_curve> class="activelink"</tmpl_if>><a href="#">curve</a></li>
-            <li id="ostetrica"<tmpl_if menu_ostetrica> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/article_search?keyword=ostetrica">ostetrica</a></li>
-            <li id="pediatra"<tmpl_if menu_pediatra> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/article_search?keyword=pediatra">pediatra</a></li>
-            <li id="faq"<tmpl_if menu_faq> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/article_search?keyword=faq">faq</a></li>
+            <li id="tags"<tmpl_if menu_tags> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/tags"><tmpl_var name="msg:tags"></a></li>
+            <li id="domande"<tmpl_if menu_art_69> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/article/?id=69"><tmpl_var name="msg:domande"></a></li>
+            <li title="Non ancora funzionante!" id="curve"<tmpl_if menu_curve> class="activelink"</tmpl_if>><a href="#"><tmpl_var name="msg:curve"></a></li>
+            <li id="ostetrica"<tmpl_if menu_ostetrica> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/article_search?keyword=ostetrica"><tmpl_var name="msg:ostetrica"></a></li>
+            <li id="pediatra"<tmpl_if menu_pediatra> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/article_search?keyword=pediatra"><tmpl_var name="msg:pediatra"></a></li>
+            <li id="faq"<tmpl_if menu_faq> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/article_search?keyword=faq"><tmpl_var name="msg:faq"></a></li>
         </ul>
     </div>
 

@@ -280,8 +280,8 @@ sub search
     #
 
     $tmpl->param(
-        search_title      => $self->msg('Search results for &quot;[_1]&quot;', $keyword || $term),
-        search_no_results => $self->msg('No results'),
+        search_title      => $self->msg('Risultati della ricerca per &quot;[_1]&quot;', $keyword || $term),
+        search_no_results => $self->msg('Nessun risultato trovato in base ai criteri'),
     );
 
     # If some articles found, display them in a TMPL_LOOP

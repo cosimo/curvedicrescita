@@ -11,7 +11,7 @@
 
     <div id="taglist">
 
-        <h1>Elenco delle tag &nbsp; &rarr;</h1>
+        <h1><tmpl_var name="msg:Elenco delle tag"> &nbsp; &rarr;</h1>
 
         <tmpl_if name="tags"><ul>
 
@@ -26,7 +26,7 @@
         </ul>
 
         <tmpl_else>
-        <h2>Nessuna tag?</h2>
+        <h2><tmpl_var name="msg:Nessuna tag?"></h2>
         </tmpl_if>
 
     </div>

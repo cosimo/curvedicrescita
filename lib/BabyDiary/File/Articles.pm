@@ -63,7 +63,7 @@ sub post
     }
 
     # Put default data
-    $art->{createdby} ||= 'tamara';
+    #$art->{createdby} ||= '';
     $art->{createdon} = Opera::Util::current_timestamp();
     $art->{views}     = 0;
     $art->{id}        = undef;
@@ -83,9 +83,8 @@ sub post
     }
 
     # Article was posted correctly, retrieve auto-inc id
-    $self->log('notice', 'last_insert_id');
     my $id = $self->last_insert_id();
-    $self->log('notice', 'last_insert_id = ' . $id);
+    $self->log('notice', 'New article id = ' . $id);
 
     return $id;
 }
@@ -157,9 +156,7 @@ sub tags_frequency
                 # Tokenize words and isolate single tags
                 for(split m{\s* , \s*}x => $rec->[0]) {
                     # Count +1 for this tag
-                    my $tag = $_;
-                    $self->log('notice', 'Tag {' . $tag . '}');
-                    $tags{$tag}++;
+                    $tags{$_}++;
                 }
             }
             # Close SQL statement

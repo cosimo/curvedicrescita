@@ -11,8 +11,9 @@ sub init
     my($class, @lng) = @_;
     $class = ref($class) || $class;
 
-    # Default languages in order (en, no, it)
-    @lng = qw(en no it) unless @lng;
+    # Default languages in order
+    @lng = qw(it en) unless @lng;
+    warn('class='.$class. ' @lng='.join(',',@lng)."\n");
 
     return $class->get_handle(@lng);
 }
@@ -22,8 +23,13 @@ sub init
 sub all_messages
 {
     my $self = $_[0];
-    require Opera::Locale::en;
-    return keys %Opera::Locale::en::Lexicon;
+    my $class = ref $self;
+    my $var_name = "${class}::Lexicon";
+    {
+        no strict 'refs';
+        warn('var_name='.$var_name);
+        return keys %{ $var_name };
+    }
 }
 
 #

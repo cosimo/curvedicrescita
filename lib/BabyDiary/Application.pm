@@ -30,7 +30,7 @@ use BabyDiary::Application::Users;
 use Opera::Logger;
 
 # Localization class
-use Opera::Locale;
+use BabyDiary::Locale;
 
 # Model classes. High-level access to database tables
 use BabyDiary::File::Articles;
@@ -159,13 +159,13 @@ sub fill_messages
 
         # Create a "mini" template with only the message string and
         # resolve all tmpl_* tags inside it
-        if($msg =~ /tmpl_/)
+        if($msg =~ m{tmpl_})
         {
             my $mini_tmpl = HTML::Template->new( scalarref=>\$msg, associate=>$tmpl );
             $msg = $mini_tmpl->output();
         }
 
-        $tmpl->param($msgid => $msg);
+        $tmpl->param("msg:$msgid" => $msg);
 
     }
 
@@ -297,7 +297,7 @@ sub render_session {
 }
 
 #
-# Initialize Opera::Locale object to retrieve language messages
+# Initialize Locale object to retrieve language messages
 # Gets user language and loads those messages.
 #
 # TODO Browser negotiated HTTP-ACCEPT-LANGUAGE ?
@@ -305,13 +305,13 @@ sub render_session {
 sub locale
 {
     my $self = $_[0];
-   
+
     # Initialize locale handle
     if(! exists $self->{_locale} || ! defined $self->{_locale})
     {
         # Get user language from session or from user record, if possible
         my $curr_user = $self->session->param('user');
-        my @lng       = ('en');
+        my @lng       = ('it');
 
         if($curr_user)
         {
@@ -325,7 +325,7 @@ sub locale
         }
 
         $self->log('notice', 'Initializing locale with (', \@lng, ')');
-        $self->{_locale} = Opera::Locale->init(@lng);
+        $self->{_locale} = BabyDiary::Locale->init(@lng);
     }
 
     return($self->{_locale});
@@ -547,7 +547,7 @@ Basically it does a lot of work!
 
 =item locale()
 
-Simple accessor. Returns an instance of L<Opera::Locale> class, that is delegated
+Simple accessor. Returns an instance of L<BabyDiary::Locale> class, that is delegated
 to deal with localization tasks. This method is used by C<msg()>. See ahead.
 
 =item log( $level, @message )
@@ -579,8 +579,8 @@ practical and compact way. Used throughout the application to output messages li
         return $message;
     }
 
-This method automatically accesses L<Opera::Locale> class.
-See L<Opera::Locale> for more details.
+This method automatically accesses L<BabyDiary::Locale> class.
+See L<BabyDiary::Locale> for more details.
 
 =item session_init()
 
