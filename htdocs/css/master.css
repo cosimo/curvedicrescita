@@ -59,9 +59,20 @@ div#header {
 
 div#header div#balloon {
     position:absolute;
-    left:50px;
-    top:0px;
-    display:none;
+    left:-2000px;
+    top:-2000px;
+    width:330px;
+    height:150px;
+    background:url(../img/balloon/rect_sx.png) no-repeat;
+    display:block;
+}
+
+div#balloon #balloon_content {
+    margin-left:50px;
+    margin-top:20px;
+    width:260px;
+    height:110px;
+    display:block;
 }
 
 div#logo #logoimg {

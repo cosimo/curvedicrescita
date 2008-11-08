@@ -1,6 +1,6 @@
 #!c:/dev/perl510/bin/perl.exe
 #
-# $Id: validate,v 1.2 2007/06/05 23:08:36 cosimo Exp $
+# $Id$
 #
 # Helper CGI that validates user input
 #
