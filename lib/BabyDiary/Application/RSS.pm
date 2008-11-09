@@ -12,14 +12,15 @@ sub articles {
     my $host = 'http://192.168.1.4';
 
     if (! defined $how_many) {
-        $how_many = 50; 
+        $how_many = 25; 
     }
 
-    my $rss = XML::RSS->new( version => '0.9' );
+    my $rss = XML::RSS->new( version => '1.0' );
 
     $rss->channel(
         title => 'CurveDiCrescita.com - Ultimi articoli',
         link  => "$host/exec/rss",
+        description => 'Gli ultimi ' . $how_many . ' articoli pubblicati su curvedicrescita.com'
     );
 
     # Get last <how_many> articles
@@ -34,10 +35,11 @@ sub articles {
         return;
     }
 
-    for (@{$list}) {
+    for my $item (@{$list}) {
         $rss->add_item(
-            title => $_->{title},
-            link  => "$host/exec/home/article/?id=$$_{id}"
+            title => $item->{title},
+            link  => $host . '/exec/home/article/?id=' . $item->{id},
+            description => $item->{content},
         );
     }
 

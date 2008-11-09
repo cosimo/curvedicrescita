@@ -38,7 +38,7 @@ use BabyDiary::File::Sessions;
 use BabyDiary::File::Users;
 
 # Default expire time for sessions
-use constant SESSION_EXPIRE_TIME => '+4h';
+use constant SESSION_EXPIRE_TIME => '+8h';
 use constant SERVER_HOME => 'E:/users/cosimo/desktop/curvedicrescita.com';
 
 #
