@@ -21,6 +21,8 @@ use vars q(%Lexicon);
     'faq'              => 'faq',
     'scrivici'         => 'contact us',
     'accedi'           => 'login',
+    'registrati'       => 'signup',
+    'Registrazione del tuo profilo utente' => 'New user signup',
     'pubblica nuovo articolo' => 'publish new article',
     'esci'             => 'logout',
     'cerca'            => 'search',
@@ -36,6 +38,10 @@ use vars q(%Lexicon);
     # Articles search
     'Risultati della ricerca per &quot;[_1]&quot;' => 'Search results for &quot;[_1]&quot;',
     'Nessun risultato trovato in base ai criteri'  => 'No results',
+
+    'Username too short' => 'Username too short',
+    'Username already taken' => 'Username already taken',
+    'Field "[_1]" is mandatory' => 'Field "[_1]" is mandatory',
 
 );
 

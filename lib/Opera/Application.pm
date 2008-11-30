@@ -157,7 +157,7 @@ sub fill_params
 
     # Basic application parameters (cgi path, static resources path, ...)
     $param{mycgi_path} = '/cgi-bin/MyOperaTest/start';
-    $param{www_path}   = '/MyOperaTest';
+    $param{www_path}   = '/';
 
     # Calculate users count
     my $users = Opera::File::Users->new();

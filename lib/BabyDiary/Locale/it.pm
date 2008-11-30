@@ -23,6 +23,8 @@ use vars q(%Lexicon);
     ,'pediatra'
     ,'faq'
     ,'accedi'
+    ,'registrati'
+    ,'Registrazione del tuo profilo utente',
     ,'pubblica nuovo articolo'
     ,'esci'
     ,'scrivici',
@@ -38,6 +40,10 @@ use vars q(%Lexicon);
 
     ,'Risultati della ricerca per &quot;[_1]&quot;'
     ,'Nessun risultato trovato in base ai criteri'
+
+    ,'Username too short'
+    ,'Username already taken'
+    ,'Field "[_1]" is mandatory'
 );
 
 1;

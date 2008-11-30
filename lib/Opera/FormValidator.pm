@@ -6,6 +6,7 @@ package Opera::FormValidator;
 use strict;
 use Opera::Locale;
 use Opera::Logger;
+use Opera::Util;
 
 # Singleton classes for locale and logging
 our $locale;
@@ -131,6 +132,35 @@ sub validate_form
     $self->logger->notice('Form ', $form, ' validation ', ($status ? 'successful!' : '*FAILED*'));
     return($status);
 }
+
+#
+# Basic validation routine for email fields
+#
+sub email
+{
+    my($self, $opt) = @_;
+    my $val = $opt->{value};
+    my %res = ( ok => 1 );
+
+    # Trim value
+    $val = Opera::Util::btrim($val);
+
+    if(!$val)
+    {
+        $logger->warn('Empty value');
+        $res{ok} = 0;
+        $res{reason} = 'Campo ' . $opt->{field} . ' obbligatorio';
+    }
+
+    elsif ($val !~ m{^ .* \@ .+ \. .+ $}x) {
+        $logger->warn('Invalid email');
+        $res{ok} = 0;
+        $res{reason} = 'Email invalida';
+    }
+
+    return \%res;
+}
+
 
 #
 # Basic validation routine for not-null fields

@@ -106,6 +106,40 @@ sub logout
     $self->forward('homepage');
 }
 
+#
+# Shows signup form
+#
+sub signup
+{
+    my ($self) = @_;
+
+    my $query = $self->query();
+    my $meth = $query->request_method();
+    my $result;
+
+    if ($meth ne 'POST') {
+        $result = signup_form($self);
+    } else {
+        $result = signup_process($self);
+    }
+
+    return $result;
+}
+
+sub signup_form {
+    my ($self) = @_;
+    $self->log('notice', 'Signup form invoked');
+    my $tmpl = $self->render_view();
+    return $tmpl->output();
+}
+
+sub signup_process {
+    my ($self) = @_;
+    $self->log('notice', 'Processing signup form');
+    $self->log('warning', 'NOT YET IMPLEMENTED');
+    $self->forward('homepage');
+}
+
 1;
 
 #

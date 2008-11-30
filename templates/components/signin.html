@@ -4,13 +4,18 @@
     <tmpl_if logged>
     <img src="/img/avatar2.gif" align="absmiddle"> <tmpl_var user> 
     <tmpl_else>
-    <a id="login" href="#" onclick="toggle_balloon('link','balloon',620,0,'/exec/login');"><tmpl_var name="msg:accedi"></a>
+    <a id="login" href="#" onclick="toggle_balloon('link','balloon',560,0,'/exec/login');"><tmpl_var name="msg:accedi"></a>
+
+    &nbsp; | &nbsp;
+
+    <a href="<tmpl_var mycgi_path>/signup"><tmpl_var name="msg:registrati"></a>
+
     </tmpl_if>
 
     &nbsp; | &nbsp;
 
     <tmpl_if admin>
-    <a href="/exec/home/articles"><tmpl_var name="msg:pubblica nuovo articolo"></a>
+    <a href="<tmpl_var mycgi_path>/articles"><tmpl_var name="msg:pubblica nuovo articolo"></a>
     &nbsp; | &nbsp;
     </tmpl_if>
 
@@ -20,7 +25,7 @@
     </tmpl_unless>
 
     <tmpl_if logged>
-    <a id="logout" href="/exec/home/logout"><tmpl_var name="msg:esci"></a>
+    <a id="logout" href="<tmpl_var mycgi_path>/logout"><tmpl_var name="msg:esci"></a>
     &nbsp; | &nbsp;
     </tmpl_if>
 

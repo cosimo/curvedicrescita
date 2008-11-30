@@ -4,10 +4,10 @@ use strict;
 
 print "Content-type: text/html\n\n";
 print
-    q(<p style="padding:0;margin:0;margin-bottom:10px">Per accedere, inserisci il tuo nome utente e la tua password:</p>),
+    q(<p style="padding:0;margin:0;margin-bottom:10px">Per accedere, inserisci la tua email e la tua password:</p>),
     q(<form style="padding:0;margin:0" action="/exec/home/login" method="post">),
     q(<table style="padding:0;margin:0">),
-    q(<tr><td><label for="user">Utente</label></td><td><input type="text" id="user" name="user" size="16" maxlength="64" tabindex="100"></td></tr>),
+    q(<tr><td><label for="user">Email</label></td><td><input type="text" id="user" name="user" size="16" maxlength="64" tabindex="100"></td></tr>),
     q(<tr><td><label for="passwd">Password</label></td><td><input type="password" id="passwd" name="passwd" size="16" maxlength="64" tabindex="101">),
     q( <input type="submit" value="accedi" tabindex="102"></td></tr>),
     q(</table>),

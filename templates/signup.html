@@ -1,0 +1,70 @@
+<tmpl_include name="document/open.html">
+<tmpl_include name="document/header.html">
+
+<body>
+<tmpl_include name="components/signin.html">
+<tmpl_include name="components/header.html">
+
+<div id="content">
+
+    <tmpl_include name="components/topics.html">
+
+    <div style="float:right;" id="form_message"></div>
+    <div id="form" style="margin-left:230px">
+
+        <h1><tmpl_var name="msg:Registrazione del tuo profilo utente"></h1>
+
+        <p><b>Benvenuto!</b> Con questa semplice procedura, potrai creare il tuo <b>profilo utente personale</b>.
+        </p>
+
+        <p>Questo ti permetter&agrave; di tenere traccia di tutto cio' che
+        riguarda la crescita e la vita dei tuoi bambini in modo - speriamo - semplice
+        e veloce.</p>
+
+        <p><b>Nota</b>: CurveDiCrescita.com utilizza la tua email come nome utente.</p>
+
+        <form name="signup" method="post">
+        
+        <p><label for="realname">Nome e cognome (es.: Mario Rossi)</label><br/>
+        <input type=text name="realname" size="50" maxlength="255" onKeyDown="clear_flag(this)" onKeyUp="validate('NewUser','realname',this.value,'form_message')" onBlur="validate('NewUser','realname',this.value,'form_message')">
+        <img id="realname_flag" width="12" height="12" src="<!-- tmpl_var www_path -->/img/validate/blank.gif">
+        </p>
+
+        <!--<p><label for="username">Nome utente (es.: mrossi)</label><br/>
+        <input type="text" name="username" size="50" maxlength="30" onKeyDown="clear_flag(this)" onKeyUp="validate('NewUser','username',this.value,'form_message')" onBlur="validate('NewUser','username',this.value,'form_message')">
+        <img id="username_flag" width=12 height=12 src="<tmpl_var www_path>/img/validate/blank.gif">
+        </p>-->
+
+        <p><label for="username">Email (es.: mario.rossi@alice.it)</label><br/>
+        <input type="text" name="email" size="50" maxlength="255" onKeyDown="clear_flag(this)" onKeyUp="validate('NewUser','email',this.value,'form_message')" onBlur="validate('NewUser','email',this.value,'form_message')">
+        <img id="email_flag" width=12 height=12 src="<!-- tmpl_var www_path -->/img/validate/blank.gif">
+        </p>
+
+        <p><label for="password">Password di accesso al sito</label><br/>
+        <input type=password id="password" name="password" size="50" maxlength="40" onKeyDown="clear_flag(this)" onKeyUp="validate('NewUser','password',this.value,'form_message')" onBlur="validate('NewUser','password',this.value,'form_message')">
+        <img id="password_flag" width=12 height=12 src="<!-- tmpl_var www_path -->/img/validate/blank.gif">
+        </p>
+
+        <p><label for="password2">Ripeti la password per conferma</label><br/>
+        <input type=password name="password2" size="50" maxlength="40" onKeyDown="clear_flag(this)" onKeyUp="validate('NewUser','password2',this.value==document.getElementById('password').value,'form_message')" onBlur="validate('NewUser','password2',this.value==document.getElementById('password').value,'form_message')">
+        <img id="password2_flag" width="12" height="12" src="<!-- tmpl_var www_path -->/img/validate/blank.gif">
+        </p>
+
+        <p><label for="language">Scegli la tua lingua</label><br/>
+            <select name="language">
+                <option value="it" selected>Italiano</option>
+                <option value="en">English</option>
+            </select>
+        </p>
+
+        <p><label for="submit">Tutto corretto?</label><br/>
+        <input type="submit" value="S&igrave;, invia!"></p>
+
+        </form>
+
+    </div>
+
+</div>
+
+<tmpl_include name="document/footer.html">
+<tmpl_include name="document/close.html">

@@ -7,6 +7,13 @@ use warnings;
 use BabyDiary::File::Users;
 use Opera::Util;
 
+use base q(BabyDiary::FormValidator);
+
+sub email {
+    my($self, $opt) = @_;
+    return $self->SUPER::email($opt);
+}
+
 #
 # Password must be not null
 #
@@ -63,7 +70,7 @@ sub username
     my $user = $opt->{value};
 
     # Trim username
-    $user = BabyDiary::Util::btrim($user);
+    $user = Opera::Util::btrim($user);
 
     if(!$user)
     {
