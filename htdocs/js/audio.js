@@ -1,3 +1,4 @@
+// $Id$
 function audio_play (url, is_loop)
 {
     var el_name = '_my_sound';
