@@ -4,6 +4,7 @@
 package BabyDiary::Application::Articles;
 
 use strict;
+use HTML::Entities;
 use BabyDiary::File::Articles;
 use BabyDiary::File::Users;
 use Opera::Util;
@@ -590,6 +591,44 @@ sub tags_cloud
     $self->log('notice', 'Tag cloud completed (' . scalar(keys %tags) . ' tags found)');
 
     return $cloud->html(25);
+}
+
+sub cumulus_cloud
+{
+    my $self = $_[0];
+    my $articles = BabyDiary::File::Articles->new();
+    my $html;
+    my %tags = $articles->tags_frequency();
+
+    # Limit n. of tags
+    my $n = 30;
+
+    for my $tag (sort { $tags{$b} <=> $tags{$a} } keys %tags)
+    {
+
+        if ($tag eq 'scheda') {
+            next;
+        }
+
+        # "Unpopular tags"
+        #my $font_size = 50 / $tags{$tag};
+
+        my $font_size = 2 * $tags{$tag};
+        $font_size = 10 if $font_size < 10;
+        $font_size = 25 if $font_size > 25;
+
+        $html .= '<a href="/exec/home/article_search?keyword='.CGI::escape($tag).'" title="' . $tags{$tag} . ' ' . substr($tag, 0, 20) . '" rel="tag" class="tag-link-' . ($tags{$tag}) . '" style="font-size:' . $font_size . '">' . HTML::Entities::decode_entities($tag) . '</a>';
+        #$html .= '<a href="/exec/home/article_search?keyword='.CGI::escape($tag).'">' . $tag .'</a>' . "\n";
+
+        last if 0 == $n--;
+
+    }
+
+    # Enclose everything in a <tags> element
+    $html = '<tags>' . $html . '</tags>';
+    $html = CGI::escape($html);
+
+    return $html;
 }
 
 1;
