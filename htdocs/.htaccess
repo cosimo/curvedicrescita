@@ -1,0 +1,7 @@
+<Files ~ "^\.ht">
+Order allow,deny
+Deny from all
+Satisfy All
+</Files>
+
+DirectoryIndex /exec/home
