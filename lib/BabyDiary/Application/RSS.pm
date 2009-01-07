@@ -9,7 +9,7 @@ use BabyDiary::File::Articles;
 
 sub articles {
     my ($how_many) = @_;
-    my $host = 'http://192.168.1.4';
+    my $host = 'http://www.curvedicrescita.com';
 
     if (! defined $how_many) {
         $how_many = 25; 
