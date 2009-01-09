@@ -102,6 +102,15 @@ sub format_keywords
 sub format_title
 {
     my($art) = @_;
+    return $art->{title};
+}
+
+#
+# Title of article has link to display the single article
+#
+sub format_title_link
+{
+    my($art) = @_;
     my $title =
           '&quot;'
         . CGI->a({href=>'/exec/home/article/?id=' . CGI::escape($art->{id})}, $art->{title})

@@ -300,7 +300,7 @@ sub search
             highlight_term($term,    $art);
             highlight_term($keyword, $art);
 
-            $art->{article_link}     = BabyDiary::View::Articles::format_title($art);
+            $art->{article_link}     = BabyDiary::View::Articles::format_title_link($art);
             $art->{article_author}   = BabyDiary::View::Articles::format_author($art);
             $art->{article_keywords} = BabyDiary::View::Articles::format_keywords($art);
             $art->{article_excerpt}  = BabyDiary::View::Articles::format_article_excerpt($art);
@@ -395,13 +395,21 @@ sub render {
     {
         $self->log('notice', 'Found article `', $rec->{title}, '\'');
 
-        # Increase number of views of article
+        # Increase number of views of article (only for non-admin users)
         #
         # XXX This is obviously not going to work in this way for highly concurrent environments
         # Also, it can be a good idea to drop the whole concept of articles views, to avoid
         # database writes on every page view...
-        $rec->{views}++;
-        $art->update({ views=>$rec->{views} }, { id=>$art_id });
+
+        my $users = BabyDiary::File::Users->new();
+        my $current_user   = $self->session->param('user');
+        my $is_admin = $users->is_admin($current_user);
+
+        # We don't want our admin work to impact on visit count
+        if (! $is_admin) {
+            $rec->{views}++;
+            $art->update({ views=>$rec->{views} }, { id=>$art_id });
+        }
 
         # Supply parameters for all article properties
         $tmpl->param( article_id        => $rec->{id} );
@@ -412,7 +420,11 @@ sub render {
         $tmpl->param( article_lastupdateby => BabyDiary::View::Articles::format_author($rec, 'lastupdateby') );
         $tmpl->param( article_lastupdateon => $rec->{lastupdateon} );
 
-        $tmpl->param( article_title     => BabyDiary::View::Articles::format_title($rec) );
+        # Replicate article title for document/page title
+        my $article_title = BabyDiary::View::Articles::format_title($rec);
+        $tmpl->param( article_title     => $article_title );
+        $tmpl->param( page_title        => $article_title . ' - Curve di crescita.com' );
+
         $tmpl->param( article_keywords  => BabyDiary::View::Articles::format_keywords($rec) );
         $tmpl->param( article_views     => $rec->{views} );
         $tmpl->param( article_content => BabyDiary::View::Articles::format_article($rec) );
@@ -421,9 +433,6 @@ sub render {
         #
         # If user is admin, allow cancel and modify.
         # If not, allow remove/change only if logged user is the article author
-        my $users = BabyDiary::File::Users->new();
-        my $current_user   = $self->session->param('user');
-        my $is_admin       = $users->is_admin($current_user);
         my $modify_allowed = $is_admin || $current_user eq $rec->{createdby};
 
         $self->log('notice', 'Current user [', $current_user, '] is', ($is_admin ? '' : ' *NOT*'), ' an admin');
@@ -509,7 +518,7 @@ sub latest_n
     for my $art (@$art_list)
     {
         $html_list .= CGI->li(
-              BabyDiary::View::Articles::format_title($art)
+              BabyDiary::View::Articles::format_title_link($art)
             #. ' di '
             #. BabyDiary::View::Articles::format_author($art)
         );
