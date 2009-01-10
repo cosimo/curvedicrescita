@@ -13,7 +13,7 @@ sub init
 
     # Default languages in order
     @lng = qw(it en) unless @lng;
-    warn('class='.$class. ' @lng='.join(',',@lng)."\n");
+    #warn('class='.$class. ' @lng='.join(',',@lng)."\n");
 
     return $class->get_handle(@lng);
 }
@@ -27,7 +27,7 @@ sub all_messages
     my $var_name = "${class}::Lexicon";
     {
         no strict 'refs';
-        warn('var_name='.$var_name);
+        #warn('var_name='.$var_name);
         return keys %{ $var_name };
     }
 }
