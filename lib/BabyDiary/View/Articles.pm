@@ -89,11 +89,13 @@ sub format_keywords
     # Every keyword becomes an anchor to search by *that* keyword
     for(@kwords)
     {
-        $_ = CGI->a({href=>'/exec/home/article_search/?keyword=' . CGI::escape($_)}, $_);
+        $_ = CGI->a({
+            href=>'/exec/home/article_search/?keyword=' . CGI::escape($_)
+        }, $_);
     }
 
     # Finally return the concatenation of those anchors
-    return(join(' ', @kwords));
+    return join(' ', @kwords);
 }
 
 #

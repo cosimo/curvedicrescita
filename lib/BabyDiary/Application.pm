@@ -38,7 +38,6 @@ use BabyDiary::File::Users;
 
 # Default expire time for sessions
 use constant SESSION_EXPIRE_TIME => '+8h';
-use constant SERVER_HOME => 'E:/users/cosimo/desktop/curvedicrescita.com';
 
 #
 # Define runmodes
@@ -205,9 +204,10 @@ sub render_components {
     my ($self, $tmpl) = @_;
 
     # For articles-related sections, calculate also lists of latest/best articles
-    $tmpl->param( articles_latest => $self->BabyDiary::Application::Articles::latest_n() );
-    $tmpl->param( articles_cloud => $self->BabyDiary::Application::Articles::tags_cloud() );
-    $tmpl->param( cumulus_cloud => $self->BabyDiary::Application::Articles::cumulus_cloud() );
+    $tmpl->param( articles_latest  => $self->BabyDiary::Application::Articles::latest_n(10) );
+    $tmpl->param( articles_popular => $self->BabyDiary::Application::Articles::best_n() );
+    #$tmpl->param( articles_cloud   => $self->BabyDiary::Application::Articles::tags_cloud() );
+    $tmpl->param( cumulus_cloud    => $self->BabyDiary::Application::Articles::cumulus_cloud() );
 
     # Automatic topics left sidebar
     $tmpl->param( topics => $self->BabyDiary::Application::Articles::topics() );

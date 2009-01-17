@@ -30,6 +30,7 @@ use vars q(%Lexicon);
 
     'tags popolari'    => 'popular tags',
     'Ancora nessun articolo...' => 'No article yet...',
+    'i piu\' letti'  => 'Most popular',
     'ultimi articoli'  => 'latest articles',
     'archivio articoli'=> 'articles archive',
 

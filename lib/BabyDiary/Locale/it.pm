@@ -33,6 +33,7 @@ use vars q(%Lexicon);
 
     ,'tags popolari'
     ,'Ancora nessun articolo...'
+    ,'i piu\' letti'
     ,'ultimi articoli'
     ,'archivio articoli'
 

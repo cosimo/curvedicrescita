@@ -1,28 +1,21 @@
 <div id="sidebar">
 
-    <h2><tmpl_var name="msg:ultimi articoli"></h2>
+    <!-- Most popular articles -->
+    <h2><tmpl_var name="msg:i piu' letti"></h2>
 
-    <!-- tmpl_if name="articles_latest" -->
-    <!-- tmpl_var name="articles_latest" -->
+    <!-- tmpl_if name="articles_popular" -->
+    <!-- tmpl_var name="articles_popular" -->
     <!-- tmpl_else -->
     <p><tmpl_var name="msg:Ancora nessun articolo..."></p>
     <!-- /tmpl_if -->
 
-    <!--
-    <h2><tmpl_var name="msg:tags popolari"></h2>
-    <!-- tmpl_if name="articles_cloud" -->
-    <!-- tmpl_var name="articles_cloud" -->
-    <!-- tmpl_else -->
-    <p><tmpl_var name="msg:Nessuna tag popolare..."></p>
-    <!-- /tmpl_if -->
-    -->
-
+    <!-- Flash tag cloud. Uses Culumus Cloud by Roy Tank -->
     <tmpl_if name="cumulus_cloud">
     <h2><tmpl_var name="msg:tags popolari"></h2>
     <div id="wpcumuluswidgetcontent"></div>
     <script type="text/javascript" src="/js/swfobject.js"></script>
     <script type="text/javascript">var rnumber = Math.floor(Math.random()*9999999);
-    var widget_so = new SWFObject("/swf/tagcloud.swf?r="+rnumber, "tagcloudflash", "190", "190", "9", "#EEEEEE");
+    var widget_so = new SWFObject("/swf/tagcloud.swf", "tagcloudflash", "190", "190", "9", "#EEEEEE");
     widget_so.addParam("allowScriptAccess", "always");
     widget_so.addVariable("tcolor", "0x1F33b8");
     widget_so.addVariable("tspeed", "100");
@@ -31,5 +24,14 @@
     widget_so.addVariable("tagcloud", "<tmpl_var cumulus_cloud>");
     widget_so.write("wpcumuluswidgetcontent");</script>
     </tmpl_if>
+
+    <!-- Latest articles -->
+    <h2><tmpl_var name="msg:ultimi articoli"></h2>
+
+    <!-- tmpl_if name="articles_latest" -->
+    <!-- tmpl_var name="articles_latest" -->
+    <!-- tmpl_else -->
+    <p><tmpl_var name="msg:Ancora nessun articolo..."></p>
+    <!-- /tmpl_if -->
 
 </div>
