@@ -31,7 +31,12 @@ my $transferred = 0;
 
 # Silently exit if no file
 if (! @files) {
-    exit;
+    exit 1;
+}
+
+if (grep { $_ =~ m{database} } @files) {
+    print "You can't touch the database. Crazy!!!\n";
+    exit 2;
 }
 
 for my $file (@files) {
