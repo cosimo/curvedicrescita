@@ -1,0 +1,11 @@
+- modificato httpd.conf htdocs/exec
+- dbd::sqlite
+- cgi::app::plugin::configauto
+- cgi::app::plugin::forward
+- cgi::app::plugin::redirect
+- cgi::app::plugin::session
+- html::template
+- html::bbcode
+- html::strip
+- time::piece
+- cgi::application
