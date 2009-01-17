@@ -111,6 +111,16 @@ h1 {
     font-weight: bold;
 }
 
+#article #tags a {
+    background-color: #ddf;
+    color: #33d;
+    border-bottom: 1px solid #88f;
+    border-right: 1px solid #88f;
+    text-decoration: none;
+    line-height: 21px;
+    padding: 1px 5px 1px 5px;
+}
+
 #article p {
     font-family: 'Trebuchet MS', Verdana, Arial, Helvetica;
     font-size: 14px;
