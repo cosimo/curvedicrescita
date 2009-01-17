@@ -1,0 +1,7 @@
+ftp_curve
+curve123dc
+bin
+cd html
+get index.html
+quit
+
