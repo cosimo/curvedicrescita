@@ -14,7 +14,7 @@
 
         <h1><tmpl_var name="msg:Registrazione del tuo profilo utente"></h1>
 
-        <p><b>Benvenuto!</b> Con questa semplice procedura, potrai creare il tuo <b>profilo utente personale</b>.
+        <p><b>Benvenuto!</b> Questa pagina ti permette di registrarti a <a href="/">CurvediCrescita.com</a>.
         </p>
 
         <p>Questo ti permetter&agrave; di tenere traccia di tutto cio' che
@@ -30,11 +30,6 @@
         <img id="realname_flag" width="12" height="12" src="<!-- tmpl_var www_path -->/img/validate/blank.gif">
         </p>
 
-        <!--<p><label for="username">Nome utente (es.: mrossi)</label><br/>
-        <input type="text" name="username" size="50" maxlength="30" onKeyDown="clear_flag(this)" onKeyUp="validate('NewUser','username',this.value,'form_message')" onBlur="validate('NewUser','username',this.value,'form_message')">
-        <img id="username_flag" width=12 height=12 src="<tmpl_var www_path>/img/validate/blank.gif">
-        </p>-->
-
         <p><label for="username">Email (es.: mario.rossi@alice.it)</label><br/>
         <input type="text" name="email" size="50" maxlength="255" onKeyDown="clear_flag(this)" onKeyUp="validate('NewUser','email',this.value,'form_message')" onBlur="validate('NewUser','email',this.value,'form_message')">
         <img id="email_flag" width=12 height=12 src="<!-- tmpl_var www_path -->/img/validate/blank.gif">
@@ -42,12 +37,37 @@
 
         <p><label for="password">Password di accesso al sito</label><br/>
         <input type=password id="password" name="password" size="50" maxlength="40" onKeyDown="clear_flag(this)" onKeyUp="validate('NewUser','password',this.value,'form_message')" onBlur="validate('NewUser','password',this.value,'form_message')">
-        <img id="password_flag" width=12 height=12 src="<!-- tmpl_var www_path -->/img/validate/blank.gif">
-        </p>
-
-        <p><label for="password2">Ripeti la password per conferma</label><br/>
+        <img id="password_flag" width=12 height=12 src="<!-- tmpl_var www_path -->/img/validate/blank.gif"><br/>
+        <label for="password2">Ripeti la password per conferma</label><br/>
         <input type=password name="password2" size="50" maxlength="40" onKeyDown="clear_flag(this)" onKeyUp="validate('NewUser','password2',this.value==document.getElementById('password').value,'form_message')" onBlur="validate('NewUser','password2',this.value==document.getElementById('password').value,'form_message')">
         <img id="password2_flag" width="12" height="12" src="<!-- tmpl_var www_path -->/img/validate/blank.gif">
+        </p>
+        
+        <p><label for="language">Sei uomo o donna?</label><br/>
+            <select name="language">
+                <option value="f" selected>Donna</option>
+                <option value="m">Uomo</option>
+            </select>
+        </p>
+
+        <p><label for="language">Se donna, sei incinta?</label><br/>
+            <select name="language">
+                <option value="0" selected>No, ho detto che sono un uomo!</option>
+                <option value="1">No, non ancora</option>
+                <option value="2">S&igrave;, da poco tempo</option>
+                <option value="3">S&igrave;, sto per partorire</option>
+                <option value="4">No, ma lo sono stata</option>
+            </select>
+        </p>
+
+        <p><label for="language">Quanti figli hai?</label><br/>
+            <select name="language">
+                <option value="0" selected>Nessuno, per ora</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">Pi&ugrave; di 3</option>
+            </select>
         </p>
 
         <p><label for="language">Scegli la tua lingua</label><br/>
