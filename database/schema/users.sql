@@ -6,7 +6,7 @@
 
 /*use opera;*/
 
-BEGIN WORK;
+BEGIN;
 
 CREATE TABLE users (
     username  char(30) not null,
@@ -23,9 +23,9 @@ CREATE TABLE users (
     primary key (username)
 );
 
-INSERT INTO "users" VALUES('tamara','Tamara De Zotti','V8GDJBECK',1,'2008-11-08 11:18:36','2009-01-16 09:58:04','it','f','4',2);
-INSERT INTO "users" VALUES('cosimo','Cosimo Streppone','TecLS29Neo',1,'2008-11-08 11:18:58','2009-01-15 08:18:00','en','m','0',2);
-INSERT INTO "users" VALUES('antonietta','Antonietta Faino','baccellina',0,'2008-11-08 14:44:35','2009-01-09 20:54:01','it_IT','f','4',2);
+INSERT INTO "users" VALUES('tamara','Tamara De Zotti','V8GDJBECK',1,'2008-11-08 11:18:36','2009-01-16 09:58:04','it','f','4',2,'');
+INSERT INTO "users" VALUES('cosimo','Cosimo Streppone','TecLS29Neo',1,'2008-11-08 11:18:58','2009-01-15 08:18:00','en','m','0',2,'');
+INSERT INTO "users" VALUES('antonietta','Antonietta Faino','baccellina',0,'2008-11-08 14:44:35','2009-01-09 20:54:01','it_IT','f','4',2,'');
 
 COMMIT;
 
