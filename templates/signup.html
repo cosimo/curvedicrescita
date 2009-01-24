@@ -5,11 +5,19 @@
 <tmpl_include name="components/signin.html">
 <tmpl_include name="components/header.html">
 
+<tmpl_if name="notice_message">
+<div id="notice_box">
+    <h3><tmpl_var name="notice_title"></h3>
+    <p><tmpl_var name="notice_message"></p>
+</div>
+</tmpl_if>
+
 <div id="content">
 
     <tmpl_include name="components/topics.html">
 
-    <div style="float:right;" id="form_message"></div>
+    <div style="float:right;margin-top:180px;margin-right:200px" id="form_message"></div>
+
     <div id="form" style="margin-left:230px">
 
         <h1><tmpl_var name="msg:Registrazione del tuo profilo utente"></h1>
@@ -24,34 +32,36 @@
         <p><b>Nota</b>: CurveDiCrescita.com utilizza la tua email come nome utente.</p>
 
         <form name="signup" method="post">
-        
+
+        <input type="hidden" name="referrer" value="<tmpl_var escape='HTML' name='referrer'>">
+
         <p><label for="realname">Nome e cognome (es.: Mario Rossi)</label><br/>
-        <input type=text name="realname" size="50" maxlength="255" onKeyDown="clear_flag(this)" onKeyUp="validate('NewUser','realname',this.value,'form_message')" onBlur="validate('NewUser','realname',this.value,'form_message')">
+        <input type=text name="realname" size="30" maxlength="255" onKeyDown="clear_flag(this)" onKeyUp="validate('Signup','realname',this.value,'form_message')" onBlur="validate('Signup','realname',this.value,'form_message')">
         <img id="realname_flag" width="12" height="12" src="<!-- tmpl_var www_path -->/img/validate/blank.gif">
         </p>
 
         <p><label for="username">Email (es.: mario.rossi@alice.it)</label><br/>
-        <input type="text" name="email" size="50" maxlength="255" onKeyDown="clear_flag(this)" onKeyUp="validate('NewUser','email',this.value,'form_message')" onBlur="validate('NewUser','email',this.value,'form_message')">
+        <input type="text" name="email" size="30" maxlength="255" onKeyDown="clear_flag(this)" onKeyUp="validate('Signup','email',this.value,'form_message')" onBlur="validate('Signup','email',this.value,'form_message')">
         <img id="email_flag" width=12 height=12 src="<!-- tmpl_var www_path -->/img/validate/blank.gif">
         </p>
 
         <p><label for="password">Password di accesso al sito</label><br/>
-        <input type=password id="password" name="password" size="50" maxlength="40" onKeyDown="clear_flag(this)" onKeyUp="validate('NewUser','password',this.value,'form_message')" onBlur="validate('NewUser','password',this.value,'form_message')">
+        <input type=password id="password" name="password" size="20" maxlength="40" onKeyDown="clear_flag(this)" onKeyUp="validate('Signup','password',this.value,'form_message')" onBlur="validate('Signup','password',this.value,'form_message')">
         <img id="password_flag" width=12 height=12 src="<!-- tmpl_var www_path -->/img/validate/blank.gif"><br/>
         <label for="password2">Ripeti la password per conferma</label><br/>
-        <input type=password name="password2" size="50" maxlength="40" onKeyDown="clear_flag(this)" onKeyUp="validate('NewUser','password2',this.value==document.getElementById('password').value,'form_message')" onBlur="validate('NewUser','password2',this.value==document.getElementById('password').value,'form_message')">
+        <input type=password name="password2" size="20" maxlength="40" onKeyDown="clear_flag(this)" onKeyUp="validate('Signup','password2',this.value==document.getElementById('password').value,'form_message')" onBlur="validate('Signup','password2',this.value==document.getElementById('password').value,'form_message')">
         <img id="password2_flag" width="12" height="12" src="<!-- tmpl_var www_path -->/img/validate/blank.gif">
         </p>
-        
-        <p><label for="language">Sei uomo o donna?</label><br/>
-            <select name="language">
+
+        <p><label for="gender">Sei uomo o donna?</label><br/>
+            <select name="gender">
                 <option value="f" selected>Donna</option>
                 <option value="m">Uomo</option>
             </select>
         </p>
 
-        <p><label for="language">Se donna, sei incinta?</label><br/>
-            <select name="language">
+        <p><label for="pregnancy">Se donna, sei incinta?</label><br/>
+            <select name="pregnancy">
                 <option value="0" selected>No, ho detto che sono un uomo!</option>
                 <option value="1">No, non ancora</option>
                 <option value="2">S&igrave;, da poco tempo</option>
@@ -60,8 +70,8 @@
             </select>
         </p>
 
-        <p><label for="language">Quanti figli hai?</label><br/>
-            <select name="language">
+        <p><label for="children">Quanti figli hai?</label><br/>
+            <select name="children">
                 <option value="0" selected>Nessuno, per ora</option>
                 <option value="1">1</option>
                 <option value="2">2</option>

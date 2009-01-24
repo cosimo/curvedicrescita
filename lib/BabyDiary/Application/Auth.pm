@@ -26,13 +26,6 @@ sub login
 
     $self->log('notice', 'Login attempt from user [', $prm{user}, '] with password [', $prm{passwd}, ']');
 
-    # Sanitize user input, removing all non-alphanumeric chars
-    # FIXME Rather simple. Must define something more sophisticated.
-    for($prm{user}, $prm{passwd})
-    {
-        tr{A-Za-z0-9}{}cds;
-    }
-
     # Check credentials against password saved in users file
     my $users = BabyDiary::File::Users->new();
     my $user  = $users->get({where=>{username=>$prm{user}}});
@@ -128,16 +121,85 @@ sub signup
 
 sub signup_form {
     my ($self) = @_;
+
     $self->log('notice', 'Signup form invoked');
+
     my $tmpl = $self->render_view();
+
+    $tmpl->param(page_title => $self->msg('Registrazione nuovo profilo utente'));
+    $tmpl->param(referrer   => $ENV{HTTP_REFERER} || '');
+
     return $tmpl->output();
 }
 
 sub signup_process {
     my ($self) = @_;
     $self->log('notice', 'Processing signup form');
-    $self->log('warning', 'NOT YET IMPLEMENTED');
-    $self->forward('homepage');
+
+    my $next_url = $self->config('CGI_ROOT') . '/signup';
+    my $query = $self->query();
+
+    # Check form parameters
+    my %prm = $query->Vars;
+
+    # Assume email as username
+    $prm{username} = $prm{email};
+
+    my $vld = BabyDiary::FormValidator->new();
+    if(! $vld->validate_form($self, 'Signup', \%prm))
+    {
+        return signup_form($self);
+    }
+
+    # Load users file
+    my $users = BabyDiary::File::Users->new();
+
+    # Check if username is already present on db
+    my $rec = $users->get({where => {username=>$prm{username}}});
+    if($rec && $rec->{username} eq $prm{username})
+    {
+        $self->log('notice', 'Found already existing user {' . $prm{username} . '}');
+        $self->user_warning('Registrazione non riuscita!', 'Utente gi&agrave; presente');
+        return signup_form($self);
+    }
+
+    $self->log('notice', 'Trying to insert a new user {' . $prm{username} . '}');
+    my $ok = $users->insert({
+        username  => $prm{username},
+        realname  => $prm{realname},
+        isadmin   => $prm{isadmin} ? 1 : 0,
+        language  => $prm{language},
+        # Hash password with SHA1, that is binary compatible with MySQL's sha1() func
+        #password  => Digest::SHA1::sha1_hex($prm{password}),
+        password  => $prm{password},
+        createdon => Opera::Util::current_timestamp(),
+        gender    => $prm{gender},
+        pregnancy => $prm{pregnancy},
+        children  => $prm{children},
+        memo      => $prm{memo} || '',
+    });
+
+    $self->log('notice', 'Create new user `', $prm{username}, '\' => ', ($ok?'OK':'*FAILED*'));
+
+    # Return to users page
+    if(!$ok)
+    {
+        $self->user_warning('Errore', 'La creazione del profilo non &egrave; riuscita.');
+        return signup_form($self);
+    }
+    else
+    {
+        $self->user_warning('Bene!', 'Congratulazioni, ora sei registrato!');
+    }
+
+    # Return to sender
+    if ($prm{referrer}) {
+        return $self->redirect($prm{referrer});
+    }
+    else {
+        return $self->forward('homepage');
+    }
+
 }
 
 1;

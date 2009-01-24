@@ -422,11 +422,10 @@ sub render {
 
         # Replicate article title for document/page title
         my $article_title = BabyDiary::View::Articles::format_title($rec);
-        $tmpl->param( article_title     => $article_title );
-        $tmpl->param( page_title        => $article_title . ' - Curve di crescita.com' );
-
-        $tmpl->param( article_keywords  => BabyDiary::View::Articles::format_keywords($rec) );
-        $tmpl->param( article_views     => $rec->{views} );
+        $tmpl->param( article_title   => $article_title );
+        $tmpl->param( page_title      => $article_title );
+        $tmpl->param( article_keywords=> BabyDiary::View::Articles::format_keywords($rec) );
+        $tmpl->param( article_views   => $rec->{views} );
         $tmpl->param( article_content => BabyDiary::View::Articles::format_article($rec) );
 
         # Check permissions for cancel/modify buttons

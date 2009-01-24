@@ -2,7 +2,7 @@
 <div id="signin">
 
     <tmpl_if logged>
-    <img src="/img/avatar2.gif" align="absmiddle"> <tmpl_var user> 
+    <img src="/img/avatar2.gif" align="absmiddle"> <tmpl_var user_realname>
     <tmpl_else>
     <a id="login" href="#" onclick="toggle_balloon('link','balloon',560,0,'/exec/login');"><tmpl_var name="msg:accedi"></a>
 

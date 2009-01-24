@@ -40,7 +40,7 @@ sub format_username
         my $img = '/img/avatar2.gif';
         $name =
               CGI->img({src=>'/img/avatar2.gif'}) . ' '
-            . CGI->a({href=>'/exec/home/user/' . CGI->escape($usr->{$key})}, $usr->{$key});
+            . CGI->a({href=>'/exec/home/user/' . CGI->escape($usr->{$key})}, $usr->{realname});
     }
 
     return($name);

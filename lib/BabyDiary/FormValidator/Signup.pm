@@ -1,6 +1,6 @@
 # $Id$
 
-package BabyDiary::FormValidator::NewUser;
+package BabyDiary::FormValidator::Signup;
 
 use strict;
 use warnings;
@@ -11,7 +11,29 @@ use base q(BabyDiary::FormValidator);
 
 sub email {
     my($self, $opt) = @_;
-    return $self->SUPER::email($opt);
+
+    $self->logger('notice', 'Checking user ' . $opt->{value});
+
+    my $res = $self->SUPER::email($opt);
+
+    if ($res->{ok} == 0) {
+        return $res;
+    }
+
+    # Check that email is not already taken
+    my $users = BabyDiary::File::Users->new();
+    my $user = $users->get({where => {username=>$opt->{value}}});
+
+
+    if ($user) {
+        return {
+            ok     => 0,
+            reason => 'Email gi&agrave; utilizzata. Dimenticato la password?',
+            json   => qq{var eml=document.getElementById('email');eml.value='';eml.focus()}
+        };
+    }
+
+    return { ok => 1 };
 }
 
 #
@@ -20,7 +42,7 @@ sub email {
 sub password
 {
     my($self, $opt) = @_;
-    return $self->not_null($opt);
+    return $self->not_null($opt)
 }
 
 #
@@ -117,7 +139,7 @@ sub username
 
 =head1 NAME
 
-BabyDiary::FormValidator::NewUser - New user form field validation routines
+BabyDiary::FormValidator::Signup - Signup form validation
 
 =head1 DESCRIPTION
 

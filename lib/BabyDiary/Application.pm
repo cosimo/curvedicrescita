@@ -2,7 +2,7 @@
 
 package BabyDiary::Application;
 
-$VERSION = '0.01';
+$VERSION = '0.02';
 
 use strict;
 use warnings;
@@ -280,6 +280,14 @@ sub render_session {
     $param{logged} = $session->param('logged');
     $param{admin}  = $session->param('admin');
     $param{user}   = $session->param('user');
+
+    # Get current username details into the template
+    my $user = $users->get({where=>{username=>$param{user}}});
+    if ($user) {
+        for (keys %$user) {
+            $tmpl->param('user_' . $_ => $user->{$_});
+        }
+    }
 
     $self->log('notice', 'Got session ' . $session);
 
