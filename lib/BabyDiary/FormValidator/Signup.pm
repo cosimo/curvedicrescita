@@ -63,7 +63,7 @@ sub password2
     if($val eq 'false' || $val eq '0')
     {
         $res{ok} = 0;
-        $res{reason} = $self->locale->msg('Passwords don\'t match');
+        $res{reason} = 'Le password non combaciano',
         $res{json}   = qq{pw2=document.getElementById('password2');pw2.value='';pw2.focus()};
     }
 
@@ -87,27 +87,30 @@ sub username
     my($self, $opt) = @_;
     my $logger = $self->logger;
 
-    $logger->notice('Username ', $opt);
+    $logger->notice('Username2 ', $opt);
 
     my $user = $opt->{value};
 
     # Trim username
     $user = Opera::Util::btrim($user);
 
-    if(!$user)
+    if(! $user)
     {
         $logger->warn('Empty username');
-        return;
+        return {
+            ok => 0,
+            reason => 'Il nome utente &egrave; invalido',
+        }
     }
 
     # Check that user length is >= 4
     if(length $user < 4)
     {
-        $logger->notice($self->locale->msg('Username too short'));
+        $logger->notice('Username too short');
         return {
             ok     => 0,
-            reason => $self->locale->msg('Username too short'),
-        };
+            reason => 'Il nome utente &egrave; troppo corto!',
+        }
     }
 
     # Check that user is not already taken
@@ -117,9 +120,10 @@ sub username
     # Username seems to exist already?
     if($rec && $rec->{username} eq $opt->{value})
     {
+        $logger->warn('Username {' . $opt->{value} . '} already taken');
         return {
             ok => 0,
-            reason => $self->locale->msg('Username already taken')
+            reason => 'Email gi&agrave; utilizzata',
         };
     }
 

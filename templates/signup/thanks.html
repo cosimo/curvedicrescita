@@ -1,0 +1,59 @@
+<tmpl_include name="document/open.html">
+<tmpl_include name="document/header.html">
+
+<body>
+<tmpl_include name="components/signin.html">
+<tmpl_include name="components/header.html">
+
+<div id="content">
+
+    <tmpl_include name="components/topics.html">
+
+    <div style="background-image:url(/img/success.png); background-repeat: no-repeat; background-position: 0px 0px; margin-left: 22%">
+
+        <h1 style="margin-left: 60px; line-height: 50px;" >Benvenuto su Curve di Crescita.com</h1>
+
+        <h2>La registrazione &egrave; stata completata con successo!</h2>
+
+        <p>
+        A breve <b>riceverai un'email</b> con oggetto <i>"Attivazione utente xxxxyyyyy su CurveDiCrescita.com"</i>
+        in cui sono riportate tutte le informazioni di registrazione.
+        Nell'email troverai anche un <b>link che ti permetter&agrave; di attivare il tuo profilo</b>.
+        Ricorda, <b>non ti sar&agrave; possibile</b> effettuare l'accesso senza prima esserti attivato</b>.
+        </p>
+
+        <p>
+        Generalmente l'email dovrebbe arrivare nel giro di qualche minuto. Se non la ricevi entro 15-20 minuti,
+        puoi <a href="mailto:info@curvedicrescita.com">scriverci</a> per segnalarci il problema.
+        </p>
+
+        <h2>Cosa fare ora?</h2>
+
+        <p>
+        Una volta attivato, potrai <a href="<tmpl_var mycgi_path>/login">accedere</a> e poi
+        iniziare a inserire i dati dei tuoi bimbi e consultare le
+        loro <b>curve di crescita</b>. Oppure semplicemente leggere <a href="/">le schede</a>
+        o gli <a href="/">articoli pi&ugrave; letti</a>.
+        </p>
+
+        <p>
+        Puoi anche <a href="<tmpl_var mycgi_path>/tags">cercare per tag</a>
+        oppure usare la ricerca libera nel box in alto a destra.
+        </p>
+
+        <p>
+        Se hai domande o suggerimenti, ti invitiamo a scriverci un'email a
+        <a href="mailto:info@curvedicrescita.com">info@curvedicrescita.com</a>.
+        </p>
+
+        <p>
+        Grazie e buona lettura!
+        </p>
+
+    </div>
+
+</div>
+
+<tmpl_include name="document/footer.html">
+<tmpl_include name="document/close.html">
+

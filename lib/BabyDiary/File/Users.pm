@@ -8,6 +8,18 @@ use base qw(BabyDiary::File::SQLite);
 use constant TABLE  => 'users';
 use constant FIELDS => [ qw(username realname password isadmin createdon language lastlogon) ];
 
+sub already_exists {
+    my ($self, $username) = @_;
+    
+    # Check if username is already present on db
+    my $rec = $self->get({where => {username=>$username}});
+    if($rec && $rec->{username} eq $username) {
+        return 1;
+    }
+
+    return 0;
+}
+
 #
 # Tells if a user has administrator powers (can remove/change articles or users)
 # This check is done reading from users file, rather than accessing session.
@@ -32,6 +44,17 @@ sub is_admin
     $self->log('notice', 'User ', $user, ($is_admin ? ' is ' : ' is not '), 'an admin');
 
     return($is_admin);
+}
+
+sub logged_in_now {
+    my ($self, $user) = @_;
+
+    $self->update(
+        { lastlogon => Opera::Util::current_timestamp() },
+        { username => $user }
+    );
+
+    return;
 }
 
 1;

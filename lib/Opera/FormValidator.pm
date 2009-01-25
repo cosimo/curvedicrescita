@@ -103,6 +103,8 @@ sub validate_form
         # Validate single field passing also the full record
         # This allows for *multi-field* validations (password/confirm_password
         # for example)
+        $self->logger->notice('Trying to validate field {' . $fld . '}');
+
         $result = $self->validate({
             form   => $form,
             field  => $fld,
@@ -115,9 +117,9 @@ sub validate_form
         {
             $app->user_warning(
                 # Title
-                'Error in form data',
+                'Errore',
                 # Message + Javascript code
-                'Field "'. $fld. '" validation failed. ' . $result->{reason}
+                'Il campo "'. $fld. '" non &egrave; corretto. ' . $result->{reason}
                 . '<script language="javascript"> document.onload=function () { ' . $result->{json} . '; field_flag("'.$fld.'", "0"); } </script>'
             );
             $self->logger->warn('Error in form data', 'Field ', $fld, ' validation failed (', $result->{reason}, '). Please retry.');
@@ -125,6 +127,8 @@ sub validate_form
             $status = 0;
             last;
         }
+        
+        $self->logger->notice('Field {' . $fld . '} validated correctly');
 
     }
 

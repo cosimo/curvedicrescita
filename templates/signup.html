@@ -5,13 +5,6 @@
 <tmpl_include name="components/signin.html">
 <tmpl_include name="components/header.html">
 
-<tmpl_if name="notice_message">
-<div id="notice_box">
-    <h3><tmpl_var name="notice_title"></h3>
-    <p><tmpl_var name="notice_message"></p>
-</div>
-</tmpl_if>
-
 <div id="content">
 
     <tmpl_include name="components/topics.html">
@@ -40,7 +33,7 @@
         <img id="realname_flag" width="12" height="12" src="<!-- tmpl_var www_path -->/img/validate/blank.gif">
         </p>
 
-        <p><label for="username">Email (es.: mario.rossi@alice.it)</label><br/>
+        <p><label for="email">Email (es.: mario.rossi@alice.it)</label><br/>
         <input type="text" name="email" size="30" maxlength="255" onKeyDown="clear_flag(this)" onKeyUp="validate('Signup','email',this.value,'form_message')" onBlur="validate('Signup','email',this.value,'form_message')">
         <img id="email_flag" width=12 height=12 src="<!-- tmpl_var www_path -->/img/validate/blank.gif">
         </p>

@@ -3,6 +3,7 @@
 package BabyDiary::Application::Auth;
 
 use strict;
+use warnings;
 use BabyDiary::File::Users;
 
 #
@@ -48,8 +49,8 @@ sub login
         #$self->log('info', 'Stored password hash [', $stored_pw, ']');
         #$self->log('info', 'Input  password hash [', $input_pw,  ']');
 
-        if($stored_pw eq $input_pw)
-        {
+        if($stored_pw eq $input_pw) {
+
             # Make session authenticated from now
             $self->session->param(
                 logged => 1,
@@ -57,11 +58,10 @@ sub login
                 user   => $user->{username},
             );
 
-            # Mark last logon into user record
-            $users->update({lastlogon=>Opera::Util::current_timestamp()}, {username=>$prm{user}});
-
-            # Flush session to disk
             $self->session->flush();
+
+            # Mark last logon into user record
+            $users->logged_in_now($prm{user});
 
             $self->log('notice', 'Successful log-in of user [', $prm{user}, ']', ($user->{isadmin} ? ' (Admin)' : ''));
         }
@@ -97,109 +97,6 @@ sub logout
 
     # Return to home page
     $self->forward('homepage');
-}
-
-#
-# Shows signup form
-#
-sub signup
-{
-    my ($self) = @_;
-
-    my $query = $self->query();
-    my $meth = $query->request_method();
-    my $result;
-
-    if ($meth ne 'POST') {
-        $result = signup_form($self);
-    } else {
-        $result = signup_process($self);
-    }
-
-    return $result;
-}
-
-sub signup_form {
-    my ($self) = @_;
-
-    $self->log('notice', 'Signup form invoked');
-
-    my $tmpl = $self->render_view();
-
-    $tmpl->param(page_title => $self->msg('Registrazione nuovo profilo utente'));
-    $tmpl->param(referrer   => $ENV{HTTP_REFERER} || '');
-
-    return $tmpl->output();
-}
-
-sub signup_process {
-    my ($self) = @_;
-    $self->log('notice', 'Processing signup form');
-
-    my $next_url = $self->config('CGI_ROOT') . '/signup';
-    my $query = $self->query();
-
-    # Check form parameters
-    my %prm = $query->Vars;
-
-    # Assume email as username
-    $prm{username} = $prm{email};
-
-    my $vld = BabyDiary::FormValidator->new();
-    if(! $vld->validate_form($self, 'Signup', \%prm))
-    {
-        return signup_form($self);
-    }
-
-    # Load users file
-    my $users = BabyDiary::File::Users->new();
-
-    # Check if username is already present on db
-    my $rec = $users->get({where => {username=>$prm{username}}});
-    if($rec && $rec->{username} eq $prm{username})
-    {
-        $self->log('notice', 'Found already existing user {' . $prm{username} . '}');
-        $self->user_warning('Registrazione non riuscita!', 'Utente gi&agrave; presente');
-        return signup_form($self);
-    }
-
-    $self->log('notice', 'Trying to insert a new user {' . $prm{username} . '}');
-    my $ok = $users->insert({
-        username  => $prm{username},
-        realname  => $prm{realname},
-        isadmin   => $prm{isadmin} ? 1 : 0,
-        language  => $prm{language},
-        # Hash password with SHA1, that is binary compatible with MySQL's sha1() func
-        #password  => Digest::SHA1::sha1_hex($prm{password}),
-        password  => $prm{password},
-        createdon => Opera::Util::current_timestamp(),
-        gender    => $prm{gender},
-        pregnancy => $prm{pregnancy},
-        children  => $prm{children},
-        memo      => $prm{memo} || '',
-    });
-
-    $self->log('notice', 'Create new user `', $prm{username}, '\' => ', ($ok?'OK':'*FAILED*'));
-
-    # Return to users page
-    if(!$ok)
-    {
-        $self->user_warning('Errore', 'La creazione del profilo non &egrave; riuscita.');
-        return signup_form($self);
-    }
-    else
-    {
-        $self->user_warning('Bene!', 'Congratulazioni, ora sei registrato!');
-    }
-
-    # Return to sender
-    if ($prm{referrer}) {
-        return $self->redirect($prm{referrer});
-    }
-    else {
-        return $self->forward('homepage');
-    }
-
 }
 
 1;

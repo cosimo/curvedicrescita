@@ -1,0 +1,103 @@
+<tmpl_include name="document/open.html">
+<tmpl_include name="document/header.html">
+
+<body>
+<tmpl_include name="components/signin.html">
+<tmpl_include name="components/header.html">
+
+<div id="content">
+
+    <tmpl_include name="components/topics.html">
+
+    <tmpl_if user_activated>
+    <div style="background-image:url(/img/success.png); background-repeat: no-repeat; background-position: 0px 0px; margin-left: 22%">
+
+        <h1 style="margin-left: 60px; line-height: 50px;" >Attivazione utente</h1>
+
+        <h2>L'attivazione &egrave; riuscita</h2>
+
+        <p>
+        <pre>
+        Nome utente: <tmpl_var user>
+        Chiave di attivazione: <tmpl_var key>
+        </pre>
+        </p>
+
+        <p>
+        Tutto ha funzionato a dovere. Da ora avrai accesso alle caratteristiche
+        pi&ugrave; interessanti del sito, come la possibilit&agrave; di vedere e stampare
+        le curve di crescita del tuo bambino!
+        </p>
+
+        <h2>Cosa faccio ora?</h2>
+
+        <p>
+        Puoi provare ad andare alla <a href="<mycgi_path>/diary">sezione delle curve</a>.
+        Inserisci i dati del tuo bambino e guarda o stampa i grafici delle curve.
+        </p>
+
+        <p>
+        Se hai dubbi o domande, ti invitiamo a scriverci un'email a
+        <a href="mailto:info@curvedicrescita.com">info@curvedicrescita.com</a>.
+        </p>
+
+        <p>
+        Buon divertimento!
+        </p>
+
+    </div>
+
+    <tmpl_else>
+
+    <div style="margin-left: 22%">
+
+        <h1>Attivazione utente non riuscita</h1>
+
+        <h2 style="color:red">Problema</h2>
+
+        <p>
+        Purtroppo c'&egrave; stato un problema nell'attivazione del tuo utente.
+        Controlla il collegamento per l'attivazione nell'email che ti &egrave; stata inviata.
+        Dovrebbe essere del tipo:
+        </p>
+
+        <p>
+        <code style="color:blue">http://www.curvedicrescita.com/exec/home/signup_activation?key=<i>&lt;abcdef12345...&gt;</i>&user=<i>&lt;la_tua_email&gt;</i></code>
+        </p>
+
+        <p>
+        Prova a copiare e incollare manualmente il collegamento, oppure semplicemente a cliccare
+        sull'indirizzo che trovi nell'email.
+        </p>
+
+        <h2>Se ancora non funziona?</h2>
+
+        <p>
+        Se ancora non dovesse funzionare, invia una mail a
+        <a href="mailto:info@curvedicrescita.com?subject=Problemi+di+attivazione">info@curvedicrescita.com</a>
+        specificando le seguenti informazioni:
+        </p>
+
+        <p>
+        <pre>
+        Problemi nell'attivazione dell'utente.
+       
+        Nome utente: <tmpl_var user>
+        Chiave di attivazione: <tmpl_var key>
+        Data e ora: <tmpl_var timestamp>
+        </pre>
+        </p>
+
+        <p>
+        Grazie per la collaborazione.
+        </p>
+
+    </div>
+    </tmpl_if>
+
+</div>
+
+<tmpl_include name="document/footer.html">
+<tmpl_include name="document/close.html">
+
+

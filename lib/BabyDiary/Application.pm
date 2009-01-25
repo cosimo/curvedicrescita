@@ -22,6 +22,7 @@ use File::Spec ();
 # Special application runmodes for articles/users sections
 use BabyDiary::Application::Articles;
 use BabyDiary::Application::Auth;
+use BabyDiary::Application::Signup;
 use BabyDiary::Application::StackTrace;
 use BabyDiary::Application::Users;
 
@@ -38,6 +39,17 @@ use BabyDiary::File::Users;
 
 # Default expire time for sessions
 use constant SESSION_EXPIRE_TIME => '+8h';
+
+sub url_for {
+    my ($self, $page) = @_;
+   
+    my $url = $self->config('CGI_ROOT');
+    $page =~ s{^/}{};
+    $page =~ s{/$}{};
+    $url .= '/' . $page;
+
+    return $url;
+}
 
 #
 # Define runmodes
@@ -72,7 +84,10 @@ sub setup
 
         login           => \&BabyDiary::Application::Auth::login,
         logout          => \&BabyDiary::Application::Auth::logout,
-        signup          => \&BabyDiary::Application::Auth::signup,
+
+        signup          => \&BabyDiary::Application::Signup::signup,
+        signup_activation=>\&BabyDiary::Application::Signup::activation,
+        signup_thanks   => \&BabyDiary::Application::Signup::thanks,
 
     );
 
@@ -464,11 +479,7 @@ sub user_logged
     return($logged);
 }
 
-#
-# Put out a user warning on the title section of the page.
-# This is used to notice user of any warning/message.
-#
-sub user_warning
+sub user_notice
 {
     my($self, $title, $msg) = @_;
     $title ||= $self->msg('Untitled notice');
@@ -476,6 +487,23 @@ sub user_warning
 
     $self->param(notice_title   => $title);
     $self->param(notice_message => $msg);
+    $self->param(notice_class   => 'notice');
+    return;
+}
+
+#
+# Put out a user warning on the title section of the page.
+# This is used to notice user of any warning/message.
+#
+sub user_warning
+{
+    my($self, $title, $msg) = @_;
+    $title ||= $self->msg('Untitled warning');
+    $msg   ||= $self->msg('Nothing to say?');
+
+    $self->param(notice_title   => $title);
+    $self->param(notice_message => $msg);
+    $self->param(notice_class   => 'warning');
 
     return;
 }

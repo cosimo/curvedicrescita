@@ -203,20 +203,39 @@ sub insert
     }
 
     # Fire query to get only one record
-    my $ok = $sth->execute(@bind);
-
-    if(!$ok)
-    {
-        $self->log('warn', $self->table(), ' SQL Statement [', $inssql, '] *FAILED* execute');
-        return undef;
+    eval {
+        my $ok = $sth->execute(@bind);
+        if(!$ok)
+        {
+            $self->log('warn', $self->table(), ' SQL Statement [', $inssql, '] *FAILED* execute');
+            return 0;
+        }
+        # Close statement handle and return last_insert_id, if available
+        $sth->finish();
+    };
+    if ($@) {   
+        $self->log('warn', 'Insert into ' . $self->table . ' failed');
+        return 0;
     }
 
-    # Close statement handle and return last_insert_id, if available
-    $sth->finish();
-
     $self->log('notice', 'Insert succeeded');
+    return 1;
+}
 
-    return(1);
+sub insert_or_replace
+{
+    my($self, $rec, $where) = @_;
+
+    my $existing = $self->get({where=>$where});
+    my $result;
+
+    if ($existing) {
+        $result = $self->update($rec, $where);
+    }
+    else {
+        $result = $self->insert($rec);
+    }
+
 }
 
 #
@@ -347,6 +366,30 @@ sub quote
     my($self, $val, $type) = @_;
     my $dbh = $self->dbh;
     return $dbh->quote($val);
+}
+
+#
+# Transactions management
+#
+sub commit {
+    my ($self) = @_;
+    my $dbh = $self->dbh;
+    my $ok = $dbh->commit();
+    $dbh->{AutoCommit} = 0;
+    return $ok;
+}
+
+sub rollback {
+    my ($self) = @_;
+    my $dbh = $self->dbh;
+    my $ok = $dbh->rollback;
+    $dbh->{AutoCommit} = 0;
+    return $ok;
+}
+
+sub begin_transaction {
+    my ($self) = @_;
+    return $self->commit();
 }
 
 1;
