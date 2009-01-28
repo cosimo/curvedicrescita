@@ -37,7 +37,7 @@ sub articles {
 
     for my $item (@{$list}) {
         $rss->add_item(
-            title => $item->{title},
+            title => decode('utf-8', $item->{title}),
             link  => $host . '/exec/home/article/?id=' . $item->{id},
             description => decode('utf-8', $item->{content}),
         );
