@@ -3,8 +3,8 @@
 package BabyDiary::Application::RSS;
 
 use strict;
+use Encode;
 use XML::RSS;
-
 use BabyDiary::File::Articles;
 
 sub articles {
@@ -15,7 +15,7 @@ sub articles {
         $how_many = 25; 
     }
 
-    my $rss = XML::RSS->new( version => '1.0' );
+    my $rss = XML::RSS->new(version => '1.0'); #, encoding=>'ISO-8859-15');
 
     $rss->channel(
         title => 'CurveDiCrescita.com - Ultimi articoli',
@@ -39,7 +39,7 @@ sub articles {
         $rss->add_item(
             title => $item->{title},
             link  => $host . '/exec/home/article/?id=' . $item->{id},
-            description => $item->{content},
+            description => decode('utf-8', $item->{content}),
         );
     }
 
