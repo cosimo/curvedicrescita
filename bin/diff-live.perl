@@ -37,14 +37,7 @@ if (grep { $_ =~ m{database/data} } @files) {
 
 for my $file (@files) {
 
-    my $dest_file = $file;
-
-    # Remove Windows drive letter (if any)
-    $dest_file =~ s{^\w:}{};
-
-    # Dest path has forward slashes
-    $dest_file =~ s{\\}{/}g;
-
+    my $dest_file = BabyDiary::Deploy::windows_to_unix_path($file);
     my $copy_cmd = qq{scp $TARGET/$dest_file $file.tmp.$$ >NUL};
     my $status = system($copy_cmd);
 

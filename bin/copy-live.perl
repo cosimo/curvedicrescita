@@ -17,13 +17,7 @@ use strict;
 use warnings;
 use lib 'lib';
 use Getopt::Long;
-#use BabyDiary::Deploy;
-
-our $USER   = 'cosimo';
-our $SERVER = 'satsrv02.satelgroup.net';
-our $FOLDER = '/var/www2/www.curvedicrescita.com';
-
-our $TARGET = $USER . '@' . $SERVER . ':' . $FOLDER;
+use BabyDiary::Deploy;
 
 my @files = @ARGV;
 my $files_to_go = @files;
@@ -45,20 +39,10 @@ for my $file (@files) {
     #my $tmp_copy = BabyDiary::Deploy::temporary_copy($file);
     #BabyDiary::Deploy::process_file($tmp_copy);
     #BabyDiary::Deploy::deploy_live($tmp_copy);
-
-    my $dest_file = $file;
-
-    # Remove Windows drive letter (if any)
-    $dest_file =~ s{^\w:}{};
-
-    # Dest path has forward slashes
-    $dest_file =~ s{\\}{/}g;
-
-    my $copy_cmd = qq{scp $file $TARGET/$dest_file >NUL};
-    my $status = system($copy_cmd);
+    my $status = BabyDiary::Deploy::deploy_live($file);
 
     # Transfer failed
-    if (0 != $status) {
+    if (! $status) {
         print " ! $file", "\n";
     }
 

@@ -4,6 +4,7 @@ package BabyDiary::Deploy;
 
 use strict;
 use warnings;
+use File::Spec;
 
 sub user {
     'cosimo';
@@ -26,5 +27,32 @@ sub ssh_dest {
     return $url;
 }
 
-1;
+sub windows_to_unix_path {
+    my ($file) = @_;
 
+    # Remove Windows drive letter (if any)
+    $file =~ s{^\w:}{};
+
+    # Dest path has forward slashes
+    $file =~ s{\\}{/}g;
+
+    return $file;
+}
+
+sub deploy_live {
+    my ($file, $dest) = @_;
+
+    $file = windows_to_unix_path($file);
+
+    if (! defined $dest) {
+        $dest = ssh_dest() . '/' . $file;
+    }
+
+    my $copy_cmd = qq{scp $file $dest >NUL};
+    print $copy_cmd, "\n";
+
+    my $status = system($copy_cmd);
+    return (0 == $status);
+}
+
+1;
