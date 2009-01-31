@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>Test chart</title>
+<script language="javascript" src="/js/wz_jsgraphics.js"></script>
+<script language="javascript" src="/js/Chart.js"></script>
+<script language="javascript" src="/js/EventHandler.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/charts.css" />
+</head>
+
+<body>
+
+<h1>Chart test</h1>
+
+<form>
+<input id="draw" type="button" value="Draw">
+<input id="type" type="button" value="Type">
+<input id="clear" type="button" value="Clear">
+</form>
+
+<div id="chart"></div>
+
+<script language="javascript">
+<!--
+    var cht = new Chart ('chart', 'boys-wfa-0-2');
+    // Install button on-click handlers
+    add_event('click', function () { cht.draw() }, 'draw');
+    add_event('click', function () { cht.change_type() }, 'type');
+    add_event('click', function () { cht.clear() }, 'clear');
+// -->
+</script>
+
+</body>
+
