@@ -1,0 +1,18 @@
+/* Charts css for www.curvedicrescita.com */
+/* $Id$ */
+
+div#chart {
+    width:557px;
+    height:356px;
+    background-repeat: no-repeat;
+    border:1px solid black;
+}
+
+div.boys-wfa-0-2 {
+    background-image:url(/img/charts/bg_boys_wfa_0_2.png);
+}
+
+div.girls-wfa-0-2 {
+    background-image:url(/img/charts/bg_girls_wfa_0_2.png);
+}
+
