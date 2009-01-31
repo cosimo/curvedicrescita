@@ -27,6 +27,10 @@ sub activate_user {
 
     my $rec = $unreg_users->get({ where => {username => $user}});
 
+    #
+    # Using transaction here locks up SQLite ("Database is locked")
+    #
+
     #$users->begin_transaction();
     $ok = $users->insert($rec);
     $ok &&= $unreg_users->delete({ username => $user });
@@ -61,6 +65,10 @@ sub activation {
                 $valid = 0;
             }
             else {
+
+                #
+                # TODO Move out and share with BD::App::Auth::login
+                #
                 $self->session->param(
                     logged => 1,
                     admin  => $user->{isadmin},
@@ -71,6 +79,8 @@ sub activation {
 
                 # Mark last logon into user record
                 $users->logged_in_now($prm{user});
+
+                # End of shared code
             }
 
         }
