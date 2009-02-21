@@ -40,26 +40,6 @@ Chart.prototype = {
         return(p);
     },
 
-    // Private methods
-    _init_graphics: function () {
-        // The resulting chart should be printable
-        this.gc.setPrintable(true);
-    },
-   
-    _to_chart_x : function (point) {
-        var age = point.age;
-        //var x = 44.5 + age * 22.5;
-        var x = 84 + age * 39;
-        return x;
-    },
-
-    _to_chart_y : function (point) {
-        var weight = point.weight;
-        //var y = 342 - ((weight - 2.0) * 22.5);
-        var y = 420 - ((weight - 2.0) * 39);
-        return y;
-    },
-
     //
     // Public methods
     //
@@ -70,17 +50,35 @@ Chart.prototype = {
 
     change_type: function (event) {
         var cls = this.div.className;
-        if (cls == 'girls-wfa-0-2') cls = 'boys-wfa-0-2'
-        else cls = 'girls-wfa-0-2';
+        if (cls == 'girls-wfa-0-2') {
+			cls = 'boys-wfa-0-2';
+			this.offset_x = 15;
+			this.scale_x  = 21.1;
+			this.offset_y = 327;
+			this.scale_y  = 21.4;
+		}
+        else {
+			cls = 'girls-wfa-0-2';
+			this.offset_x = 15;
+			this.scale_x  = 21.1;
+			this.offset_y = 327;
+			this.scale_y  = 22.9;
+		}
         this.div.className = cls;
+		this.clear();
+		this.draw();
     },
 
     draw: function () {
         var gc = this.gc;
         var origin = this.origin;
-        gc.setStroke(3);
+        gc.setStroke(2.4);
         var points = this.get_baby_chart(0, 0);
         var point_t0 = points[0];
+
+		// TODO remove
+		//this.draw_line( {age:0, weight:2}, {age:24, weight:15} );
+		//this.draw_line( {age:0, weight:2}, {age:24, weight:16} );
 
         for (var i = 0; i < points.length; i++) {
             gc.setColor('#048');
@@ -91,15 +89,19 @@ Chart.prototype = {
         for (var i = 0; i < points.length; i++) {
             gc.setColor('#fff');
             gc.fillRect(
-                origin.x + this._to_chart_x(points[i]) - 3,
-                origin.y + this._to_chart_y(points[i]) - 3,
+                //origin.x + this._to_chart_x(points[i]) - 3,
+                //origin.y + this._to_chart_y(points[i]) - 3,
+                this._to_chart_x(points[i]) - 3,
+                this._to_chart_y(points[i]) - 3,
                 6, 6
             );
             gc.setColor('#48f');
-            gc.setStroke(2);
+            gc.setStroke(1);
             gc.drawRect(
-                origin.x + this._to_chart_x(points[i]) - 3,
-                origin.y + this._to_chart_y(points[i]) - 3,
+                //origin.x + this._to_chart_x(points[i]) - 3,
+                //origin.y + this._to_chart_y(points[i]) - 3,
+                this._to_chart_x(points[i]) - 3,
+                this._to_chart_y(points[i]) - 3,
                 6, 6
             );
             //gc.drawEllipse(
@@ -118,10 +120,10 @@ Chart.prototype = {
         var y1 = this._to_chart_y(p1);
         var x2 = this._to_chart_x(p2);
         var y2 = this._to_chart_y(p2);
-        x1 += this.origin.x;
-        x2 += this.origin.x;
-        y1 += this.origin.y;
-        y2 += this.origin.y;
+        //x1 += this.origin.x;
+        //x2 += this.origin.x;
+        //y1 += this.origin.y;
+        //y2 += this.origin.y;
         this.gc.drawLine(x1, y1, x2, y2);
         return;
     },
@@ -155,6 +157,29 @@ Chart.prototype = {
         points.push(point3);
 
         return points;
+    },
+
+    //
+    // Private members
+    //
+    _init_graphics: function () {
+        // The resulting chart should be printable
+        this.gc.setPrintable(true);
+    },
+
+    _to_chart_x : function (point) {
+        var age = point.age;
+		var x = this.offset_x;
+		x += age * this.scale_x;
+		x += this.origin.x;
+        return x;
+    },
+
+    _to_chart_y : function (point) {
+        var weight = point.weight;
+		var y = this.offset_y - ((weight - 2.0) * this.scale_y);
+		y += this.origin.y;
+        return y;
     }
 
 };
