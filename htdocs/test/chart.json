@@ -1,0 +1,7 @@
+var points = new Array (
+	{ age:0, weight:3.110 },
+	{ age:1, weight:4.4 },
+	{ age:2, weight:5.4 },
+	{ age:3, weight:6.3 }
+);
+chart.set_title('xxx');

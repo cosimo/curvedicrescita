@@ -2,6 +2,7 @@
 <head>
 	<title>Test chart</title>
 	<script language="javascript" src="/js/wz_jsgraphics.js"></script>
+	<script language="javascript" src="/js/ajax.js"></script>
 	<script language="javascript" src="/js/Chart.js"></script>
 	<script language="javascript" src="/js/EventHandler.js"></script>
 	<link rel="stylesheet" type="text/css" href="/css/charts.css" />
@@ -21,10 +22,20 @@
 
 <script language="javascript">
 <!--
-    var cht = new Chart ('chart', 'boys-wfa-0-2');
+    var cht = new Chart ('chart', 'boys-wfa-0-2', 557, 356);
+
+	function change_type(event) {
+        var type = cht.type;
+        if (type == 'girls-wfa-0-2')
+			type = 'boys-wfa-0-2'
+		else
+			type = 'girls-wfa-0-2'
+		cht.set_type(type);
+	};
+
     // Install button on-click handlers
     add_event('click', function () { cht.draw() }, 'draw');
-    add_event('click', function () { cht.change_type() }, 'type');
+    add_event('click', change_type, 'type');
     add_event('click', function () { cht.clear() }, 'clear');
 // -->
 </script>

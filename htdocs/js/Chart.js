@@ -1,19 +1,28 @@
 /* www.curvedicrescita.com */
 
-if (Chart == undefined) var Chart = function(div, cht_type) {
+if (Chart == undefined) var Chart = function(div, cht_type, width, height) {
     if (typeof div == "string") div = document.getElementById(div);
     this.div = div;
+
     // Create graphics context
     this.gc = new jsGraphics (div);
     if (! this.gc) return;
     this._init_graphics();
+
     // Get chart div origin
     this.origin = this._element_position(div);
+	this.type = cht_type;
     this.div.className = cht_type;
+
+	// Width and height, useful for title centering
+	if (! width)  width = 600;
+	if (! height) height = 400;
+	this.width  = width;
+	this.height = height;
     return this;
 }
 
-Chart.VERSION = 0.01;
+Chart.VERSION = 1.00;
 
 Chart.prototype = {
 
@@ -48,33 +57,18 @@ Chart.prototype = {
         this.gc.clear();
     },
 
-    change_type: function (event) {
-        var cls = this.div.className;
-        if (cls == 'girls-wfa-0-2') {
-			cls = 'boys-wfa-0-2';
-			this.offset_x = 15;
-			this.scale_x  = 21.1;
-			this.offset_y = 327;
-			this.scale_y  = 21.4;
-		}
-        else {
-			cls = 'girls-wfa-0-2';
-			this.offset_x = 15;
-			this.scale_x  = 21.1;
-			this.offset_y = 327;
-			this.scale_y  = 22.9;
-		}
-        this.div.className = cls;
-		this.clear();
-		this.draw();
-    },
-
     draw: function () {
+        this.get_chart_data('/test/chart.json');
+		return;
+	},
+
+	draw_chart_data: function (points) {
+
         var gc = this.gc;
         var origin = this.origin;
         gc.setStroke(2.4);
-        var points = this.get_baby_chart(0, 0);
-        var point_t0 = points[0];
+
+		var point_t0 = points[0];
 
 		// TODO remove
 		//this.draw_line( {age:0, weight:2}, {age:24, weight:15} );
@@ -87,32 +81,37 @@ Chart.prototype = {
         }
 
         for (var i = 0; i < points.length; i++) {
-            gc.setColor('#fff');
-            gc.fillRect(
-                //origin.x + this._to_chart_x(points[i]) - 3,
-                //origin.y + this._to_chart_y(points[i]) - 3,
-                this._to_chart_x(points[i]) - 3,
-                this._to_chart_y(points[i]) - 3,
-                6, 6
-            );
-            gc.setColor('#48f');
-            gc.setStroke(1);
-            gc.drawRect(
-                //origin.x + this._to_chart_x(points[i]) - 3,
-                //origin.y + this._to_chart_y(points[i]) - 3,
-                this._to_chart_x(points[i]) - 3,
-                this._to_chart_y(points[i]) - 3,
-                6, 6
-            );
-            //gc.drawEllipse(
-            //    origin.x + this._to_chart_x(points[i]) - 2,
-            //    origin.y + this._to_chart_y(points[i]) - 2,
-            //    4, 4
-            //);
+			this.draw_box(points[i], 6);
         }
+
+		gc.setFont('Tahoma','8px'); 
+		gc.setColor('#000');
+		//gc.drawString(this.type,this._to_chart_x(400),this._to_chart_y(50));
+
+		this.draw_scale();
+
         gc.paint();
         return;
     },
+
+    draw_box: function (center,size) {
+		var gc = this.gc;
+		var half_size = size / 2;
+		var x = this._to_chart_x(center);
+		var y = this._to_chart_y(center);
+		x -= half_size;
+		y -= half_size;
+		gc.setColor('#fff');
+		gc.fillRect(x, y, size, size);
+		gc.setColor('#48f');
+		gc.setStroke(1);
+		gc.drawRect(x, y, size, size);
+		//gc.drawEllipse(
+		//    this._to_chart_x(points[i]) - 2,
+		//    this._to_chart_y(points[i]) - 2,
+		//    4, 4
+		//);
+	},
 
     draw_line: function (p1, p2) {
         // Find out positions on the chart
@@ -120,44 +119,76 @@ Chart.prototype = {
         var y1 = this._to_chart_y(p1);
         var x2 = this._to_chart_x(p2);
         var y2 = this._to_chart_y(p2);
-        //x1 += this.origin.x;
-        //x2 += this.origin.x;
-        //y1 += this.origin.y;
-        //y2 += this.origin.y;
         this.gc.drawLine(x1, y1, x2, y2);
         return;
     },
 
+	draw_scale: function () {
+		var gc = this.gc;
+
+		// X scale position
+		var scale_pos = this._to_chart_y({weight: 1.2});
+		for (var i = 0; i <= 24; i++) {
+			gc.drawString(i, this._to_chart_x({age:i}) - 2, scale_pos);
+		}
+		gc.drawString('Mesi', this._to_chart_x({age:25}) - 6, scale_pos);
+
+		// Y scale position
+		scale_pos = this._to_chart_x({age:0}) - 12;
+		for (var i = 2; i <= 15; i++) {
+			gc.drawStringRect(i, scale_pos, this._to_chart_y({weight:i}) - 4, 10, 'right');
+		}
+		gc.drawString('Kg', scale_pos, this._to_chart_y({weight:16}) - 4);
+		return;
+	},
+
     // Get a chart data
-    get_baby_chart: function (baby_id, type) {
+    get_chart_data: function (url) {
+
         // Call the server and get the ajax data
         // about this chart
-        //var c = new BabyDiaryChart();
-        //return c;
-        var points = new Array ();
-
-        var point0 = new Object;
-        point0.age = 0;
-        point0.weight = 3.110;
-        points.push(point0);
-
-        var point = new Object;
-        point.age = 1;
-        point.weight = 4.4;
-        points.push(point);
-
-        var point2 = new Object;
-        point2.age = 2;
-        point2.weight = 5.4;
-        points.push(point2);
-
-        var point3 = new Object;
-        point3.age = 3;
-        point3.weight = 6.3;
-        points.push(point3);
-
-        return points;
+		var chart = this;
+		call(url, function (text) {
+			text += '; chart.draw_chart_data(points);';
+			eval(text);
+			//var code = 'var points = new Array(); points.push(';
+			//code += text;
+			//code += '); chart.draw_chart_data(points);';
+			//eval(code);
+		});
     },
+
+	set_type: function (new_type) {
+		switch (new_type) {
+			case 'boys-wfa-0-2':
+				this.offset_x = 15;
+				this.scale_x  = 21.1;
+				this.offset_y = 327;
+				this.scale_y  = 21.4;
+				break;
+			case 'girls-wfa-0-2':
+				this.offset_x = 15;
+				this.scale_x  = 21.1;
+				this.offset_y = 327;
+				this.scale_y  = 22.9;
+				break;
+		}
+		this.clear();
+		this.type = new_type;
+		this.div.className = new_type;
+		this.draw();
+    },
+
+	set_title: function (text, color, x, y) {
+		var gc = this.gc;
+		if (! color) color = '#000';
+		if (! x) x = this.origin.x;
+		if (! y) y = this.origin.y - 2;
+		gc.setFont('Tahoma','16px', Font.BOLD); 
+		gc.setColor(color);
+		gc.drawStringRect(text, x, y, this.width, 'center');
+		return;
+	},
 
     //
     // Private members
