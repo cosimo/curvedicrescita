@@ -1,4 +1,8 @@
-/* www.curvedicrescita.com */
+/*
+	Charting library - http://www.curvedicrescita.com
+	(c) 2008-2009 Cosimo Streppone, cosimo@cpan.org
+    $Id$
+*/
 
 if (Chart == undefined) var Chart = function(div, cht_type, width, height) {
     if (typeof div == "string") div = document.getElementById(div);
@@ -183,8 +187,8 @@ Chart.prototype = {
 		var gc = this.gc;
 		if (! color) color = '#000';
 		if (! x) x = this.origin.x;
-		if (! y) y = this.origin.y - 2;
-		gc.setFont('Tahoma','16px', Font.BOLD); 
+		if (! y) y = this.origin.y;
+		gc.setFont('Tahoma','14px', Font.BOLD); 
 		gc.setColor(color);
 		gc.drawStringRect(text, x, y, this.width, 'center');
 		return;
