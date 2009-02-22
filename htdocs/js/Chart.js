@@ -1,10 +1,10 @@
 /*
 	Charting library - http://www.curvedicrescita.com
-	(c) 2008-2009 Cosimo Streppone, cosimo@cpan.org
+	(c) 2008-2009 Cosimo Streppone, cosimo@streppone.it
     $Id$
 */
 
-if (Chart == undefined) var Chart = function(div, cht_type, width, height) {
+if (Chart == undefined) var Chart = function(div, type, width, height) {
     if (typeof div == "string") div = document.getElementById(div);
     this.div = div;
 
@@ -15,14 +15,15 @@ if (Chart == undefined) var Chart = function(div, cht_type, width, height) {
 
     // Get chart div origin
     this.origin = this._element_position(div);
-	this.type = cht_type;
-    this.div.className = cht_type;
+	this.type = type;
+    this.div.className = type;
 
 	// Width and height, useful for title centering
 	if (! width)  width = 600;
 	if (! height) height = 400;
 	this.width  = width;
 	this.height = height;
+
     return this;
 }
 
