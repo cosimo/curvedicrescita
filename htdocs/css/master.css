@@ -8,13 +8,13 @@ html, body {
 
 body {
     background-color: #fff;
-    font-family: 'Trebuchet MS', Verdana, Arial, Helvetica;
+    font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif; 
     font-size: 13px;
     color: #226;
 }
 
 a {
-    color: blue;
+    color: #33b;
     text-decoration: underline;
 }
 
@@ -44,6 +44,7 @@ div#logo {
     width:380px;
     margin:0;
     padding:0;
+    border-bottom: 1px solid #ccf;
 }
 
 div#menu {
@@ -157,7 +158,7 @@ ul#nav li {
 
 ul#nav a{
     float:left;
-    width:5em;
+    width:4.5em;
     background:url(../img/button_bg_10_25.jpg);
     text-decoration:none;
     color: #228; /*48f*/
