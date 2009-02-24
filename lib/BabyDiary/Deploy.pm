@@ -49,7 +49,7 @@ sub deploy_live {
     }
 
     my $copy_cmd = qq{scp $file $dest >NUL};
-    print $copy_cmd, "\n";
+    #print $copy_cmd, "\n";
 
     my $status = system($copy_cmd);
     return (0 == $status);
