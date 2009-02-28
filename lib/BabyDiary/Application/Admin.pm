@@ -49,7 +49,7 @@ sub front_page {
 		},
 		{
 			stat_name => 'Carico attuale sul server',
-			stat_value => -e '/usr/bin/uptime' ? `uptime` : 'Non disponibile',
+			stat_value => -e '/proc/loadavg' ? `cat /proc/loadavg` : 'Non disponibile',
 		},
 	);
 
