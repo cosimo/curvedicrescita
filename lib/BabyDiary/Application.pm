@@ -20,8 +20,10 @@ use Digest::SHA1;
 use File::Spec ();
 
 # Special application runmodes for articles/users sections
+use BabyDiary::Application::Admin;
 use BabyDiary::Application::Articles;
 use BabyDiary::Application::Auth;
+use BabyDiary::Application::Diary;
 use BabyDiary::Application::Signup;
 use BabyDiary::Application::StackTrace;
 use BabyDiary::Application::Users;
@@ -71,6 +73,8 @@ sub setup
     # Define all run modes
     $self->run_modes(
 
+        admin           => \&BabyDiary::Application::Admin::front_page,
+
         homepage        => \&BabyDiary::Application::default,
         articles        => \&BabyDiary::Application::default,
 
@@ -79,6 +83,8 @@ sub setup
         article_modify  => \&BabyDiary::Application::Articles::modify,
         article_post    => \&BabyDiary::Application::Articles::post,
         article_search  => \&BabyDiary::Application::Articles::search,
+
+		diary           => \&BabyDiary::Application::Diary::start,
 
         tags            => \&BabyDiary::Application::Articles::tags,
 

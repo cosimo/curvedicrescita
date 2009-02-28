@@ -175,6 +175,19 @@ sub tags_frequency
     return %tags;
 }
 
+sub total_page_views {
+	my ($self) = @_;
+
+	my $total_page_views;
+	my $art_sum = $self->list({ fields => 'sum(views) AS total_page_views' });
+
+	if ($art_sum) {
+		$total_page_views = $art_sum->[0]->{total_page_views};
+	}
+
+	return $total_page_views;
+}
+
 1;
 
 #

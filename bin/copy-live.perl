@@ -28,7 +28,7 @@ if (! @files) {
     exit 1;
 }
 
-if (grep { $_ =~ m{database} } @files) {
+if (grep { $_ =~ m{database[/\\]data} } @files) {
     print "You can't touch the database. Crazy!!!\n";
     exit 2;
 }

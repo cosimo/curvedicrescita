@@ -9,7 +9,7 @@ use strict;
 use warnings;
 use BabyDiary::File::UsersUnregistered;
 
-use constant DEFAULT_SMTP => 'smtp.getmail.no';
+use constant DEFAULT_SMTP => 'localhost';
 
 sub mail {
     my ($args) = @_;

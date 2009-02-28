@@ -6,7 +6,7 @@
         <ul id="nav">
             <li id="tags"<tmpl_if menu_tags> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/tags"><tmpl_var name="msg:tags"></a></li>
             <li id="domande"<tmpl_if menu_art_69> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/article/?id=69"><tmpl_var name="msg:domande"></a></li>
-            <li title="Non ancora funzionante!" id="curve"<tmpl_if menu_curve> class="activelink"</tmpl_if>><a href="javascript:alert('La sezione delle curve di crescita sar&agrave; disponibile a breve!')"><tmpl_var name="msg:curve"></a></li>
+            <li id="curve"<tmpl_if menu_diary> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/diary"><tmpl_var name="msg:curve"></a></li>
             <li id="ostetrica"<tmpl_if menu_ostetrica> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/article_search?keyword=ostetrica"><tmpl_var name="msg:ostetrica"></a></li>
             <li id="pediatra"<tmpl_if menu_pediatra> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/article_search?keyword=pediatra"><tmpl_var name="msg:pediatra"></a></li>
             <li id="faq"<tmpl_if menu_faq> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/article_search?keyword=faq"><tmpl_var name="msg:faq"></a></li>

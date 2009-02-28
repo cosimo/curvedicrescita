@@ -1,0 +1,10 @@
+/* css for admin section */
+h2 {
+	width:600px;
+	background-color:navy;
+	color:white;
+	padding:2px;
+	border-top:1px solid blue;
+	border-bottom:1px solid blue;
+}
+

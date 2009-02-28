@@ -1,0 +1,19 @@
+#!c:/dev/perl510/bin/perl.exe
+#
+# Everything starts from here.
+# This is the main application invocation CGI.
+#
+# $Id: home 46 2008-11-08 11:04:04Z Cosimo $
+
+use strict;
+use lib '../lib';
+
+use BabyDiary::Application;
+
+my $app = BabyDiary::Application->new(
+    PARAMS => { cfg_file => '../conf/babydiary.conf' }
+);
+
+$app->start_mode('admin');
+$app->run();
+
