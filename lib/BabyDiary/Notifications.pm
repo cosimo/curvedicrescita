@@ -68,12 +68,18 @@ sub send_activation_mail {
     $text .= "-- \n";
     $text .= "Lo staff di curvedicrescita.com\n\n";
 
-    my $sent = mail({
-        from => 'info@curvedicrescita.com',
-        to   => 'cosimo@streppone.it', #$user,
+	# Send the activation mail to the user
+	my %message = (
+        from    => 'info@curvedicrescita.com',
+        to      => $user,
         subject => $subject,
-        text => $text,
-    });
+        text    => $text,
+	);
+	my $sent = mail(\%message);
+
+	# Send also to myself for double checking...
+	$message{to} = 'Cosimo Streppone <cosimo@streppone.it>';
+	mail(\%message);
 
     return $sent;
 }
