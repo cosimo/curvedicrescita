@@ -341,6 +341,10 @@ sub view
 
     # Required parameter: "id"
     my $art_id = $query->param('id');
+
+    # it.answers.yahoo.com broken link
+    $art_id =~ s{\D}{}g;
+
     $self->log('notice', 'Displaying article id:', $art_id);
 
     # Fill all template parameters
