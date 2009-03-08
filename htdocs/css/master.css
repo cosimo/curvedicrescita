@@ -247,6 +247,11 @@ div#content {
     text-decoration: none;
 }
 
+#taglist span:hover {
+    text-decoration: none;
+	background-color: #88c;
+}
+
 #content #taglist span.tagfrequency {
     padding: 3px;
     font-weight: bold;
