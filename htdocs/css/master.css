@@ -220,6 +220,11 @@ div#content {
     margin:0;
 }
 
+#taglist #tags-search {
+	height:26px;
+	font-size:22px; 
+}
+
 #taglist ul {
     list-style-type: none;
     width: 100%;

@@ -559,11 +559,21 @@ sub tags
 
     # Sort tags in order of popularity and display them
     my @tag_loop;
+	my $base_path = $tmpl->param('mycgi_path');
+
     for (sort {$tags{$b} <=> $tags{$a}} keys %tags) {
+
         push @tag_loop, {
+
             tag => $_,
             occurrencies => $tags{$_},
+			display => int(rand(2)) - 1,
+
+			# No-globals policy require this
+			mycgi_path => $base_path,
+
         };
+
     }
 
     $tmpl->param(tags => \@tag_loop);

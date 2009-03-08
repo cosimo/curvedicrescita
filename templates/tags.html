@@ -11,23 +11,37 @@
 
     <div id="taglist">
 
-        <h1><tmpl_var name="msg:Elenco delle tag"> &nbsp; &rarr;</h1>
+		<form>
 
-        <tmpl_if name="tags"><ul>
+        <h1><tmpl_var name="msg:Elenco delle tag"> &nbsp; &rarr;
+		<input id="tags-search" type="text" autocomplete="off" size="12" maxlength="100"/>
+		</h1>
 
-        <tmpl_loop name="tags">
-            <li class="tagcell">
-                <span class="tagname">
-                <a href="/exec/home/article_search/?keyword=<tmpl_var tag>"><tmpl_var name="tag"></a></span>
-                &nbsp;&times;&nbsp;<span class="tagfrequency"><tmpl_var name="occurrencies"></span>
-            </li>
-        </tmpl_loop>
+        <tmpl_if name="tags">
 
-        </ul>
+			<ul>
+
+			<tmpl_loop name="tags">
+				<li class="tagcell">
+					<span class="tagname">
+						<a href="<tmpl_var mycgi_path>/article_search/?keyword=<tmpl_var tag>"><tmpl_var name="tag"></a>
+					</span>
+					&nbsp;&times;&nbsp;<span class="tagfrequency"><tmpl_var name="occurrencies"></span>
+				</li>
+			</tmpl_loop>
+
+			</ul>
 
         <tmpl_else>
-        <h2><tmpl_var name="msg:Nessuna tag?"></h2>
+
+			<h2><tmpl_var name="msg:Nessuna tag?"></h2>
+
         </tmpl_if>
+
+		</form>
+
+		<script language="javascript" src="/js/event-handler.js"></script>
+		<script language="javascript" src="/js/tags-search.js"></script>
 
     </div>
 
