@@ -1,4 +1,4 @@
-// inline DOM tag filtering - $Id$
+// Inline DOM tag filtering - $Id$
 
 function tags_filter () {
 
