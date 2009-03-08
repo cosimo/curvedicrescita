@@ -13,9 +13,10 @@ function tags_filter () {
 		var cls = tag.className;
 		if (cls != 'tagcell') continue;
 		if (! tag.hasChildNodes()) continue;
-		var tag_name = tag.childNodes[1];        // li > span
-		tag_name = tag_name.childNodes[1];       // span > a
-		tag_name = get_text(tag_name);           // anchor text
+		// Don't use childNodes() because IE counts them in a different way
+		var node = tag.getElementsByTagName('span')[0];
+		node = node.getElementsByTagName('a')[0];
+		var tag_name = get_text(node);             // anchor text
 		tag_name = tag_name.toLowerCase();
 		if (tag_name.indexOf(text.toLowerCase()) == -1) {
 			tag.style.display='none';
