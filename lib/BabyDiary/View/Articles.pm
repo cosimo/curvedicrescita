@@ -18,7 +18,7 @@ sub format_article
    
     $content =~ s{\r?\n\r?\n}{<br/><br/>}g;
 
-	my @words = Opera::Util::search_url_terms(q{http://clusty.com/search?query=curve+di+crescita});
+	my @words = Opera::Util::search_url_terms();
 	for (@words) {
 		Opera::Util::highlight_term($_, \$content);
 	}
