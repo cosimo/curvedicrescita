@@ -273,15 +273,19 @@ sub search
         });
     }
 
+	my $keyword_or_term = $keyword || $term;
+
     # Fill all template parameters
     my $tmpl = $self->fill_params();
 
     #
     # Add params and localized messages to display search results
     #
+	my $title = $self->msg('Risultati della ricerca per &quot;[_1]&quot;', $keyword_or_term);
 
     $tmpl->param(
-        search_title      => $self->msg('Risultati della ricerca per &quot;[_1]&quot;', $keyword || $term),
+        page_title        => $title,
+        search_title      => $title,
         search_no_results => $self->msg('Nessun risultato trovato in base ai criteri'),
     );
 
@@ -297,13 +301,18 @@ sub search
         for my $art (@$list)
         {
             # Highlight keyword or term
-            highlight_term($term,    $art);
-            highlight_term($keyword, $art);
+            Opera::Util::highlight_term($keyword_or_term, \$art->{content});
+            Opera::Util::highlight_term($keyword_or_term, \$art->{title});
+            Opera::Util::highlight_term($keyword_or_term, \$art->{keywords});
 
             $art->{article_link}     = BabyDiary::View::Articles::format_title_link($art);
             $art->{article_author}   = BabyDiary::View::Articles::format_author($art);
             $art->{article_keywords} = BabyDiary::View::Articles::format_keywords($art);
             $art->{article_excerpt}  = BabyDiary::View::Articles::format_article_excerpt($art);
+
+			# We have to repeat this, because format_article_excerpt() strips html
+			Opera::Util::highlight_term($keyword_or_term, \$art->{article_excerpt});
+
         }
 
         $tmpl->param( search_results => $list );
@@ -311,24 +320,6 @@ sub search
 
     # Generate template output
     return $tmpl->output();
-}
-
-#
-# Make a "marker" style background appear around selected words
-#
-sub highlight_term
-{
-    my($string, $article) = @_;
-
-    # Case insensitive search for words
-    # XXX Title should not contain HTML code...
-    if(defined $string && $string ne '')
-    {
-        for(qw(title content keywords))
-        {
-            $article->{$_} =~ s/($string)/<span style="background: yellow">$1<\/span>/gi;
-        }
-    }
 }
 
 #

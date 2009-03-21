@@ -263,7 +263,9 @@ sub render_menu {
     # Special menu items
     if ($rm eq 'article_search') {
         my $kw = $self->query->param('keyword');
-        if ($kw eq 'faq' || $kw eq 'ostetrica' || $kw eq 'pediatra') {
+		if (defined $kw &&
+        	($kw eq 'faq' || $kw eq 'ostetrica' || $kw eq 'pediatra')
+		) {
             $param{"menu_$kw"} = 1;
         }
     }

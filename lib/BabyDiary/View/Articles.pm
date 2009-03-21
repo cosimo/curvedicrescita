@@ -4,6 +4,7 @@
 package BabyDiary::View::Articles;
 
 use strict;
+use CGI ();
 use HTML::BBCode;
 use HTML::Strip;
 
@@ -16,6 +17,11 @@ sub format_article
     my $content = $art->{content};
    
     $content =~ s{\r?\n\r?\n}{<br/><br/>}g;
+
+	my @words = Opera::Util::search_url_terms(q{http://clusty.com/search?query=curve+di+crescita});
+	for (@words) {
+		Opera::Util::highlight_term($_, \$content);
+	}
 
     #my $bbc = HTML::BBCode->new({
     #    stripscripts => 1,
@@ -56,6 +62,10 @@ sub format_article_excerpt
 
     # Return the first two lines as excerpt
     $content = join("\r\n", @excerpt);
+
+	# Highlight html links?
+	#$content =~ s{(http://\S+\b)}{<a href="$1">$1</a>}g;
+
     return($content);
 }
 

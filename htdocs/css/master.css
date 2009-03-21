@@ -297,6 +297,14 @@ div#footer {
     text-align:center;
 }
 
+.highlight {
+	background-color: #ffff88;
+	padding:2px;
+	border-right: 1px solid orange;
+	border-bottom: 1px solid orange;
+	text-decoration: none;
+}
+
 /* Form and controls */
 input {
     border: 1px solid #48c;
