@@ -26,12 +26,21 @@
     widget_so.write("wpcumuluswidgetcontent");</script>
     </tmpl_if>
 
-<script type="text/javascript"><!--
-google_ad_client = "pub-5216711978643558"; google_ad_slot = "5877948740"; google_ad_width = 234; google_ad_height = 60;
-//-->
-</script>
-<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
+<tmpl_if name="show_ads">
+<!-- Google Adsense -->
+<div align="center" style="margin:20px 0 20px 0;">
+	<script type="text/javascript"><!--
+	google_ad_client = "pub-1461056359423577";
+	/* Link nella sidebar laterale destra */
+	google_ad_slot = "6241434137";
+	google_ad_width = 180;
+	google_ad_height = 90;
+	//-->
+	</script>
+	<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+	</script>
+</div>
+</tmpl_if>
 
     <!-- Latest articles -->
     <h2><tmpl_var name="msg:ultimi articoli"></h2>

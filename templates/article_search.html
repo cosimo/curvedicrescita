@@ -41,7 +41,26 @@
     <!-- tmpl_else -->
     <h2>Nessun risultato trovato.</h2>
 
-    <p>Prova a specificare meno termini di ricerca, o a <a href="<tmpl_var mycgi_path>/tags">cercare tra le tag</a>.</p>
+<tmpl_if name="show_ads">
+<!-- Google custom search -->
+<p>Vuoi provare con Google?</p>
+
+<form action="http://www.google.it/cse" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-1461056359423577:c01hxumrtzk" />
+    <input type="hidden" name="ie" value="ISO-8859-15" />
+    <input type="text" name="q" size="40" />
+    <input type="submit" name="sa" value="Cerca" />
+  </div>
+</form>
+
+<script type="text/javascript" src="http://www.google.it/coop/cse/brand?form=cse-search-box&amp;lang=it"></script> 
+</tmpl_if>
+
+	<p>
+	Puoi anche provare a <a href="/exec/home/tags">cercare tra le tag</a>.
+	</p>
+
     </tmpl_if>
 
     </div>

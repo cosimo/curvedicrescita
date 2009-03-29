@@ -45,7 +45,7 @@ use constant SESSION_EXPIRE_TIME => '+8h';
 sub url_for {
     my ($self, $page) = @_;
    
-    my $url = $self->config('CGI_ROOT');
+    my $url = $self->config('cgi_root');
     $page =~ s{^/}{};
     $page =~ s{/$}{};
     $url .= '/' . $page;
@@ -122,7 +122,7 @@ sub cgiapp_init
 {
     my $self = shift;
 
-    $self->tmpl_path($self->config('TMPL_PATH'));
+    $self->tmpl_path($self->config('tmpl_path'));
 
     # Setup content charset as UTF-8
     $self->header_add(-type=>'text/html; charset=UTF-8');
@@ -290,7 +290,8 @@ sub render_session {
     my %param;
 
     # Basic application parameters (cgi path, static resources path, ...)
-    $param{mycgi_path} = $self->config('CGI_ROOT');
+    $param{mycgi_path} = $self->config('cgi_root');
+	$param{show_ads}   = $self->config('show_ads');
     $param{www_path}   = '/';
 
     # Calculate users count
