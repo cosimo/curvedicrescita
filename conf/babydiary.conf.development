@@ -1,6 +1,6 @@
 # Babydiary Configuration file
 #
-# $Id$
+# $Id: babydiary.conf 201 2009-03-29 09:08:39Z cosimo $
 
 # Site root URL
 root_uri: http://www.curvedicrescita.com/
