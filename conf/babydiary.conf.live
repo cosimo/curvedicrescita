@@ -2,18 +2,23 @@
 #
 # $Id: babydiary.conf 32 2008-10-26 06:58:24Z Cosimo $
 
+#ROOT_URI  = http://www.curvedicrescita.com/
+#ROOT_DIR  = /var/www2/www.curvedicrescita.com/htdocs
+#TMPL_PATH = /var/www2/www.curvedicrescita.com/templates
+#CGI_ROOT  = /exec/home
+
 # Site root URL
-root_uri: http://www.curvedicrescita.com/
+root_uri = http://www.curvedicrescita.com/
 
 # Root directories of server
-root_dir: /var/www2/www.curvedicrescita.com/htdocs
+root_dir = /var/www2/www.curvedicrescita.com/htdocs
 
 # Where are templates stored
-tmpl_path: /var/www2/www.curvedicrescita.com/templates
+tmpl_path = /var/www2/www.curvedicrescita.com/templates
 
 # Root path of CGIs
-cgi_root: /exec/home
+cgi_root = /exec/home
 
 # Show Google Adsense ads? (1=yes, 0=no)
-show_ads: 1
+show_ads = 1
 
