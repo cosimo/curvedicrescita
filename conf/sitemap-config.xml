@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site base_url="http://www.curvedicrescita.com/"
+      store_into="/var/www2/www.curvedicrescita.com/htdocs/sitemap.xml.gz"
+      verbose="1">
+
+	<urllist  path="/var/www2/www.curvedicrescita.com/conf/sitemap-urllist.txt"  encoding="UTF-8"  />
+
+	<!--
+	  <accesslog  path="/var/log/httpd/www2/www.curvedicrescita.com.log" encoding="UTF-8"  />
+	  <accesslog  path="/var/log/httpd/www2/www.curvedicrescita.com.log.1.gz" encoding="UTF-8"  />
+	  <accesslog  path="/var/log/httpd/www2/www.curvedicrescita.com.log.2.gz" encoding="UTF-8"  />
+	-->
+
+</site>
