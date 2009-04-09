@@ -7,6 +7,7 @@ use strict;
 use CGI ();
 use HTML::BBCode;
 use HTML::Strip;
+use BabyDiary::File::Articles;
 
 #
 # Format and display article content
@@ -120,15 +121,33 @@ sub format_title
 #
 # Title of article has link to display the single article
 #
-sub format_title_link
 {
-    my($art) = @_;
-    my $title =
-          '&quot;'
-        . CGI->a({href=>'/exec/home/article/?id=' . CGI::escape($art->{id})}, $art->{title})
-        . '&quot;';
 
-    return($title);
+    my $articles;
+
+    sub format_title_link
+    {
+        my ($art) = @_;
+        my $slug;
+        my $title;
+
+        if (exists $art->{slug}) {
+            $slug = $art->{slug};
+        } else {
+            $articles ||= BabyDiary::File::Articles->new();
+            $slug = $articles->slug($art->{id});
+        }
+
+        if ($slug) {
+            $title = CGI->a({href=>'/exec/article/' . $slug}, $art->{title});
+        }
+        else {
+            $title = CGI->a({href=>'/exec/home/article/?id=' . CGI::escape($art->{id})}, $art->{title});
+        }
+
+        return($title);
+    }
+
 }
 
 1;

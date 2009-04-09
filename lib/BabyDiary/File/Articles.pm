@@ -4,10 +4,64 @@
 package BabyDiary::File::Articles;
 
 use strict;
+
 use base qw(BabyDiary::File::SQLite);
+use BabyDiary::File::Slugs;
 
 use constant TABLE  => 'articles';
 use constant FIELDS => [ qw(id title content createdon createdby lastupdateon lastupdateby keywords views) ];
+
+our $slugs;
+
+sub add_slug {
+	my ($self, $article) = @_;
+
+	# Check if article already has a slug
+	my $id = $article->{id};
+	my $slug;
+
+	$slugs ||= BabyDiary::File::Slugs->new();
+	my $slug_rec = $slugs->get({ where => {type=>'article', id=>$id}} );
+
+	if ($slug_rec) {
+		$slug = $slug_rec->{slug};
+		return $slug;
+	}
+
+	# Prepend date to article slug
+	my $art_date = $article->{createdon};
+	$art_date =~ s{^(\d+)-(\d+)-(\d+).*$}{$1/$2/$3};
+	$slug = $art_date . '/' . Opera::Util::slug($article->{title});
+
+	my $ok = $slugs->insert_or_replace(
+		{
+			slug  => $slug,
+			id    => $id,
+			type  => 'article',
+			state => 'A'
+		},
+		{
+			id => $id,
+			type => 'article'
+		}
+	);
+
+	return $ok ? $slug : undef;
+}
+
+# Overriden to delete the slug
+sub delete {
+	my ($self, $where) = @_;
+	my $deleted = $self->SUPER::delete($where);
+
+	if ($deleted && $where->{id} ) {
+		$self->log('notice', 'Article ' . $where->{id} . ' deleted. Delete slug.');
+		$slugs ||= BabyDiary::File::Slugs->new();
+		$slugs->delete({ type=>'article', id=>$where->{id} });
+	}
+
+	return $deleted;
+}
 
 #
 # Tells who is the original creator or the given article
@@ -86,6 +140,14 @@ sub post
     my $id = $self->last_insert_id();
     $self->log('notice', 'New article id = ' . $id);
 
+	# Necessary for the slug to be linked to the article
+	$art->{id} = $id;
+
+	# Write the slug now
+	$ok = $self->add_slug($art);
+
+	$self->log('notice', "Slug $id add " . ($ok ? " ok ($ok)" : "*FAILED*"));
+
     return $id;
 }
 
@@ -125,12 +187,27 @@ sub related
         if ($relevance < 2) {
             next;
         }
-        push @articles, { id=>$id, title =>$title, relevance=>$relevance};
+        push @articles, {
+			id => $id,
+			title => $title,
+			relevance => $relevance,
+			url => $self->url($id),
+		};
         $self->log('notice', 'Found related article: ' . $title . ' (' . $relevance . ' points)');
         last if $n++ == 3;
     }
 
     return @articles;
+}
+
+sub slug {
+	my ($self, $id) = @_;
+	$slugs ||= BabyDiary::File::Slugs->new();
+	my $slug_rec = $slugs->get({ where => {type=>'article', id=>$id} });
+	if (! $slug_rec) {
+		return;
+	}
+	return $slug_rec->{slug};
 }
 
 #
@@ -186,6 +263,21 @@ sub total_page_views {
 	}
 
 	return $total_page_views;
+}
+
+sub url {
+	my ($self, $id) = @_;
+	my $url;
+
+	my $slug = $self->slug($id);
+	if (! defined $slug) {
+		$url = '/exec/home/article/?id=' . $id;
+	}
+	else {
+		$url = '/exec/article/' . $slug;
+	}
+
+	return $url;
 }
 
 1;

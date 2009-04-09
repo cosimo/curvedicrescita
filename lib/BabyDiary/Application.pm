@@ -227,6 +227,7 @@ sub render_components {
     # For articles-related sections, calculate also lists of latest/best articles
     $tmpl->param( articles_latest  => $self->BabyDiary::Application::Articles::latest_n(10) );
     $tmpl->param( articles_popular => $self->BabyDiary::Application::Articles::best_n() );
+
     #$tmpl->param( articles_cloud   => $self->BabyDiary::Application::Articles::tags_cloud() );
     $tmpl->param( cumulus_cloud    => $self->BabyDiary::Application::Articles::cumulus_cloud() );
 

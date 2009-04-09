@@ -1,7 +1,7 @@
 #
 # http://www.curvedicrescita.com/ Google Sitemap
 #
-# Last updated on: Thu Apr  9 10:07:48 2009
+# Last updated on: Thu Apr  9 11:50:05 2009
 #
 
 
@@ -309,9 +309,9 @@ http://www.curvedicrescita.com/exec/home/article_search/?keyword=Trisomia%2018 c
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=USA changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=USA%20Today changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=Ultra-Screen changefreq=weekly priority=0.5
-http://www.curvedicrescita.com/exec/home/article_search/?keyword=Umberto%20I%C2%B0 changefreq=weekly priority=0.5
-http://www.curvedicrescita.com/exec/home/article_search/?keyword=Unit%C3%A0%20Europea changefreq=weekly priority=0.5
-http://www.curvedicrescita.com/exec/home/article_search/?keyword=Universit%C3%A0%20di%20Stanford changefreq=weekly priority=0.5
+http://www.curvedicrescita.com/exec/home/article_search/?keyword=Umberto%20I%C3%82%C2%B0 changefreq=weekly priority=0.5
+http://www.curvedicrescita.com/exec/home/article_search/?keyword=Unit%C3%83%C2%A0%20Europea changefreq=weekly priority=0.5
+http://www.curvedicrescita.com/exec/home/article_search/?keyword=Universit%C3%83%C2%A0%20di%20Stanford changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=WHO changefreq=weekly priority=0.7
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=Waldorf changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=Weiser changefreq=weekly priority=0.5
@@ -356,7 +356,7 @@ http://www.curvedicrescita.com/exec/home/article_search/?keyword=basso%20peso ch
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=bilirubina changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=blastocisti changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=brodo%20vegetale changefreq=weekly priority=0.5
-http://www.curvedicrescita.com/exec/home/article_search/?keyword=caff%C3%A8 changefreq=weekly priority=0.5
+http://www.curvedicrescita.com/exec/home/article_search/?keyword=caff%C3%83%C2%A8 changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=caldo changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=calendario changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=calma changefreq=weekly priority=0.5
@@ -461,14 +461,14 @@ http://www.curvedicrescita.com/exec/home/article_search/?keyword=genetica change
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=geni changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=genitori changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=giochi changefreq=weekly priority=0.5
-http://www.curvedicrescita.com/exec/home/article_search/?keyword=gi%C3%B9%20le%20mani%20dai%20bambini changefreq=weekly priority=0.8
+http://www.curvedicrescita.com/exec/home/article_search/?keyword=gi%C3%83%C2%B9%20le%20mani%20dai%20bambini changefreq=weekly priority=0.8
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=gravidanza changefreq=weekly priority=0.9
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=gravidanza%20protratta changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=helsestasjon changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=il%20piccolo%20principe changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=indipendenza changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=infanzia changefreq=weekly priority=0.5
-http://www.curvedicrescita.com/exec/home/article_search/?keyword=infertilit%C3%A0 changefreq=weekly priority=0.7
+http://www.curvedicrescita.com/exec/home/article_search/?keyword=infertilit%C3%83%C2%A0 changefreq=weekly priority=0.7
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=infezione changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=ingorgo%20mammario changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=intelligenza changefreq=weekly priority=0.5
@@ -498,7 +498,7 @@ http://www.curvedicrescita.com/exec/home/article_search/?keyword=montata%20latte
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=morbillo changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=morfologia%20dei%20denti changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=morire changefreq=weekly priority=0.5
-http://www.curvedicrescita.com/exec/home/article_search/?keyword=mortalit%C3%A0%20infantile changefreq=weekly priority=0.5
+http://www.curvedicrescita.com/exec/home/article_search/?keyword=mortalit%C3%83%C2%A0%20infantile changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=mughetto changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=nascita changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=nascondino changefreq=weekly priority=0.5
@@ -611,7 +611,7 @@ http://www.curvedicrescita.com/exec/home/article_search/?keyword=sviluppo%20psic
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=tachipirina changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=tandem%20mass changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=tartaro changefreq=weekly priority=0.5
-http://www.curvedicrescita.com/exec/home/article_search/?keyword=tasso%20natalit%C3%A0 changefreq=weekly priority=0.5
+http://www.curvedicrescita.com/exec/home/article_search/?keyword=tasso%20natalit%C3%83%C2%A0 changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=tecnica%20a%20canguro changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=telefono%20azzurro changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=telefono%20rosa changefreq=weekly priority=0.5
@@ -641,7 +641,7 @@ http://www.curvedicrescita.com/exec/home/article_search/?keyword=visione%20stere
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=visita changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=vista changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=vitamine changefreq=weekly priority=0.5
-http://www.curvedicrescita.com/exec/home/article_search/?keyword=volont%C3%A0 changefreq=weekly priority=0.5
+http://www.curvedicrescita.com/exec/home/article_search/?keyword=volont%C3%83%C2%A0 changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=welfare changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=winx changefreq=weekly priority=0.5
 http://www.curvedicrescita.com/exec/home/article_search/?keyword=zuccheri changefreq=weekly priority=0.5

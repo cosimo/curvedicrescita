@@ -29,16 +29,19 @@ for (@$list) {
 		next;
 	}
 
-	my $slug = Opera::Util::slug($article->{title});
+	my $art_date = $article->{createdon};
+	$art_date =~ s{^(\d+)-(\d+)-(\d+).*$}{$1/$2/$3};
 
-	#my $ok = $slugs->insert({slug=>$slug, id=>$id, type=>'article', state=>'A'});
-	#
-	#if ($ok) {
+	$slug = $art_date . '/' . Opera::Util::slug($article->{title});
+
+	my $ok = $slugs->insert({slug=>$slug, id=>$id, type=>'article', state=>'A'});
+
+	if ($ok) {
 		print "Article $id now has slug '$slug'\n";
-	#}
-	#else {
-#		print "Failed to add slug for article $id\n";
-#	}
+	}
+	else {
+		print "Failed to add slug for article $id\n";
+	}
 
 }
 

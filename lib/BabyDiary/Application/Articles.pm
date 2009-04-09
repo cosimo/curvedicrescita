@@ -477,6 +477,10 @@ sub topics
 
     $self->log('notice', 'Found ' . scalar(@$art_list) . ' articles for the topics sidebar');
 
+	for (@{$art_list}) {
+		$_->{url} = $articles->url($_->{id});
+	}
+
     return($art_list);
 }
 

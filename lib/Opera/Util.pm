@@ -7,6 +7,8 @@ use strict;
 use CGI ();
 use Time::Piece;
 
+our $HAVE_UNACCENT = eval 'use Text::Unaccent (); return 1';
+
 {
     my $time_obj;
 
@@ -105,11 +107,17 @@ sub slug {
 	my ($string) = @_;
 	my $slug = lc $string;
 
+	$slug =~ s{\b(il|la|lo|gli|le|d|di|del|delle|degli|della|a|al|allo|alla|alle|agli|ad|da|in|con|su|per|tra|fra|un|uno|una|e|i|o|oppure|che|nel|nella|negli|nelle|sul|sullo|sulla|sugli|sulle)\b}{}g;
+
+	if ($HAVE_UNACCENT) {
+		$slug = Text::Unaccent::unac_string('utf-8', $slug);
+	}
+
 	$slug =~ s{[^a-z0-9\s-]}{}g;
 	$slug =~ s{\s+}{ }g;
 
 	$slug = btrim($slug);
-	$slug = substr($slug, 0, 50);
+	$slug = substr($slug, 0, 60);
 	$slug =~ y{ }{-}d;
 
 	$slug =~ s{\-\-+}{-}g;

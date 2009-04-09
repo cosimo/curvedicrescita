@@ -9,3 +9,4 @@
 - html::strip
 - time::piece
 - cgi::application
+- text::unaccent
