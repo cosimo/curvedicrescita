@@ -3,13 +3,18 @@
 package BabyDiary::Application::RSS;
 
 use strict;
+use Config::Auto;
 use Encode;
 use XML::RSS;
+
 use BabyDiary::File::Articles;
 
 sub articles {
     my ($how_many) = @_;
-    my $host = 'http://www.curvedicrescita.com';
+
+	my $conf = Config::Auto::parse('../conf/babydiary.conf');
+    my $host = $conf->{root_uri};
+	$host =~ s{/$}{};
 
     if (! defined $how_many) {
         $how_many = 25; 
@@ -38,7 +43,7 @@ sub articles {
     for my $item (@{$list}) {
         $rss->add_item(
             title => decode('utf-8', $item->{title}),
-            link  => $host . '/exec/home/article/?id=' . $item->{id},
+            link  => $host . $art->url($item->{id}),
             description => decode('utf-8', $item->{content}),
         );
     }
