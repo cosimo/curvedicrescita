@@ -100,6 +100,25 @@ sub search_url_terms {
 	return @words;
 }
 
+# Poor man's slug
+sub slug {
+	my ($string) = @_;
+	my $slug = lc $string;
+
+	$slug =~ s{[^a-z0-9\s-]}{}g;
+	$slug =~ s{\s+}{ }g;
+
+	$slug = btrim($slug);
+	$slug = substr($slug, 0, 50);
+	$slug =~ y{ }{-}d;
+
+	$slug =~ s{\-\-+}{-}g;
+	$slug =~ s{^\-+}{};
+	$slug =~ s{\-+$}{};
+
+	return $slug;
+}
+
 1;
 
 #

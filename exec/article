@@ -8,6 +8,21 @@ use strict;
 use lib '../lib';
 
 use BabyDiary::Application;
+use BabyDiary::File::Slugs;
+
+my $path = $ENV{PATH_INFO};
+$path =~ s{^/}{};
+
+my $slug = BabyDiary::File::Slugs->new();
+my $article_id = $slug->find_id($path, 'article');
+
+# Redirect to home page if nothing found
+if (! $article_id) {
+	print "Location: /\n";
+}
+
+$ENV{PATH_INFO} = "/article";
+$ENV{QUERY_STRING} = "id=$article_id";
 
 # Instance application object
 my $app = BabyDiary::Application->new(
