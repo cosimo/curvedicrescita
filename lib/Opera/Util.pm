@@ -22,6 +22,13 @@ use Time::Piece;
     }
 }
 
+sub format_date_iso8601 {
+	my ($date) = @_;
+	# Convert SQL date to ISO8601 that Google accepts
+	$date =~ s{^ (\d+ \- \d+ \- \d+) \s+ (\d+ : \d+ : \d+) $}{$1T$2+01:00}x;
+	return $date;
+}
+
 #
 # Trim from a string both leading and trailing spaces
 #
