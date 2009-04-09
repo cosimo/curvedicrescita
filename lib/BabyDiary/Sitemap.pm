@@ -11,6 +11,7 @@ use CGI;
 use Config::Auto;
 
 use BabyDiary::File::Articles;
+use BabyDiary::File::Slugs;
 use Opera::Util;
 
 sub generate {
@@ -66,7 +67,10 @@ sub generate {
 	my $n_art = 30;
 
 	for (@$list) {
-		my $art_url  = $base_url . 'exec/home/article/?id=' . $_->{id};
+
+		my $art_url  = $art->url($_->{id});
+		$art_url =~ s{^/}{};
+		$art_url = $base_url . $art_url;
 
 		my $last_mod = $_->{lastupdateon} || $_->{createdon};
 		$last_mod = Opera::Util::format_date_iso8601($last_mod);
