@@ -1,0 +1,4 @@
+# $Id$
+2 4 * * * (cd /var/www2/www.curvedicrescita.com/bin; ./expunge-sessions.perl)
+3 4 * * * (cd /var/www2/www.curvedicrescita.com/bin; ./generate-sitemap.perl > ../conf/sitemap-urllist.txt; cd /home/cosimo/sitemap/sitemap_gen-1.4; ./sitemap_gen.py --config=/var/www2/www.curvedicrescita.com/conf/sitemap-config.xml )
+
