@@ -9,7 +9,7 @@ html, body {
 body {
     background-color: #fff;
     font-family: 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica, sans-serif;
-    font-size: 12px;
+    font-size: 13px;
     color: #226;
 }
 
@@ -101,7 +101,7 @@ h1 {
 
 #article #author, #article #tags {
     font-family: 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica, sans-serif;
-    font-size: 1em;
+    font-size: 12px;
     padding: 3px 0 0 40px;
 }
 
@@ -199,7 +199,8 @@ div#content {
     padding:0;
     margin:0;
     padding-left: 15px;
-    font-size: 12px;
+    font-size: 13px;
+	line-height: 1.4em;
     display:block;
 }
 
@@ -284,6 +285,19 @@ div#content {
     margin-bottom: 10px;
 }
 
+/* Offline articles */
+a.offline {
+	color: #ccc;
+	font-weight: bold;
+	font-style: italic;
+	text-decoration: none;
+
+}
+
+a.live {
+	font-weight: bold;
+}
+
 #topics p, #sidebar p {
     font-size: 12px;
 }
@@ -319,11 +333,16 @@ input#search {
     color: #bbb; 
 }
 
+#article textarea {
+	width: 95%;
+	height: 500px;
+}
+
 #article input, #article textarea {
     border: 1px solid #48c;
     background: #ddf;
     color: #000;
-    font-family: Geneva, Verdana, Times New Roman;
+    font-family: "Courier New", Monotype, Geneva, Verdana, Times New Roman;
     font-size: 12px;
     padding: 2px;
 }
@@ -338,18 +357,36 @@ input#search {
     font-weight: bold;
 }
 
-#article input.submit {
+#article input[type=button] {
+	font-size: 18px;
+	border:3px solid #48c;
+}
+
+#article input[type=submit] {
     padding:5px;
-    background: #f88;
-    border:3px solid red;
+    background: #fc8;
+    border:3px solid #f80;
     font-size: 18px;
-    font-weight: bold;
+}
+
+#google_custom_search input[type=submit] {
+	background: #ccf;
+	border:0;
+	font-size: 15px;
+	font-weight: bold;
+	padding:0px;
 }
 
 #article li.search_result {
     font-size: 18px;
     padding-top: 15px;
     margin: 0 0 10px 0;
+}
+
+#article #publish_status {
+    padding: 8px;
+	border: 2px solid #48f;
+	text-align: center;
 }
 
 #article #excerpt {

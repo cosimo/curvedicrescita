@@ -24,7 +24,10 @@ sub generate {
 	my $base_url = $conf->{root_uri};
 
 	my $art = BabyDiary::File::Articles->new();
-	my $list = $art->list({ order => 'id DESC' });
+	my $list = $art->list({
+		where => { published => {'<>', 0} },
+		order => 'id DESC'
+	});
 	my %tags = $art->tags_frequency();
 
 	print

@@ -16,26 +16,42 @@
         <br/>
 
         <form name="article_modify" action="article_modify" method="post">
-        Titolo<br/>
+
+        <label for="title">Titolo</label><br/>
+
         <input style="font-size: 16pt" size=40 maxlength=255 name="title" value="<!-- tmpl_var article_title -->">
         <tmpl_include name="components/article/buttons.html">
         </h1>
 
         <p><small>Pubblicato da <!-- tmpl_var article_createdby -->, <!-- tmpl_var article_createdon --> (<!-- tmpl_var article_views --> visite)</small></p>
 
-        Tags<br/>
+        <label for="keywords">Tags</label><br/>
+
         <img align="absmiddle" width="32" height="32" src="/img/icon-tags.png" alt="Tags" title="Tag associate all'articolo" />
         <input name="keywords" size=65 maxlength=255 value="<!-- tmpl_var name=article_keywords -->"></p>
 
         <br/>
 
         <p>
-        Contenuto<br/>
+        <label for="content">Contenuto</label><br/>
+
         <textarea name="content" cols=64 rows=15><!-- tmpl_var article_content -->
         </textarea>
         </p>
 
-        <p>Ricontrolla bene e ...</p>
+		<p>
+		<label for="published">Accesso</label><br/>
+		<select name="published">
+			<option value="0"<tmpl_if name="article_published_0"> selected</tmpl_if>>Non pubblico</option>
+			<option value="1"<tmpl_if name="article_published_1"> selected</tmpl_if>>Pubblico</option>
+			<option value="3"<tmpl_if name="article_published_3"> selected</tmpl_if>>In home page</option>
+		</select>
+		</p>
+
+        <p>
+		Ricontrolla bene e ...
+		</p>
+
         <input type="button" value="Annulla" onclick="location.href='<tmpl_var mycgi_path>/articles'">
         &nbsp; oppure &nbsp; <input type="submit" value="Salva le modifiche">
         <input type="hidden" name="id" value="<!-- tmpl_var article_id -->">

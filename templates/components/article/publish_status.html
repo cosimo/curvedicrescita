@@ -1,0 +1,17 @@
+<tmpl_if name="article_modify_allowed">
+<p id="publish_status">
+	<tmpl_if name="article_published_0">
+	Questo articolo <strong>non &egrave; pubblico</strong>, e puo' essere visualizzato solo da utenti amministratori.
+	<tmpl_else>
+		<tmpl_if name="article_published_1">
+		Questo articolo &egrave; pubblico e puo' essere visualizzato da tutti gli utenti.
+		<tmpl_else>
+			<tmpl_if name="article_published_3">
+			Questo articolo <strong>&egrave; <a href="/">pubblicato in home page</a>.</strong>
+			<tmpl_else>
+			La pubblicazione di questo articolo <strong>ha qualcosa che non va</strong>!
+			</tmpl_if>
+		</tmpl_if>
+	</tmpl_if>
+</p>
+</tmpl_if>

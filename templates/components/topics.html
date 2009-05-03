@@ -4,7 +4,7 @@
         <tmpl_if name="topics">
         <ul>
         <!-- mpl_loop name="topics"><li><a href="/exec/home/article/?id=<tmpl_var id>"><tmpl_var title></a></li> -->
-        <tmpl_loop name="topics"><li><a href="<tmpl_var url>"><tmpl_var title></a></li>
+        <tmpl_loop name="topics"><li><tmpl_var link></li>
         </tmpl_loop>
         </ul>
         </tmpl_if>

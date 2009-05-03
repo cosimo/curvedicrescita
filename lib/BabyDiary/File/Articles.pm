@@ -9,7 +9,7 @@ use base qw(BabyDiary::File::SQLite);
 use BabyDiary::File::Slugs;
 
 use constant TABLE  => 'articles';
-use constant FIELDS => [ qw(id title content createdon createdby lastupdateon lastupdateby keywords views) ];
+use constant FIELDS => [ qw(id title content createdon createdby lastupdateon lastupdateby keywords published views) ];
 
 our $slugs;
 
@@ -121,6 +121,7 @@ sub post
     $art->{createdon} = Opera::Util::current_timestamp();
     $art->{views}     = 0;
     $art->{id}        = undef;
+	$art->{published} = 0;
 
     # Insert record and retrieve the primary key id
     eval { $ok = $self->insert($art); };
@@ -166,7 +167,10 @@ sub related
         my $term = '%' . $kw . '%';
 
         my $same_kw = $self->list({
-            where => 'keywords LIKE ' . $self->quote($term) . ' AND id <> ' . $self->quote($art),
+            where =>
+				  'keywords LIKE ' . $self->quote($term)
+				. ' AND id <> ' . $self->quote($art)
+				. ' AND published <> 0',
             fields => [ 'id', 'title' ],
         });
 
@@ -225,7 +229,10 @@ sub tags_frequency
     eval {
 
         # Get all different `keywords' field values from database
-        my $sth = $self->dbh->prepare('select distinct(keywords) from articles');
+        my $sth = $self->dbh->prepare(
+			'SELECT DISTINCT(keywords) FROM articles '
+			. ' WHERE published <> 0'
+		);
         if( $sth->execute() )
         {
             while(defined(my $rec = $sth->fetch))

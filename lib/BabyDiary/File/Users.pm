@@ -29,12 +29,19 @@ sub is_admin
 {
     my($self, $user) = @_;
 
+	if (! defined $user || $user eq '') {
+		return;
+	}
+
     # Lookup record on database
-    my $rec = $self->get({where=>{username=>$user}});
+    my $rec = $self->get({
+		where => {
+			username=>$user
+		}
+	});
 
     # Record not found
-    if(!$rec)
-    {
+    if (! $rec) {
         $self->log('warn', 'User ', $user, ' not found. Don\'t know if he is an admin.');
         return(undef);
     }

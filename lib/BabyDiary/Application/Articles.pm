@@ -136,16 +136,24 @@ sub modify
     {
 
         # Update query on articles file
-        my $update_ok = $articles->update(
-            {
-                title    => scalar $query->param('title'),
-                keywords => scalar $query->param('keywords'),
-                content  => scalar $query->param('content'),
-                lastupdateon => Opera::Util::current_timestamp(),
-                lastupdateby => $curr_user,
-            },
-            { id => $art_id }
-        );
+		my %to_update = (
+			title    => scalar $query->param('title'),
+            keywords => scalar $query->param('keywords'),
+            content  => scalar $query->param('content'),
+            published=> scalar $query->param('published'),
+		);
+
+		# If article *wasn't* published yet, don't update last modify by and timestamp.
+		# We use the previous state, not the soon-to-be-new one
+		my $published_state = exists $rec->{published} ? $rec->{published} : undef;
+
+		# Article is live if 'published' > 0
+		if (defined $published_state && $published_state > 0) {
+			$to_update{lastupdateon} = Opera::Util::current_timestamp();
+			$to_update{lastupdateby} = $curr_user;
+		}
+
+        my $update_ok = $articles->update(\%to_update, {id=>$art_id});
 
         # Return to article view page
         if(!$update_ok)
@@ -169,6 +177,9 @@ sub modify
         $tmpl->param( 'article_' . $_ => $rec->{$_} );
     }
 
+	# Special case for 'published' drop-down list
+	$tmpl->param('article_published_' . ($rec->{published}||'0') => 1);
+
     # Generate template output
     return $tmpl->output();
 }
@@ -183,7 +194,7 @@ sub post
     my $query = $self->query();
 
     # Check for user / password 
-    $self->log('notice', 'Params received from search articles form');
+    $self->log('notice', 'Params received from article create/modify form');
 
     my %prm;
     for($query->param())
@@ -211,6 +222,7 @@ sub post
         keywords  => $prm{keywords},
         createdby => $self->session->param('user'),
         content   => $prm{content},
+		published => $prm{published},
     });
 
     $self->log('notice', 'Posted article with title `', $prm{title}, '\' => ', ($posted?'OK':'*FAILED*'));
@@ -260,6 +272,7 @@ sub search
     {
         $keyword = Opera::Util::btrim($keyword);
         $list = $articles->match({
+			where => { published => {'<>', 0} },
             matchstring => $keyword,
             matchfields => 'title,keywords',
         });
@@ -268,6 +281,7 @@ sub search
     {
         $term = Opera::Util::btrim($term);
         $list = $articles->match({
+			where => { published => {'<>', 0} },
             matchstring => $term,
             matchfields => 'title,content,keywords',
         });
@@ -354,22 +368,42 @@ sub render {
     # Load article (if present)
     my $ok  = 0;
     my $art = BabyDiary::File::Articles->new();
-   
-    # If no article selected, fetch the latest
+ 
+ 	# Check if current visitor is an admin
+	my $users = BabyDiary::File::Users->new();
+	my $current_user = $self->session->param('user');
+	my $is_admin = $users->is_admin($current_user);
+
+	# Make sure that only admins (and authors) can see unpublished articles
+	my @article_filter = $is_admin
+		? ( )
+		: ( published => {'<>', 0} )
+		;
+
+    # If no article selected, fetch the
+	# front-page default one
     my $rec;
+
     if (defined $art_id)
     {
         $rec = $art->get({
-            where => { id => $art_id }
+            where => {
+				@article_filter,
+				id => $art_id,
+			}
         });
     }
     else
     {
-        $self->log('notice', 'Fetching latest article');
+        $self->log('notice', 'Fetching latest front-page article');
         my $list = $art->list({
-            order => 'id DESC',
+			where => {
+				published => { '<>', 0 },
+			},
+            order => 'published DESC, id DESC',
             limit => 1,
         });
+
         if ($list) {
             $rec = $list->[0];
             $art_id = $rec->{id};
@@ -383,7 +417,7 @@ sub render {
     # If article is not found, display a notice
     if(!$rec)
     {
-        $tmpl->param( article_content => '<h2>Nessun articolo trovato...</h2>' );
+        $tmpl->param( article_content => "" );
     }
     # Article is found, display it nicely formatted
     else
@@ -395,10 +429,6 @@ sub render {
         # XXX This is obviously not going to work in this way for highly concurrent environments
         # Also, it can be a good idea to drop the whole concept of articles views, to avoid
         # database writes on every page view...
-
-        my $users = BabyDiary::File::Users->new();
-        my $current_user   = $self->session->param('user');
-        my $is_admin = $users->is_admin($current_user);
 
         # We don't want our admin work to impact on visit count
         if (! $is_admin) {
@@ -417,11 +447,16 @@ sub render {
 
         # Replicate article title for document/page title
         my $article_title = BabyDiary::View::Articles::format_title($rec);
-        $tmpl->param( article_title   => $article_title );
-        $tmpl->param( page_title      => $article_title );
-        $tmpl->param( article_keywords=> BabyDiary::View::Articles::format_keywords($rec) );
-        $tmpl->param( article_views   => $rec->{views} );
-        $tmpl->param( article_content => BabyDiary::View::Articles::format_article($rec) );
+        $tmpl->param( article_title     => $article_title );
+        $tmpl->param( page_title        => $article_title );
+        $tmpl->param( article_keywords  => BabyDiary::View::Articles::format_keywords($rec) );
+        $tmpl->param( article_views     => $rec->{views} );
+        $tmpl->param( article_content   => BabyDiary::View::Articles::format_article($rec) );
+        $tmpl->param( article_published => $rec->{published} );
+
+		# Artificial published states for the drop-down list
+		warn "published:$rec->{published}\n";
+        $tmpl->param( 'article_published_' . ($rec->{published} || '0') => 1 );
 
         # Check permissions for cancel/modify buttons
         #
@@ -462,23 +497,37 @@ sub topics
     # Load list from database.
     $self->log('notice', 'Getting list of articles for topics sidebar');
 
+	# By default, don't show non-published articles
+	my @article_filter = (
+		published => { '<>', 0 },
+	);
+
+	# Admins must see everything
+	my $is_admin = $self->session->param('admin');
+	if ($is_admin) {
+		@article_filter = ();
+	}
+
     my $articles = BabyDiary::File::Articles->new();
     my $art_list = $articles->list({
-        fields => ['id', 'title', 'createdby', 'views'], 
-        where  => q(keywords LIKE '%scheda%'),
+        fields => ['id', 'title', 'createdby', 'views', 'published'], 
+        where  => {
+			@article_filter,
+			keywords => { LIKE => '%scheda%' },
+		},
         order  => ['id'],
     });
 
-    if(!$art_list)
-    {
+    if (! $art_list) {
         $self->log('notice', 'No articles for the topics sidebar');
         return;
     }
 
     $self->log('notice', 'Found ' . scalar(@$art_list) . ' articles for the topics sidebar');
 
-	for (@{$art_list}) {
-		$_->{url} = $articles->url($_->{id});
+	for my $art (@{$art_list}) {
+		$art->{url} = $articles->url($art->{id});
+		$art->{link} = BabyDiary::View::Articles::format_title_link($art);
 	}
 
     return($art_list);
@@ -497,9 +546,18 @@ sub latest_n
     # Here a caching logic could save us from loading many times the same thing
     $self->log('notice', 'Getting list of articles');
 
+	# By default, admins can see everything, even non-published articles
+	my $is_admin = $self->session->param('admin');
+	my @article_filter = (
+		published => {'<>', 0}
+	);
+
     my $articles = BabyDiary::File::Articles->new();
     my $art_list = $articles->list({
-        fields => ['id', 'title', 'createdby', 'views'], 
+        fields => ['id', 'title', 'createdby', 'views', 'published'],
+		where  => $is_admin
+			? undef
+			: { @article_filter },
         limit  => $n,
         order  => [ $order ],
     });

@@ -81,7 +81,9 @@ sub format_author
 
     if(exists $art->{$key} && $art->{$key} ne '')
     {
-        $name = CGI->a({href=>'/exec/home/user/' . CGI::escape($art->{$key}) }, $art->{$key});
+		# User page NIY
+		# CGI->a({href=>'/exec/home/user/' . CGI::escape($art->{$key}) }, $art->{$key});
+        $name = $art->{$key};
     }
 
     return($name);
@@ -138,11 +140,19 @@ sub format_title
             $slug = $articles->slug($art->{id});
         }
 
+		# Mark Non-live articles
+		my $title = $art->{title};
+		my $style = 'live';
+
+		if (exists $art->{published} && $art->{published} == 0) {
+			$style = 'offline';
+		}
+
         if ($slug) {
-            $title = CGI->a({href=>'/exec/article/' . $slug}, $art->{title});
+            $title = CGI->a({class=>$style, href=>'/exec/article/' . $slug}, $title);
         }
         else {
-            $title = CGI->a({href=>'/exec/home/article/?id=' . CGI::escape($art->{id})}, $art->{title});
+            $title = CGI->a({class=>$style, href=>'/exec/home/article/?id=' . CGI::escape($art->{id})}, $title);
         }
 
         return($title);

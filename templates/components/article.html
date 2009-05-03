@@ -6,10 +6,13 @@
         <tmpl_include name="article/buttons.html">
     </h1>
 
+	<tmpl_include name="article/publish_status.html">
+
     <div id="author">
-        Pubblicato da <b><tmpl_var name="article_createdby"></b>,
-        <tmpl_var name="article_createdon"> (<tmpl_var name="article_views"> visite)
-        <tmpl_if name="article_lastupdateby">, modificato da <tmpl_var name="article_lastupdateby">
+        Pubblicato da <strong><tmpl_var name="article_createdby"></strong>,
+        <tmpl_var name="article_createdon"> (<strong><tmpl_var name="article_views"></strong> visite)
+        <tmpl_if name="article_lastupdateby">
+		<br/>Modificato da <strong><tmpl_var name="article_lastupdateby"></strong>,
         <tmpl_var name="article_lastupdateon"></tmpl_if>
     </div>
 
@@ -22,7 +25,29 @@
 
     </tmpl_if>
 
-    <tmpl_var name="article_content">
+	<!-- Article content -->
+	<tmpl_if name="article_content">
+
+		<tmpl_var name="article_content">
+
+	<tmpl_else>
+
+		<br/>
+
+		<h2>Articolo non trovato</h2>
+
+		<p>
+		L'articolo non &egrave; stato trovato in archivio.<br/>
+		Ricontrolla l'indirizzo e riprova.
+		</p>
+
+		<tmpl_include name="article/google_custom_search.html">
+
+		<p>
+		Puoi anche provare a <a href="/exec/home/tags">cercare tra le tag</a>.
+		</p>
+
+	</tmpl_if>
 
     <tmpl_if name="article_related">
     <h2>Articoli correlati</h2>
