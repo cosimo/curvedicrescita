@@ -87,7 +87,8 @@ div#logo #logotitle {
 h1 {
     font-family: 'Lucida Sans Unicode', 'Trebuchet MS', 'Times New Roman', serif;
     font-weight: 800;
-    font-size: 2.2em;
+    font-size: 2em;
+    line-height: 1em;
     margin:0;
     margin-bottom: 8px;
 }
