@@ -32,6 +32,7 @@ sub articles {
     my $art = BabyDiary::File::Articles->new();
     my $list = $art->list({
         fields => ['id', 'title', 'content', 'createdby', 'keywords'],
+        where  => { published => { '<>', 0 } },
         order  => 'id DESC',
         limit  => $how_many,
     });
