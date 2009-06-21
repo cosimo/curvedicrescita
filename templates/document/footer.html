@@ -1,7 +1,7 @@
 <div id="footer">
 &copy; <tmpl_var name="copyright-year"> <span style="font-weight:800">curve</span>di<span style="font-weight:800">crescita</span>.com<br/>
 <small>
-<!-- revision -->svn-rev: 236
+<!-- revision -->svn-rev: 259
 </small><br/><br/>
 </div>
 
@@ -9,6 +9,7 @@
 <script language="javascript" src="/js/balloon.js"></script>
 <script language="javascript" src="/js/validate.js"></script>
 
+<tmpl_if show_ads>
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -17,3 +18,5 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
 var pageTracker = _gat._getTracker("UA-6157590-1");
 pageTracker._trackPageview();
 </script>
+</tmpl_if>
+
