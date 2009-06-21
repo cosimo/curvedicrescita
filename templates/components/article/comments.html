@@ -11,13 +11,11 @@
 		<tmpl_loop name="comments_list">
 
 			<div class="comment" id="comment-<tmpl_var id>">
-				<!--
 				<div class="comment-vote">
 					<a href="#" onclick="javascript:vote_up('<tmpl_var id>'); return false;"><img src="/img/vote-up.png" alt="+1" border="0"></a><br/>
 					<span id="comment-<tmpl_var id>-rep"><tmpl_var reputation></span><br/>
 					<a href="#" onclick="javascript:vote_down('<tmpl_var id>'); return false;"><img src="/img/vote-down.png" alt="-1" border="0"></a>
 				</div>
-				-->
 				<div class="comment-text">
 					<p>
 						<tmpl_var content>
@@ -44,8 +42,9 @@
 
 <br/>
 
-<tmpl_if name="comments_allowed">
 <h2>Domande o commenti?</h2>
+
+<tmpl_if name="comments_allowed">
 
 <form name="comment-form" action="/exec/article/comment_post" method="post">
 	<input type="hidden" name="id" value="<tmpl_var article_id>">
@@ -64,6 +63,15 @@
 		theme: 'simple'
 	});
 </script>
+
+<tmpl_else>
+
+<p>
+Se vuoi scrivere un commento o una domanda relativa a questo articolo,
+devi <a href="#" onclick="toggle_balloon('link','balloon',560,0,'/exec/login');">accedere</a> con il tuo profilo oppure
+<a href="/exec/home/signup">registrarti</a> se
+non sei ancora un utente registrato.
+</p>
 
 </tmpl_if>
 
