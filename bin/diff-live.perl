@@ -5,7 +5,7 @@
 # 
 # Usage: diff-live.perl htdocs\css\master.css
 #
-# $Id: copy-live.perl 84 2009-01-17 10:22:42Z Cosimo $
+# $Id$
 # ==============================================================
 
 BEGIN {
