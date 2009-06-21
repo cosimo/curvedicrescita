@@ -1,5 +1,5 @@
 <tmpl_if name="notice_message">
-<div id="notice_box">
+<div id="notice_box_<tmpl_if name="notice_class"><tmpl_var name="notice_class"><tmpl_else>info</tmpl_if>">
     <h3><tmpl_var name="notice_title"></h3>
     <p><tmpl_var name="notice_message"></p>
 </div>

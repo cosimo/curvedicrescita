@@ -394,8 +394,8 @@ input#search {
     font-size: 12px;
 }
 
-/* Notice box */
-div#notice_box {
+/* Notice boxes */
+div#notice_box_warning {
     float: left;
     clear: both;
     width: 100%;
@@ -407,9 +407,28 @@ div#notice_box {
     text-align: center;
 }
 
-div#notice_box h3, div#notice_box p {
+div#notice_box_warning h3, div#notice_box_warning p {
     text-align: center;
     margin:0;
     padding:0 0 0 10px;
+}
+
+div#notice_box_info {
+    float: left;
+    clear: both;
+    width: 100%;
+    margin-top: 10px;
+    display: block;
+    background: #ada;
+    color: white;
+    border: 1px solid #0c0;
+    text-align: center;
+}
+
+div#notice_box_info h3, div#notice_box_info p {
+    text-align: center;
+    margin:0;
+    padding:0 0 0 10px;
+	font-weight: bold;
 }
 
