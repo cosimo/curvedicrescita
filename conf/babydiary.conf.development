@@ -1,19 +1,27 @@
 # Babydiary Configuration file
 #
-# $Id: babydiary.conf 201 2009-03-29 09:08:39Z cosimo $
+# $Id$
 
 # Site root URL
-root_uri: http://localhost:8080/
+root_uri = http://localhost:8080/
 
 # Root directories of server
-root_dir: e:/users/cosimo/Desktop/curvedicrescita.com/htdocs
+root_dir = e:/users/cosimo/Desktop/curvedicrescita.com/htdocs
 
 # Where are templates stored
-tmpl_path: e:/users/cosimo/Desktop/curvedicrescita.com/templates
+tmpl_path = e:/users/cosimo/Desktop/curvedicrescita.com/templates
 
 # Root path of CGIs
-cgi_root: /exec/home
+cgi_root = /exec/home
 
 # Show Google Adsense ads? (1=yes, 0=no)
-show_ads: 1
+show_ads = 1
 
+# Google custom search? (1=yes, 0=no)
+show_custom_search = 0
+
+# Use this SMTP to send mail
+smtp_host = smtp.getmail.no
+
+# Send notification mail for every comment published
+send_comments_notification = 0
