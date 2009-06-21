@@ -1,4 +1,4 @@
-/* $Id:$ */
+/* $Id$ */
 
 BEGIN;
 
@@ -14,7 +14,8 @@ CREATE TABLE comments (
 	lastupdateon timestamp,
 	keywords text,
 	-- 0:non public, 1:public
-	published integer not null default 1
+	published integer not null default 1,
+	reputation integer not null default 0
 );
 
 CREATE INDEX i_comments_related ON comments (rtype, rid);
