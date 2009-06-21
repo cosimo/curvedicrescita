@@ -88,6 +88,21 @@ sub format_author
 
     return($name);
 }
+	
+sub format_comment {
+	my ($comment) = @_;
+	
+	# Trim trailing spaces from comment
+	$comment =~ s{^\s+}{};
+	$comment =~ s{\s+$}{};
+
+	return $comment;
+
+	# TODO: Strip script/iframe tags for security reasons
+	#my $hs = HTML::Strip->new();
+	#$hs->set_striptags(['script','iframe']);
+	#return $hs->parse($comment);
+}
 
 #
 # Keywords appear each with a link to search for that keyword

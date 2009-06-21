@@ -5,10 +5,12 @@ package BabyDiary::Application::Articles;
 
 use strict;
 use HTML::Entities;
+
 use BabyDiary::File::Articles;
+use BabyDiary::File::Comments;
 use BabyDiary::File::Users;
-use Opera::Util;
 use BabyDiary::View::Articles;
+use Opera::Util;
 
 #
 # Delete an article that is in the database
@@ -59,12 +61,15 @@ sub delete
     if($ok)
     {
         $self->log('notice', 'Deleted article id ', $art_id);
-        $self->user_warning('Article deleted!', 'The selected article was deleted!');
+        $self->user_warning('Article deleted!', 'The selected article was deleted!', 'info');
     }
     else
     {
         $self->log('warn', 'Delete of article id ', $art_id, ' *FAILED*');
-        $self->user_warning('Article delete failed', 'Sorry! The article wasn\'t deleted. There was some problem. Please retry later or report the problem at <b>bugs@myoperatest.com</b>');
+        $self->user_warning(
+			'Article delete failed',
+			'Sorry! The article wasn\'t deleted. There was some problem. Please retry later or report the problem at <b>info@curvedicrescita.com</b>'
+		);
     }
 
     # Return to articles search
@@ -162,7 +167,7 @@ sub modify
         }
         else
         {
-            $self->user_warning('Article modified!', 'The article was modified correctly.');
+            $self->user_warning('Article modified!', 'The article was modified correctly.', 'info');
         }
 
         return $self->forward('article');
@@ -230,15 +235,124 @@ sub post
     # Return to articles page
     if(!$posted)
     {
-        $self->user_warning('Article post error!', 'Sorry! Your article wasn\'t posted. There was some problem. Please retry later or report the problem at <b>bugs@myoperatest.com</b>');
+        $self->user_warning('Article post error!', 'Sorry! Your article wasn\'t posted. There was some problem. Please retry later or report the problem at <b>info@curvedicrescita.com</b>');
     }
     else
     {
-        $self->user_warning('Article posted!', 'Your article was accepted and posted. Thanks for your contribution!');
+        $self->user_warning(
+			'Articolo salvato',
+			'Il tuo articolo &egrave; stato salvato. Grazie per il tuo contributo!',
+			'info',
+		);
     }
 
     # Return to articles search
     return $self->forward('articles');
+}
+
+sub delete_comment {
+	my ($self) = @_;
+
+	my $query = $self->query;
+	my $comment_id = $query->param('cid');
+	my $article_id = $query->param('id');
+
+	# Only numeric ids
+	$comment_id =~ s{\D}{}g;
+	$article_id =~ s{\D}{}g;
+
+	# Only admins can delete comments
+	my $is_admin = $self->session->param('admin');
+	if (! $is_admin) {
+		return $self->go_back_or_forward('article');
+	}
+
+	my $comm = BabyDiary::File::Comments->new();
+	my $filter = { id => $comment_id };
+	my $comment = $comm->get({ where => $filter });
+
+	if (! $comment) {
+		$self->user_warning(
+			'Commento non trovato',
+			q(Il commento da rimuovere non &egrave; stato trovato...)
+		);
+		return $self->forward('article');
+	}
+
+	my $deleted = $comm->delete({
+		id => $comment_id
+	});
+
+	if (! $deleted) {
+		$self->user_warning(
+			'Commento non rimosso',
+			q(C'&egrave; stato un problema nella cancellazione del commento.<br/>Per favore riprova pi&ugrave; tardi.)
+		);
+		return $self->forward('article');
+	}
+
+	# TODO: 'rtype' can differ from 'ART'
+	my $articles = BabyDiary::File::Articles->new();
+	my $slug = $articles->slug($article_id || $comment->{rid});
+	my $prev_url = "/exec/article/$slug#comments";
+
+	$self->header_type('redirect');
+	$self->header_props(-url => $prev_url);
+
+	return;
+}
+
+sub post_comment {
+	my ($self) = @_;
+
+	my $query = $self->query;
+	my $article_id = $query->param('id');
+	my $comment    = $query->param('text');
+
+	# Only numeric ids
+	$article_id =~ s{\D}{}g;
+
+	# Strip dangerous content from comment html
+	$comment = BabyDiary::View::Articles::format_comment($comment);
+
+	# Only registered and logged in users can comment
+	my $current_user = $self->session->param('user');
+	if (! $current_user) {
+		$self->user_warning(
+			'Accesso richiesto',
+			'Per postare commenti agli articoli &egrave; richiesto l\'accesso.'
+		);
+		return $self->forward('article');
+	}
+
+	my $comm = BabyDiary::File::Comments->new();
+	my $posted = $comm->post($article_id, $current_user, $comment);
+
+	if (! $posted) {
+		$self->user_warning(
+			'Commento non pubblicato',
+			q(C'&egrave; stato un problema nella pubblicazione del commento.<br/>Per favore riprova pi&ugrave; tardi.)
+		);
+		return $self->forward('article');
+	}
+
+	if ($self->config('send_comments_notification')) {
+		require BabyDiary::Notifications;
+		BabyDiary::Notifications::send_comment_mail(
+			$current_user,
+			$article_id,
+			$comment
+		);
+	}
+
+	my $articles = BabyDiary::File::Articles->new();
+	my $slug = $articles->slug($article_id);
+	my $prev_url = "/exec/article/$slug#last-comment";
+
+	$self->header_type('redirect');
+	$self->header_props(-url => $prev_url);
+
+	return;
 }
 
 #
@@ -400,6 +514,8 @@ sub render {
 			where => {
 				published => { '<>', 0 },
 			},
+			# First "front-paged" articles, then normal ones
+			# Order by id desc ensures chronological order
             order => 'published DESC, id DESC',
             limit => 1,
         });
@@ -455,7 +571,6 @@ sub render {
         $tmpl->param( article_published => $rec->{published} );
 
 		# Artificial published states for the drop-down list
-		warn "published:$rec->{published}\n";
         $tmpl->param( 'article_published_' . ($rec->{published} || '0') => 1 );
 
         # Check permissions for cancel/modify buttons
@@ -480,10 +595,71 @@ sub render {
         my @related = $art->related($art_id);
         $tmpl->param( article_related => \@related );
 
+		#
+		# Comments section, only for published articles
+		#
+		if ($rec->{published}) {
+			render_comments($self, $tmpl, $art_id);
+		}
+
         $ok = 1;
     }
 
     return $ok;
+}
+
+sub render_comments {
+	my ($self, $tmpl, $article_id) = @_;
+
+	my $comments_allowed = 1;
+	my $current_user = $self->session->param('user');
+	if (! $current_user) {
+		$comments_allowed = 0;
+	}
+
+	$tmpl->param( comments_allowed => $comments_allowed );
+
+	my $comm = BabyDiary::File::Comments->new();
+	my $comments_list = $comm->comments_by_article($article_id);
+
+	if ($comments_list) {
+
+		my $is_admin = $self->session->param('admin');
+		my %user_cache;
+		my $users = BabyDiary::File::Users->new();
+
+		for my $c (@{ $comments_list }) {
+
+			#
+			# Format username
+			#
+			my $username = $c->{createdby};
+			my $userdata;
+			if (exists $user_cache{$username}) {
+				$userdata = $user_cache{$username};	
+			}
+			else {
+				$userdata = $users->get({ where => {username => $c->{createdby}} });
+				$user_cache{$username} = $userdata;
+			}
+			$c->{createdby} = $userdata->{realname};
+
+			#
+			# Format comment date
+			#
+			$c->{createdon} = Opera::Util::format_date($c->{createdon});
+
+			# We need to know if current user is an admin
+			$c->{admin} = $is_admin;
+			$c->{article_id} = $article_id;
+
+		}
+
+		$tmpl->param( comments_list => $comments_list );
+
+	}
+
+	return;
 }
 
 #

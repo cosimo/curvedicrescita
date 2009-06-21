@@ -1,4 +1,4 @@
-# $Id: Users.pm 32 2008-10-26 06:58:24Z Cosimo $
+# $Id$
 
 package BabyDiary::File::UsersUnregistered;
 

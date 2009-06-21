@@ -84,6 +84,9 @@ sub setup
         article_post    => \&BabyDiary::Application::Articles::post,
         article_search  => \&BabyDiary::Application::Articles::search,
 
+		comment_delete  => \&BabyDiary::Application::Articles::delete_comment,
+		comment_post    => \&BabyDiary::Application::Articles::post_comment,
+
 		diary           => \&BabyDiary::Application::Diary::start,
 
         tags            => \&BabyDiary::Application::Articles::tags,
@@ -192,6 +195,27 @@ sub fill_messages
     return;
 }
 
+sub go_back_or_forward {
+	my ($self, $runmode) = @_;
+
+	my $prev_url = $ENV{HTTP_REFERER} || $self->query->param('back');
+
+	if (! $prev_url) {
+		return $self->forward($runmode);
+	}
+
+	# Can't redirect to logout, it would automatically
+	# logout all users that try to logout/login
+	if ($prev_url =~ m{logout}) {
+		$prev_url = '/';
+	}
+
+	$self->header_type('redirect');
+	$self->header_props(-url => $prev_url);
+
+	return;
+}
+
 #
 # Load static params, like n. of registered users, ...
 #
@@ -292,8 +316,9 @@ sub render_session {
 
     # Basic application parameters (cgi path, static resources path, ...)
     $param{mycgi_path} = $self->config('cgi_root');
-	$param{show_ads}   = $self->config('show_ads');
-    $param{www_path}   = '/';
+	$param{show_ads} = $self->config('show_ads');
+	$param{show_custom_search} = $self->config('show_custom_search');
+    $param{www_path} = '/';
 
     # Calculate users count
     my $users = BabyDiary::File::Users->new();
@@ -320,6 +345,7 @@ sub render_session {
     {
         $param{notice_title}   = $self->param('notice_title');
         $param{notice_message} = $self->param('notice_message');
+        $param{notice_class}   = $self->param('notice_class');
     }
 
     while(my($key, $val) = each(%param))
@@ -507,13 +533,13 @@ sub user_notice
 #
 sub user_warning
 {
-    my($self, $title, $msg) = @_;
+    my($self, $title, $msg, $class) = @_;
     $title ||= $self->msg('Untitled warning');
     $msg   ||= $self->msg('Nothing to say?');
 
     $self->param(notice_title   => $title);
     $self->param(notice_message => $msg);
-    $self->param(notice_class   => 'warning');
+    $self->param(notice_class   => $class || 'warning');
 
     return;
 }

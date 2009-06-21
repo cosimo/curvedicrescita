@@ -1,4 +1,4 @@
-# $Id: Articles.pm 179 2009-02-28 14:39:52Z cosimo $
+# $Id$
 
 # Model class to access article slugs on database
 package BabyDiary::File::Slugs;

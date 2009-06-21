@@ -1,4 +1,4 @@
-# $Id: Diary.pm 37 2008-10-28 22:50:53Z Cosimo $
+# $Id$
 
 package BabyDiary::Application::Diary;
 

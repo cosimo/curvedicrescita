@@ -22,6 +22,13 @@ our $HAVE_UNACCENT = eval 'use Text::Unaccent (); return 1';
         $ts .= $time_obj->hms();
         return($ts);
     }
+
+	sub format_date {
+		my ($date) = @_;
+		$date =~ s{^ (\d+) \- (\d+) \- (\d+) \s+ (\d+) : (\d+) : (\d+) $}{$3.$2.$1 $4:$5}x;
+		return $date;
+	}
+
 }
 
 sub format_date_iso8601 {

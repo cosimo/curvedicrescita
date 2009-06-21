@@ -1,0 +1,69 @@
+<!-- Comments -->
+<tmpl_if comments_list>
+
+	<a name="comments">
+	<div id="comments">
+
+		<h2>Commenti</h2>
+
+		<ul id="comments_list">
+
+		<tmpl_loop name="comments_list">
+
+			<div class="comment" id="comment-<tmpl_var id>">
+				<!--
+				<div class="comment-vote">
+					<a href="#" onclick="javascript:vote_up('<tmpl_var id>'); return false;"><img src="/img/vote-up.png" alt="+1" border="0"></a><br/>
+					<span id="comment-<tmpl_var id>-rep"><tmpl_var reputation></span><br/>
+					<a href="#" onclick="javascript:vote_down('<tmpl_var id>'); return false;"><img src="/img/vote-down.png" alt="-1" border="0"></a>
+				</div>
+				-->
+				<div class="comment-text">
+					<p>
+						<tmpl_var content>
+					</p>
+					<p class="comment-details">
+						<strong><tmpl_var createdby></strong>,
+						<span class="comment-date"><tmpl_var createdon></span>
+						<tmpl_if admin> &nbsp; | &nbsp;
+						<a href="/exec/article/comment_delete?id=<tmpl_var article_id>&cid=<tmpl_var id>">Cancella</a> 
+						</tmpl_if>
+					</p>
+				</div>
+			</div>
+		</tmpl_loop>
+		<a name="last-comment"></a>
+
+		</ul>
+
+	</div>
+
+	<script type="text/javascript" src="/js/comments.js"></script>
+
+</tmpl_if>
+
+<br/>
+
+<tmpl_if name="comments_allowed">
+<h2>Domande o commenti?</h2>
+
+<form name="comment-form" action="/exec/article/comment_post" method="post">
+	<input type="hidden" name="id" value="<tmpl_var article_id>">
+	<input type="hidden" name="otk" value="<tmpl_var comment_otk>">
+	<textarea id="cm1" class="comment-text" name="text">
+	</textarea><br/>
+	<input type="submit" value=" Pubblica ">
+</form>
+
+<script type="text/javascript" src="/js/tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript">
+	tinyMCE.init({
+		mode: 'exact',
+		elements: 'cm1',
+		language: 'it',
+		theme: 'simple'
+	});
+</script>
+
+</tmpl_if>
+

@@ -72,11 +72,15 @@ sub login
         }
     }
 
-    # Return to original page (or start if nothing defined)
+    ## Return to original page (or start if nothing defined)
     my $prev_mode = $prm{prev_mode} || 'homepage';
     $self->log('notice', 'Return to ', $prev_mode, ' application runmode');
 
-    return $self->forward($prev_mode);
+	return $self->forward($prev_mode);
+
+    #$self->header_type('redirect');
+	#$self->header_props(-url => '/');
+	#return;
 }
 
 #

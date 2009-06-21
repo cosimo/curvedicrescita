@@ -2,27 +2,44 @@
 #
 # Article view page
 #
-# $Id: home 46 2008-11-08 11:04:04Z Cosimo $
+# $Id$
 
 use strict;
 use lib '../lib';
 
-use BabyDiary::Application;
-use BabyDiary::File::Slugs;
+use CGI;
 
+use BabyDiary::Application;
+
+my $article_id;
 my $path = $ENV{PATH_INFO};
 $path =~ s{^/}{};
 
-my $slug = BabyDiary::File::Slugs->new();
-my $article_id = $slug->find_id($path, 'article');
-
-# Redirect to home page if nothing found
-if (! $article_id) {
-	print "Location: /\n";
+# Post a new comment to an existing article
+if ($path eq 'comment_post') {
+	$ENV{PATH_INFO} = "/comment_post";
 }
 
-$ENV{PATH_INFO} = "/article";
-$ENV{QUERY_STRING} = "id=$article_id";
+elsif ($path eq 'comment_delete') {
+	$ENV{PATH_INFO} = "/comment_delete";
+}
+
+# View an article through slug
+else {
+
+	require BabyDiary::File::Slugs;
+	my $slug = BabyDiary::File::Slugs->new();
+	$article_id = $slug->find_id($path, 'article');
+
+	# Redirect to home page if nothing found
+	if (! $article_id) {
+		print "Location: /\n";
+		exit;
+	}
+
+	$ENV{PATH_INFO} = "/article";
+	$ENV{QUERY_STRING} = "id=$article_id";
+}
 
 # Instance application object
 my $app = BabyDiary::Application->new(

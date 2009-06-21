@@ -7,14 +7,13 @@ package BabyDiary::Notifications;
 
 use strict;
 use warnings;
-use BabyDiary::File::UsersUnregistered;
-
-use constant DEFAULT_SMTP => 'localhost';
+use Config::Auto;
 
 sub mail {
     my ($args) = @_;
 
-    $args->{smtp} ||= DEFAULT_SMTP;
+	my $conf = Config::Auto::parse('../conf/babydiary.conf');
+	$args->{smtp} ||= $conf->{smtp_host};
 
     require MIME::Lite;
 
@@ -41,6 +40,7 @@ sub mail {
 sub send_activation_mail {
     my ($user) = @_;
 
+	require BabyDiary::File::UsersUnregistered;
     my $unreg = BabyDiary::File::UsersUnregistered->new();
     my $user_info = $unreg->get({where => {username=>$user}});
 
@@ -75,6 +75,71 @@ sub send_activation_mail {
         subject => $subject,
         text    => $text,
 	);
+	my $sent = mail(\%message);
+
+	# Send also to myself for double checking...
+	$message{to} = 'Cosimo Streppone <cosimo@streppone.it>';
+	mail(\%message);
+
+    return $sent;
+}
+
+sub send_comment_mail {
+    my ($user, $article, $comment) = @_;
+
+	require BabyDiary::File::Articles;
+	require BabyDiary::File::Users;
+
+	my $users = BabyDiary::File::Users->new();
+	my $articles = BabyDiary::File::Articles->new();
+
+    my $user_info = $users->get({where => {username=>$user}});
+    if (! $user_info) {
+        warn "No user '$user' found? Can't send comment notification email\n";
+        return;
+    }
+
+	my $art_info  = $articles->get({where => {id=>$article}});
+	if (! $art_info) {
+		warn "No article '$article' found. Can't send comment notification email\n";
+		return;
+	}
+
+	my $realname = $user_info->{realname};
+
+	my $title = $art_info->{title};
+    my $subject = qq(Nuovo commento di $realname all'articolo '$title');
+	my $art_link = 'http://www.curvedicrescita.com/exec/article/' . $articles->slug($article);
+
+	my $text = <<EMAIL_TEXT;
+Caro amministratore,
+
+$realname ha appena pubblicato un nuovo commento all'articolo
+$title su www.curvedicrescita.com, scrivendo (in html):
+
+-----------------------------
+$comment
+-----------------------------
+
+Vai all'articolo:
+  $art_link
+
+Vai direttamente ai commenti:
+  $art_link#comments
+
+-- 
+Lo staff di curvedicrescita.com
+
+EMAIL_TEXT
+
+	# Send the activation mail to the user
+	my %message = (
+        from    => 'info@curvedicrescita.com',
+        to      => 'info@curvedicrescita.com',
+        subject => $subject,
+        text    => $text,
+	);
+
 	my $sent = mail(\%message);
 
 	# Send also to myself for double checking...

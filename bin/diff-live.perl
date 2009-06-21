@@ -38,7 +38,7 @@ if (grep { $_ =~ m{database/data} } @files) {
 for my $file (@files) {
 
     my $dest_file = BabyDiary::Deploy::windows_to_unix_path($file);
-    my $copy_cmd = qq{scp $TARGET/$dest_file $file.tmp.$$ >NUL};
+    my $copy_cmd = qq{c:\\bin\\scp $TARGET/$dest_file $file.tmp.$$ >NUL};
     my $status = system($copy_cmd);
 
     # Transfer failed
