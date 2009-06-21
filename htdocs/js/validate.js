@@ -1,4 +1,4 @@
-// Form Validation Code - $Id$
+// Form Validation Code - $Id: validate.js 57 2008-11-30 21:27:39Z Cosimo $
 
 // Flag a field as validation passed or failed
 function field_flag(name, pass)

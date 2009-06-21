@@ -1,4 +1,4 @@
-// $Id$
+// $Id: balloon.js 46 2008-11-08 11:04:04Z Cosimo $
 function display_balloon (link,div,x,y,url) {
     if (!div) div='balloon';
     var d=document.getElementById(div);

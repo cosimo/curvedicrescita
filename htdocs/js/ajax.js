@@ -1,5 +1,5 @@
 // Simple ajax function call - Cosimo 12/7/2008
-// $Id$
+// $Id: ajax.js 46 2008-11-08 11:04:04Z Cosimo $
 
 var val_xmlHttpReq = false;
 var val_timer      = 0;
