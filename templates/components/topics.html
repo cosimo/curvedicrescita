@@ -3,8 +3,7 @@
 
         <tmpl_if name="topics">
         <ul>
-        <!-- mpl_loop name="topics"><li><a href="/exec/home/article/?id=<tmpl_var id>"><tmpl_var title></a></li> -->
-        <tmpl_loop name="topics"><li><tmpl_var link></li>
+        <tmpl_loop name="topics"><li<tmpl_if new> class="new"</tmpl_if>><tmpl_var link></li>
         </tmpl_loop>
         </ul>
         </tmpl_if>

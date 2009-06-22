@@ -686,7 +686,7 @@ sub topics
 
     my $articles = BabyDiary::File::Articles->new();
     my $art_list = $articles->list({
-        fields => ['id', 'title', 'createdby', 'views', 'published'], 
+        fields => ['id', 'title', 'createdby', 'views', 'published', 'lastupdateon'], 
         where  => {
 			@article_filter,
 			keywords => { LIKE => '%scheda%' },
@@ -701,9 +701,17 @@ sub topics
 
     $self->log('notice', 'Found ' . scalar(@$art_list) . ' articles for the topics sidebar');
 
+	my @two_weeks_ago = localtime(time() - 14 * 86400);
+	my $thr_date = sprintf '%04d-%02d-%02d',
+		$two_weeks_ago[5] + 1900,
+		$two_weeks_ago[4] + 1,
+		$two_weeks_ago[3];
+
 	for my $art (@{$art_list}) {
 		$art->{url} = $articles->url($art->{id});
 		$art->{link} = BabyDiary::View::Articles::format_title_link($art);
+		# Mark last-updated articles
+		$art->{new} = $art->{lastupdateon} ge $thr_date ? 1 : 0;
 	}
 
     return($art_list);
