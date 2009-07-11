@@ -48,7 +48,7 @@ sub deploy_live {
         $dest = ssh_dest() . '/' . $file;
     }
 
-    my $copy_cmd = qq{c:\\bin\\scp $file $dest >NUL};
+    my $copy_cmd = qq{d:\\bin\\pscp $file $dest >NUL};
     #print $copy_cmd, "\n";
 
     my $status = system($copy_cmd);
