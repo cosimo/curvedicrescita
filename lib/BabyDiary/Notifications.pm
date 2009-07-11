@@ -61,12 +61,13 @@ sub send_activation_mail {
     $text .= sprintf(qq(grazie per esserti iscritt%s a www.curvedicrescita.com!\n\n), $final);
     $text .= qq(Clicca su questo collegamento per confermare la tua iscrizione:\n\n);
     $text .= $activation_url . "\n\n";
-    $text .= "Una volta attivato, potrai iniziare a tenere un diario del tuo bambino\n";
-    $text .= "e vedere le sue curve di crescita, ma anche tanto altro!\n\n";
+    $text .= "Una volta attivato, potrai commentare gli articoli sul sito.\n\n";
+    $text .= "A breve sara' anche possibile iniziare a tenere un diario del tuo bambino\n";
+    $text .= "e vedere le sue curve di crescita.\n\n";
     $text .= "Per qualsiasi dubbio o problema, non esitare a contattarci:\n";
     $text .= "info\@curvedicrescita.com\n\n";
     $text .= "-- \n";
-    $text .= "Lo staff di curvedicrescita.com\n\n";
+    $text .= "Curve di crescita\n\n";
 
 	# Send the activation mail to the user
 	my %message = (
@@ -78,7 +79,7 @@ sub send_activation_mail {
 	my $sent = mail(\%message);
 
 	# Send also to myself for double checking...
-	$message{to} = 'Cosimo Streppone <cosimo@streppone.it>';
+	$message{to} = 'Tamara De Zotti <info@curvedicrescita.com>';
 	mail(\%message);
 
     return $sent;
