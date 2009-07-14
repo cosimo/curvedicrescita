@@ -6,16 +6,16 @@
 root_uri = http://localhost:8080/
 
 # Root directories of server
-root_dir = e:/users/cosimo/Desktop/curvedicrescita.com/htdocs
+root_dir = d:/users/cosimo_2/Desktop/curvedicrescita.com/htdocs
 
 # Where are templates stored
-tmpl_path = e:/users/cosimo/Desktop/curvedicrescita.com/templates
+tmpl_path = d:/users/cosimo_2/Desktop/curvedicrescita.com/templates
 
 # Root path of CGIs
 cgi_root = /exec/home
 
 # Show Google Adsense ads? (1=yes, 0=no)
-show_ads = 1
+show_ads = 0
 
 # Google custom search? (1=yes, 0=no)
 show_custom_search = 0

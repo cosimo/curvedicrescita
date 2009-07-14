@@ -8,7 +8,7 @@ use File::Path     ();
 use File::Basename ();
 
 # Default path for logging
-$Opera::Logger::APP_LOG_FILE = 'e:/users/cosimo/Desktop/curvedicrescita.com/logs/application.log';
+$Opera::Logger::APP_LOG_FILE = 'd:/users/cosimo_2/Desktop/curvedicrescita.com/logs/application.log';
 
 # Constructor
 sub new
