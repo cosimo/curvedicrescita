@@ -13,6 +13,11 @@ body {
     color: #226;
 }
 
+/* IE displays fieldsets very weirdly */
+fieldset {
+	padding: 5px 0px 0px 5px;
+}
+
 a {
     color: #33b;
     text-decoration: underline;
@@ -50,12 +55,7 @@ div#logo {
 div#menu {
     float:right;
     display:block;
-}
-
-div#header {
-/*, div#menu, div#logo {*/
-    /*height: 44px;*/
-    border-bottom: 1px solid #ccf;
+	margin-top:8px;
 }
 
 div#header div#balloon {
@@ -77,11 +77,11 @@ div#balloon #balloon_content {
 }
 
 div#logo #logoimg {
-    margin-bottom: -9px;
+    margin-bottom: -2px; /* -9px */
 }
 
 div#logo #logotitle {
-    margin-bottom: 3px;
+    margin-bottom: -2px;
 }
 
 h1 {
@@ -146,7 +146,7 @@ ul#nav, ul#nav li {
 ul#nav {
     width: 100%;
     font-family: 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica, sans-serif;
-    font-size: 18px;
+    font-size: 1.4em;
     letter-spacing: -1px;
     font-weight: 400;
 }
@@ -173,6 +173,7 @@ ul#nav a:hover {
 
 ul#nav li.activelink a,ul#nav li.activelink a:hover {
     background: #228;
+	border-bottom: 1px solid #228;
     color: #fff;
 }
 
@@ -197,6 +198,17 @@ div#content {
 #content #article {
     float:left;
     width:55%;
+    padding:0;
+    margin:0;
+    padding-left: 15px;
+    font-size: 13px;
+	line-height: 1.4em;
+    display:block;
+}
+
+#content #article2col {
+    float:left;
+    width:75%;
     padding:0;
     margin:0;
     padding-left: 15px;

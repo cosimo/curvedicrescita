@@ -4,4 +4,4 @@ var points = new Array (
 	{ age:2, weight:5.4 },
 	{ age:3, weight:6.3 }
 );
-chart.set_title('Curva di crescita di Giulia');
+//chart.set_title('Curva di crescita di Giulia');

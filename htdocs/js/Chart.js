@@ -181,7 +181,7 @@ Chart.prototype = {
 		this.clear();
 		this.type = new_type;
 		this.div.className = new_type;
-		this.draw();
+		//this.draw();
     },
 
 	set_title: function (text, color, x, y) {

@@ -1,61 +1,36 @@
-<tmpl_if logged>
+<p style="font-size: 0.9em"><b>Imposta i dati del tuo bambino</b> qui a sinistra. Potrai vedere il risultato
+immediatamente qui sotto. Per ora &egrave; possibile visualizzare le curve di
+crescita <b>solo del peso e per bambini da 0 a 2 anni</b>. Le curve di altezza e per i
+bimbi pi&ugrave; grandi saranno disponibili a breve!</p>
 
-	<h1>Curva di crescita di ....</h1>
+<!--
+<form>
+	<input id="draw" type="button" value="Draw"/>
+	<input id="type" type="button" value="Type"/>
+	<input id="clear" type="button" value="Clear"/>
+</form>
+-->
 
-	<form>
-		<input id="draw" type="button" value="Draw"/>
-		<input id="type" type="button" value="Type"/>
-		<input id="clear" type="button" value="Clear"/>
-	</form>
-
+<div align="center">
 	<div id="chart"></div>
+	www.curvedicrescita.com
+</div>
 
-	<script language="javascript" src="/js/wz_jsgraphics.js"></script>
-	<script language="javascript" src="/js/ajax.js"></script>
-	<script language="javascript" src="/js/Chart.js"></script>
-	<script language="javascript" src="/js/event-handler.js"></script>
+<script language="javascript" src="/js/wz_jsgraphics.js"></script>
+<script language="javascript" src="/js/ajax.js"></script>
+<script language="javascript" src="/js/Chart.js"></script>
+<script language="javascript" src="/js/event-handler.js"></script>
+<script language="javascript" src="/js/chart-form.js"></script>
 
-	<script language="javascript">
-	<!--
-		var cht = new Chart ('chart', 'boys-wfa-0-2', 557, 356);
+<script language="javascript">
+<!--
+	var cht;
+	cht = redraw_chart();
 
-		function change_type(event) {
-			var type = cht.type;
-			if (type == 'girls-wfa-0-2')
-				type = 'boys-wfa-0-2'
-			else
-				type = 'girls-wfa-0-2'
-			cht.set_type(type);
-		};
-
-		// Install button on-click handlers
-		add_event('click', function () { cht.draw() }, 'draw');
-		add_event('click', change_type, 'type');
-		add_event('click', function () { cht.clear() }, 'clear');
-	// -->
-	</script>
-
-<tmpl_else>
-
-	<p><a href="<tmpl_var mycgi_path>/signup">Registrati</a>, &egrave; gratuito, e avrai a disposizione:</p>
-
-	<ul>
-
-	<li>una pagina privata e personalizzata all'interno del sito. Inserendo tutti i dati tuoi e del bimbo al momento della registrazione, vedrai automaticamente aggiornato il tuo stato e/o quello del tuo bambino. Ad esempio, se aspetti un bimbo, ogni volta che accedi ti sar&agrave; indicata la settimana di gravidanza).
-	E potrai partecipare alle discussioni interne tra genitori.</li>
-
-	<li>Potrai compilare le curve di crescita del tuo bambino, che rimarranno memorizzate per l'accesso successivo e potranno essere stampate in ogni momento.</li>
-
-	<li>Potrai compilare il diario del tuo bambino, segnando giorno per giorno l'attivit&agrave; in cui sono impegnati mamma e bimbo, dalle sue "prime volte" (la prima poppata, il primo sorriso, i primi passi, ecc...), al diario delle poppate, le fasi dello svezzamento, annotando gli alimenti e le reazioni del bimbo. E qualsiasi altra cosa tu voglia tenere in mente.</li>
-
-	<li>Avrai a disposizione una tabella, che &egrave; bene compilare almeno per le prime 6 settimane del bambino, che ti permetter&agrave; di individuare una routine nel bambino. Questo ti guider&agrave; nell'individuare e risolvere i problemi, e ti aiuter&agrave; ad organizzarti in modo tale da riuscire a trovare tempo per te.</li>
-
-	<li>In futuro sar&agrave; possibile inserire anche un piccolo album fotografico e vedere la foto del tuo bimbo nella homepage nello spazio che sar&agrave; dedicato al "Bimbo del giorno".</li>
-
-	<li>I tuoi parenti e amici potranno seguire la crescita del tuo bimbo con il tuo invito tramite il
-	feed RSS personale del bambino.</li>
-
-	</ul>
-
-</tmpl_if>
+	// Install button on-click handlers
+	//add_event('click', redraw_chart, 'draw');
+	//add_event('click', change_type, 'type');
+	//add_event('click', function () { cht.clear() }, 'clear');
+// -->
+</script>
 
