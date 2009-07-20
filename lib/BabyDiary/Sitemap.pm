@@ -54,6 +54,9 @@ sub generate {
 	print "\n#\n# RSS feed\n#\n";
 	print $base_url, 'exec/rss changefreq=daily priority=0.8', "\n";
 
+	print "\n#\n# Diary/curves page\n#\n";
+	print $base_url, 'exec/home/diary changefreq=weekly priority=0.7', "\n";
+
 	print "\n#\n# Signup page\n#\n";
 	print $base_url, 'exec/home/signup changefreq=monthly priority=0.2', "\n";
 
@@ -78,13 +81,13 @@ sub generate {
 		my $last_mod = $_->{lastupdateon} || $_->{createdon};
 		$last_mod = Opera::Util::format_date_iso8601($last_mod);
 
-		my $priority = 0.7;
+		my $priority = 0.95;
 		if ($_->{views} > 1000) {
-			$priority = 0.95;
+			$priority = 0.7;
 		} elsif ($_->{views} > 500) {
-			$priority = 0.85;
-		} elsif ($_->{views} > 100) {
 			$priority = 0.8;
+		} elsif ($_->{views} > 100) {
+			$priority = 0.9;
 		}
 
 		if ($n_art-- > 0) {
