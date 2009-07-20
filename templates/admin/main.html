@@ -42,6 +42,12 @@
 	<p><tmpl_var name="msg:Ancora nessun articolo..."></p>
 	<!-- /tmpl_if -->
 
+	<h2>ARTICOLI MENO LETTI</h2>
+	<!-- tmpl_if name="articles_worst" -->
+	<!-- tmpl_var name="articles_worst" -->
+	<!-- tmpl_else -->
+	<p><tmpl_var name="msg:Ancora nessun articolo..."></p>
+	<!-- /tmpl_if -->
 	</div>
 
 <tmpl_else>

@@ -56,6 +56,7 @@ sub front_page {
 	my $tmpl = $self->render_view('admin/main.html');
 
 	$tmpl->param(stats1 => \@stat);
+    $tmpl->param(articles_worst => $self->BabyDiary::Application::Articles::worst_n(15));
 
 	return $tmpl->output();
 }

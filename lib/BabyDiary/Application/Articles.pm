@@ -778,6 +778,13 @@ sub best_n
     latest_n($self, $n, 'views DESC, title ASC');
 }
 
+sub worst_n
+{
+    my($self, $n) = @_;
+
+    latest_n($self, $n, 'views ASC, title ASC');
+}
+
 #
 # Show a page with all the tags sorted
 #
