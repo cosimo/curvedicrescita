@@ -369,6 +369,13 @@ div.comment {
 	margin: 0;
 }
 
+/* When comments are from site admins */
+div.official {
+    background-color:#eeffee;
+    padding: 5px;
+    border: #ccffcc 1px dotted;
+}
+
 #article p.comment-details {
 	font-size: 0.9em;
 }

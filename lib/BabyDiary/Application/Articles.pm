@@ -634,6 +634,13 @@ sub render_comments {
 			# Format username
 			#
 			my $username = $c->{createdby};
+
+            # Special users are flagged so that comment is highlighted
+            my $is_official = 0;
+            if ($username eq 'tamara' || $username eq 'info@curvedicrescita.com') {
+                $is_official = 1;
+            }
+
 			my $userdata;
 			if (exists $user_cache{$username}) {
 				$userdata = $user_cache{$username};	
@@ -652,6 +659,9 @@ sub render_comments {
 			# We need to know if current user is an admin
 			$c->{admin} = $is_admin;
 			$c->{article_id} = $article_id;
+
+            # Comment is from someone that administers the site
+            $c->{is_official} = $is_official;
 
 		}
 
