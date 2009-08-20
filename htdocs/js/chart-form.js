@@ -52,7 +52,7 @@ function get_points() {
 	// Fetch measures from form
 	var birth = get_birthdate();
 	var points = new Array();
-	for (var i = 1; i <= 9; i++) {
+	for (var i = 1; i <= 15; i++) {
 
 		var date_el = document.getElementById('date_' + i);
 		var meas_el = document.getElementById('measure_' + i);
