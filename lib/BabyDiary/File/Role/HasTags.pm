@@ -1,3 +1,5 @@
+# $Id$
+
 package BabyDiary::File::Role::HasTags;
 
 use strict;
