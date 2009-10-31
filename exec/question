@@ -1,0 +1,7 @@
+#!c:/dev/perl510/bin/perl.exe
+#
+# Questions section
+#
+# $Id$
+
+do("home");
