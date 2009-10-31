@@ -5,63 +5,15 @@ package BabyDiary::File::Articles;
 
 use strict;
 
-use base qw(BabyDiary::File::SQLite);
-use BabyDiary::File::Slugs;
+use base qw(
+	BabyDiary::File::SQLite
+	BabyDiary::File::Role::HasTags
+	BabyDiary::File::Role::HasSlug
+	BabyDiary::File::Role::HasViews
+);
 
 use constant TABLE  => 'articles';
 use constant FIELDS => [ qw(id title content createdon createdby lastupdateon lastupdateby keywords published views) ];
-
-our $slugs;
-
-sub add_slug {
-	my ($self, $article) = @_;
-
-	# Check if article already has a slug
-	my $id = $article->{id};
-	my $slug;
-
-	$slugs ||= BabyDiary::File::Slugs->new();
-	my $slug_rec = $slugs->get({ where => {type=>'article', id=>$id}} );
-
-	if ($slug_rec) {
-		$slug = $slug_rec->{slug};
-		return $slug;
-	}
-
-	# Prepend date to article slug
-	my $art_date = $article->{createdon};
-	$art_date =~ s{^(\d+)-(\d+)-(\d+).*$}{$1/$2/$3};
-	$slug = $art_date . '/' . Opera::Util::slug($article->{title});
-
-	my $ok = $slugs->insert_or_replace(
-		{
-			slug  => $slug,
-			id    => $id,
-			type  => 'article',
-			state => 'A'
-		},
-		{
-			id => $id,
-			type => 'article'
-		}
-	);
-
-	return $ok ? $slug : undef;
-}
-
-# Overriden to delete the slug
-sub delete {
-	my ($self, $where) = @_;
-	my $deleted = $self->SUPER::delete($where);
-
-	if ($deleted && $where->{id} ) {
-		$self->log('notice', 'Article ' . $where->{id} . ' deleted. Delete slug.');
-		$slugs ||= BabyDiary::File::Slugs->new();
-		$slugs->delete({ type=>'article', id=>$where->{id} });
-	}
-
-	return $deleted;
-}
 
 #
 # Tells who is the original creator or the given article
@@ -152,124 +104,8 @@ sub post
     return $id;
 }
 
-sub related
-{
-    my ($self, $art) = @_;
-
-    # Get article keywords
-    my $rec = $self->get({ where => {id=>$art}});
-    my @keywords = split m{\s* , \s*}x => $rec->{keywords};
-    my %related;
-
-    # Get all articles with these keywords
-    for my $kw (@keywords) {
-
-        my $term = '%' . $kw . '%';
-
-        my $same_kw = $self->list({
-            where =>
-				  'keywords LIKE ' . $self->quote($term)
-				. ' AND id <> ' . $self->quote($art)
-				. ' AND published <> 0',
-            fields => [ 'id', 'title' ],
-        });
-
-        if (! $same_kw || ! ref $same_kw) {
-            next;
-        }
-
-        for (@{$same_kw}) {
-            ++$related{ join("\t", $_->{id}, $_->{title}) };
-        }
-    }
-
-    my @articles;
-    my $n = 1;
-    for (sort { $related{$b} <=> $related{$a} } keys %related) {
-        my ($id, $title) = split "\t";
-        my $relevance = $related{$_};
-        if ($relevance < 2) {
-            next;
-        }
-        push @articles, {
-			id => $id,
-			title => $title,
-			relevance => $relevance,
-			url => $self->url($id),
-		};
-        $self->log('notice', 'Found related article: ' . $title . ' (' . $relevance . ' points)');
-        last if $n++ == 3;
-    }
-
-    return @articles;
-}
-
-sub slug {
-	my ($self, $id) = @_;
-	$slugs ||= BabyDiary::File::Slugs->new();
-	my $slug_rec = $slugs->get({ where => {type=>'article', id=>$id} });
-	if (! $slug_rec) {
-		return;
-	}
-	return $slug_rec->{slug};
-}
-
-#
-# Calculates tags frequency distribution, returning a hash
-# with (tag, count) pairs.
-#
-# If its more convenient, we can also use DBI directly...
-#
-sub tags_frequency
-{
-    my $self = $_[0];
-    my %tags;
-
-    # Trap fatal SQL errors
-    eval {
-
-        # Get all different `keywords' field values from database
-        my $sth = $self->dbh->prepare(
-			'SELECT DISTINCT(keywords) FROM articles '
-			. ' WHERE published <> 0'
-		);
-        if( $sth->execute() )
-        {
-            while(defined(my $rec = $sth->fetch))
-            {
-                # Tokenize words and isolate single tags
-                for(split m{\s* , \s*}x => $rec->[0]) {
-                    # Count +1 for this tag
-                    $tags{$_}++;
-                }
-            }
-            # Close SQL statement
-            $sth->finish();
-        }
-
-    };
-
-    # Was there an error? Log it
-    if($@)
-    {
-        $self->log('error', 'Database error reading the tags frequency: '.$@);
-        return();
-    }
-
-    return %tags;
-}
-
-sub total_page_views {
-	my ($self) = @_;
-
-	my $total_page_views;
-	my $art_sum = $self->list({ fields => 'sum(views) AS total_page_views' });
-
-	if ($art_sum) {
-		$total_page_views = $art_sum->[0]->{total_page_views};
-	}
-
-	return $total_page_views;
+sub type {
+	return 'article'
 }
 
 sub url {
