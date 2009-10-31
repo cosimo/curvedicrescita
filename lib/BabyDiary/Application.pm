@@ -24,6 +24,7 @@ use BabyDiary::Application::Admin;
 use BabyDiary::Application::Articles;
 use BabyDiary::Application::Auth;
 use BabyDiary::Application::Diary;
+use BabyDiary::Application::Questions;
 use BabyDiary::Application::Signup;
 use BabyDiary::Application::StackTrace;
 use BabyDiary::Application::Users;
@@ -40,7 +41,7 @@ use BabyDiary::File::Sessions;
 use BabyDiary::File::Users;
 
 # Default expire time for sessions
-use constant SESSION_EXPIRE_TIME => '+8h';
+use constant SESSION_EXPIRE_TIME => '+72h';
 
 sub url_for {
     my ($self, $page) = @_;
@@ -88,6 +89,9 @@ sub setup
 		comment_post    => \&BabyDiary::Application::Articles::post_comment,
 
 		diary           => \&BabyDiary::Application::Diary::start,
+
+		# Questions
+        latest          => \&BabyDiary::Application::Questions::latest,
 
         tags            => \&BabyDiary::Application::Articles::tags,
 
