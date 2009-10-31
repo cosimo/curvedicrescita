@@ -1,4 +1,4 @@
-# $Id: Questions.pm 280 2009-08-20 20:19:35Z cosimo_2 $
+# $Id$
 
 # Controller methods related to Questions section
 package BabyDiary::Application::Questions;

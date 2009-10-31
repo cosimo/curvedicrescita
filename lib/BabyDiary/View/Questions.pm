@@ -1,4 +1,4 @@
-# $Id: Questions.pm 258 2009-06-21 20:11:31Z cosimo $
+# $Id$
 
 # View class. Contains methods to visually present information to user.
 package BabyDiary::View::Questions;
