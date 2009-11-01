@@ -64,6 +64,14 @@ sub logged_in_now {
     return;
 }
 
+sub get_by_id {
+	my ($self, $user) = @_;
+	return $self->get({
+		where => { username => $user },
+		limit => 1,
+	});
+}
+
 1;
 
 #

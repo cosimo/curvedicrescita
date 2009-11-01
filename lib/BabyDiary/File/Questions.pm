@@ -13,7 +13,24 @@ use base qw(
 );
 
 use constant TABLE  => 'questions';
-use constant FIELDS => [ qw(id title slug content open createdby createdon lastupdateon lastupdateby keywords published views favorited modified) ];
+use constant FIELDS => [ qw(
+	id
+	title
+	slug
+	content
+	open
+	createdby
+	createdon
+	lastupdateon
+	lastupdateby
+	keywords
+	published
+	views
+	favorited
+	reputation
+	answers
+	modified
+) ];
 
 #
 # Tells who is the original creator or the given question
@@ -117,7 +134,7 @@ sub url {
 		$url = '/exec/question/id/' . $id;
 	}
 	else {
-		$url = '/exec/question/' . $slug;
+		$url = '/exec/question/id/' . $id . '/' . $slug;
 	}
 
 	return $url;

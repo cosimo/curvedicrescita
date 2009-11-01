@@ -8,10 +8,11 @@ use strict;
 use lib '../lib';
 
 use CGI;
+use File::Basename;
 
 use BabyDiary::Application;
 
-my $article_id;
+my $item_id;
 my $path = $ENV{PATH_INFO};
 $path =~ s{^/}{};
 
@@ -24,21 +25,36 @@ elsif ($path eq 'comment_delete') {
 	$ENV{PATH_INFO} = "/comment_delete";
 }
 
+# Questions-related...
+elsif ($path =~ m{^latest/?$}) {
+	$ENV{PATH_INFO} = "/questions_latest";
+}
+
+elsif ($path =~ m{^id/(\d+)/?}) {
+	$ENV{PATH_INFO} = "/question";
+	$ENV{QUERY_STRING} = "id=$1";
+}
+
+elsif ($path eq 'new') {
+	$ENV{PATH_INFO} = "/question_new";
+}
+
 # View an article through slug
 else {
 
 	require BabyDiary::File::Slugs;
 	my $slug = BabyDiary::File::Slugs->new();
-	$article_id = $slug->find_id($path, 'article');
+	my $name = basename($0);
+	$item_id = $slug->find_id($path, $name);
 
 	# Redirect to home page if nothing found
-	if (! $article_id) {
+	if (! $item_id) {
 		print "Location: /\n";
 		exit;
 	}
 
-	$ENV{PATH_INFO} = "/article";
-	$ENV{QUERY_STRING} = "id=$article_id";
+	$ENV{PATH_INFO} = "/$name";
+	$ENV{QUERY_STRING} = "id=$item_id";
 }
 
 # Instance application object

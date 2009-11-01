@@ -6,6 +6,7 @@ package Opera::Util;
 use strict;
 use CGI ();
 use Time::Piece;
+use DateTime;
 
 our $HAVE_UNACCENT = eval 'use Text::Unaccent (); return 1';
 
@@ -132,6 +133,51 @@ sub slug {
 	$slug =~ s{\-+$}{};
 
 	return $slug;
+}
+
+sub format_date_natural {
+	my ($date, $locale) = @_;
+
+	$locale ||= 'it';
+
+	my $text = $date;
+	my $now = time();
+	my $epoch = 0;
+
+	# Unix epoch
+	if ($date =~ m{^\d+$}) {
+		$epoch = $date;
+	}
+	# SQL/ISO (yyyy-mm-dd hh:mn:ss)
+	else {
+		my (@bits) = $date =~ m{^ (\d+) \- (\d+) \- (\d+) \s+ (\d+) : (\d+) : (\d+) $}x;
+
+		my $dt = DateTime->new(
+			year   => $bits[0],
+		    month  => $bits[1],
+		    day    => $bits[2],
+		    hour   => $bits[3],
+		    minute => $bits[4],
+		    second => $bits[5],
+		    time_zone  => 'Europe/Rome',
+		);
+		if (! $dt) {
+			return $text;
+		}
+		$epoch = $dt->epoch();
+	}
+
+	# Convert from epoch to natural text
+	my $dt = DateTime->from_epoch(
+		epoch => $epoch,
+		locale => $locale
+	);
+
+	$text  = $dt->day() . ' ' . $dt->month_name . ' ' . $dt->year();
+	$text .= ' ';
+	$text .= $dt->hms();
+
+	return $text;
 }
 
 1;

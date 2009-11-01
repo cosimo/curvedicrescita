@@ -1,0 +1,85 @@
+<tmpl_include name="document/open.html">
+<tmpl_include name="document/header.html">
+
+<body>
+<tmpl_include name="components/signin.html">
+<tmpl_include name="components/header.html">
+
+<div id="tab" style="clear:both; padding-left: 20px; padding-top:6px; background-color: #228; height:24px">
+<span style="color:white; font-size: 1em">
+Queste sono le ultime domande poste in ordine di tempo.
+</span>
+</div>
+
+<div id="content">
+
+    <div id="questions">
+
+    <h1><tmpl_var page_title></h1>
+
+    <tmpl_if latest_questions>
+    <tmpl_loop latest_questions>
+
+    <div class="question">
+
+		<table border="0">
+		<tr>
+		<td><tmpl_include name="components/question/vote.html"></td>
+		<td>
+			<div id="summary">
+				<h3><tmpl_var question_link></h3>
+				<tmpl_var question_excerpt>
+			</div>
+
+			<br/>
+
+			<table width="90%" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>
+				<tmpl_if question_keywords><div id="tags"><tmpl_var question_keywords></div></tmpl_if>
+				</td>
+				<td>
+				<tmpl_include name="components/shared/author.html">
+				</td>
+			</tr>
+
+			<tmpl_if admin><!-- Admin links -->
+			<tr>
+				<td colspan="2" align="right">
+				<b>Admin:
+				<a href="<tmpl_var cgi_root>/question/modify/id/<tmpl_var id>">Modifica</a> |
+				<a href="<tmpl_var cgi_root>/question/delete/id/<tmpl_var id>">Rimuovi</a>
+				</b>
+				</td>
+			</tr>
+			</tmpl_if>
+
+			</table>
+		</table>
+
+	</div>
+
+    </tmpl_loop>
+
+	<script language="javascript" src="/js/comments.js"></script>
+
+    <!-- tmpl_else -->
+    <h2>Ancora nessuna domanda, purtroppo...</h2>
+
+	<tmpl_include name="components/shared/google_custom_search.html">
+
+	<p>
+	Puoi anche provare a <a href="/exec/home/tags">cercare tra le tag</a>.
+	</p>
+
+    </tmpl_if>
+
+    </div>
+
+    <tmpl_include name="components/sidebar.html">
+
+</div>
+
+<tmpl_include name="document/footer.html">
+<tmpl_include name="document/close.html">
+

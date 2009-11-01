@@ -1,0 +1,21 @@
+<tmpl_if menu_questions>
+	
+	<h2><tmpl_var name="msg:ultime domande"></h2>
+
+	<tmpl_if name="questions_latest">
+	<tmpl_var name="questions_latest">
+	<tmpl_else>
+	<p><tmpl_var name="msg:Ancora nessuna domanda..."></p>
+	</tmpl_if>
+
+<tmpl_else><!-- Latest articles -->
+
+	<h2><tmpl_var name="msg:ultimi articoli"></h2>
+
+	<tmpl_if name="articles_latest">
+	<tmpl_var name="articles_latest">
+	<tmpl_else>
+	<p><tmpl_var name="msg:Ancora nessun articolo..."></p>
+	</tmpl_if>
+
+</tmpl_if>

@@ -1,56 +1,42 @@
 <div id="sidebar">
 
-    <!-- Most popular articles -->
-    <h2><tmpl_var name="msg:i piu' letti"></h2>
+<tmpl_if menu_questions>
 
-    <!-- tmpl_if name="articles_popular" -->
-    <!-- tmpl_var name="articles_popular" -->
-    <!-- tmpl_else -->
-    <p><tmpl_var name="msg:Ancora nessun articolo..."></p>
-    <!-- /tmpl_if -->
+	<div align="center">
+		<form method="post" action="<tmpl_var cgi_root>/question/new">
+		<input type="submit" value="<tmpl_var name="msg:fai una domanda">" style="font-size: 1.5em">
+		</form>
+	</div>
 
-    <!-- Flash tag cloud. Uses Culumus Cloud by Roy Tank -->
-    <tmpl_if name="cumulus_cloud">
-		<h2><tmpl_var name="msg:tags popolari"></h2>
+	<br/>
 
-		<div id="wpcumuluswidgetcontent"></div>
-		<script type="text/javascript" src="/js/swfobject.js"></script>
-		<script type="text/javascript">
-		var rnumber = Math.floor(Math.random()*9999999);
-		var widget_so = new SWFObject("/swf/tagcloud.swf", "tagcloudflash", "190", "190", "9", "#EEEEFF");
-		widget_so.addParam("allowScriptAccess", "always");
-		widget_so.addVariable("tcolor", "0x1F33b8");
-		widget_so.addVariable("tspeed", "100");
-		widget_so.addVariable("distr", "true");
-		widget_so.addVariable("mode", "tags");
-		widget_so.addVariable("tagcloud", "<tmpl_var cumulus_cloud>");
-		widget_so.write("wpcumuluswidgetcontent");
-		</script>
-    </tmpl_if>
+	<!-- Most popular questions -->
+	<h2><tmpl_var name="msg:le piu' lette"></h2>
 
-<tmpl_if name="show_ads">
-<!-- Google Adsense -->
-<div align="center" style="margin:20px 0 20px 0;">
-	<script type="text/javascript"><!--
-	google_ad_client = "pub-1461056359423577";
-	/* Link nella sidebar laterale destra */
-	google_ad_slot = "6241434137";
-	google_ad_width = 180;
-	google_ad_height = 90;
-	//-->
-	</script>
-	<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-	</script>
-</div>
+	<tmpl_if name="questions_popular">
+	<tmpl_var name="questions_popular">
+	<tmpl_else>
+	<p><tmpl_var name="msg:Ancora nessuna domanda..."></p>
+	</tmpl_if>
+
+<tmpl_else>
+
+	<!-- Most popular articles -->
+	<h2><tmpl_var name="msg:i piu' letti"></h2>
+
+	<tmpl_if name="articles_popular">
+	<tmpl_var name="articles_popular">
+	<tmpl_else>
+	<p><tmpl_var name="msg:Ancora nessun articolo..."></p>
+	</tmpl_if>
+
 </tmpl_if>
 
-    <!-- Latest articles -->
-    <h2><tmpl_var name="msg:ultimi articoli"></h2>
+<tmpl_include name="shared/cumulus_cloud.html">
 
-    <!-- tmpl_if name="articles_latest" -->
-    <!-- tmpl_var name="articles_latest" -->
-    <!-- tmpl_else -->
-    <p><tmpl_var name="msg:Ancora nessun articolo..."></p>
-    <!-- /tmpl_if -->
+<tmpl_if name="show_ads">
+<tmpl_include name="shared/google_adsense.html">
+</tmpl_if>
 
+<tmpl_include name="shared/latest.html">
 </div>

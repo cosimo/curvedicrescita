@@ -1,7 +1,8 @@
 #!c:/dev/perl510/bin/perl.exe
 #
-# Questions section
+# Article view page
 #
-# $Id$
+# $Id: article 258 2009-06-21 20:11:31Z cosimo $
 
-do("home");
+do ("article");
+

@@ -1,0 +1,16 @@
+<div class="vote">
+
+	<a href="#"
+onclick="vote_up('<tmpl_var id>','question','<tmpl_var logged>'); return false;"><img src="/img/vote-arrow-up.png" alt="+1" border="0"></a><br/>
+
+	<span id="question-<tmpl_var id>-rep"><tmpl_var question_reputation></span><br/>
+
+	<a href="#"
+onclick="vote_down('<tmpl_var id>','question','<tmpl_var logged>'); return false;"><img src="/img/vote-arrow-down.png" alt="-1" border="0"></a>
+
+</div>
+
+<div class="favorite">
+	<a href="#" onclick="vote_favorite('<tmpl_var id>','question','<tmpl_var logged>'"><img src="/img/favorite-off.png"></a>
+</div>
+

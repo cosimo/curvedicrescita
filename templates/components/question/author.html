@@ -1,0 +1,13 @@
+<div id="author">
+	<tmpl_var question_createdby_avatar>
+	&nbsp; <b><tmpl_var name="question_createdby"></b>
+
+	<p>
+	Pubblicata <b><tmpl_var name="question_createdon"></b><br/>
+	<b><tmpl_var name="question_views"></b> visualizzazioni
+	</p>
+
+	<tmpl_if name="question_lastupdateby">
+	<br/>Modificato da <strong><tmpl_var name="question_lastupdateby"></strong>,
+	<tmpl_var name="question_lastupdateon"></tmpl_if>
+</div>

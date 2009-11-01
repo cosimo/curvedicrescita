@@ -4,9 +4,13 @@
 package BabyDiary::View::Questions;
 
 use strict;
+
 use CGI ();
+use Digest::MD5 ();
+use Encode;
 use HTML::Strip;
 use BabyDiary::File::Questions;
+use BabyDiary::View::Articles;
 
 #
 # Format and display question content
@@ -16,18 +20,60 @@ sub format_question {
 }
 
 #
-# Display question excerpt in search results screen
+# Display article excerpt in search results screen
 # Displays only first 2 lines of content.
 #
-sub format_question_excerpt {
-	return BabyDiary::View::Articles::format_question_excerpt(@_);
+sub format_question_excerpt
+{
+    my($art) = @_;
+
+    # Take first two lines of the article
+    my $content = $art->{content};
+
+    my $html_stripper = HTML::Strip->new();
+    $content = $html_stripper->parse($content);
+    $content = substr($content, 0, 160) . ' ...';
+
+	if ($^O eq 'MSWin32') {
+		$content = encode('utf-8', $content);
+	}
+
+    return($content);
 }
 
-#
-# Display question author name as link to my.opera.com profile
-#
+
 sub format_author {
 	return BabyDiary::View::Articles::format_author(@_);
+}
+
+sub format_author_avatar {
+	my ($rec, $key) = @_;
+
+	$key ||= 'createdby';
+	my $size = 32;
+
+	# Based on www.gravatar.com
+	my $user = lc $rec->{$key};
+	my $avatar_url = 'http://www.gravatar.com/avatar/';
+	my $md5 = Digest::MD5::md5_hex($user);
+	$avatar_url .= $md5;
+
+	my %av = (
+		class => 'avatar',
+		alt => 'user avatar',
+		align => 'absmiddle',
+		width => $size,
+		height => $size,
+		src => qq{$avatar_url?s=$size&d=identicon},
+	);
+
+	my $html = q{};
+	for (keys %av) {
+		$html .= qq($_="$av{$_}");
+	}
+
+	return qq{<img $html>};
+
 }
 
 sub format_comment {
@@ -45,7 +91,7 @@ sub format_keywords {
 # Title of question has link to display the single question
 #
 sub format_title {
-	return BabyDiary::View::Articles::format_keywords(@_);
+	return BabyDiary::View::Articles::format_title(@_);
 }
 
 #
@@ -77,10 +123,16 @@ sub format_title {
 		}
 
         if ($slug) {
-            $title = CGI->a({class=>$style, href=>'/exec/question/' . $slug}, $title);
+            $title = CGI->a({
+				class=>$style,
+				href=>'/exec/question/id/' . CGI::escape($question->{id}) . '/' . $slug
+			}, $title);
         }
         else {
-            $title = CGI->a({class=>$style, href=>'/exec/question/id/' . CGI::escape($question->{id})}, $title);
+            $title = CGI->a({
+				class=>$style,
+				href=>'/exec/question/id/' . CGI::escape($question->{id})
+			}, $title);
         }
 
         return($title);

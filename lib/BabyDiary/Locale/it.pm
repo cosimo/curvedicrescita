@@ -18,6 +18,7 @@ use vars q(%Lexicon);
     'schede'
     ,'tags'
     ,'domande'
+    ,'articoli'
     ,'curve'
     ,'ostetrica'
     ,'pediatra'
@@ -33,8 +34,11 @@ use vars q(%Lexicon);
 
     ,'tags popolari'
     ,'Ancora nessun articolo...'
+    ,'Ancora nessuna domanda...',
     ,'i piu\' letti'
+    ,'le piu\' lette',
     ,'ultimi articoli'
+    ,'ultime domande',
     ,'archivio articoli'
 
     ,'Elenco delle tag'
@@ -45,6 +49,8 @@ use vars q(%Lexicon);
     ,'Username too short'
     ,'Username already taken'
     ,'Field "[_1]" is mandatory'
+    ,'fai una domanda'
+	,'Domande piu\' recenti'
 );
 
 1;

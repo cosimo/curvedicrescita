@@ -93,7 +93,7 @@ h1 {
     margin-bottom: 8px;
 }
 
-#article hr {
+body hr {
     margin-bottom: 20px;
     text-align: center;
     opacity:0.4;
@@ -136,6 +136,38 @@ h1 {
     background: url(../img/quotes.gif) no-repeat 5px 0px;
 }
 
+.question {
+	list-style: none;
+	display: block;
+	border-bottom: 1px solid #ddd;
+}
+
+#stats {
+	display: block;
+	float: left;
+	font-size: 16px;
+	font-weight: bold;
+	width: 40px;
+	min-height: 150px;
+	text-align: center;
+	/* border: 1px solid #aaddff; */
+	margin-right: 10px;
+}
+
+#question-text {
+	font-size: 1.3em;
+	font-family: "Times New Roman", "Times";
+	line-height: 1.5em;
+}
+
+#answers h2 {
+	border-bottom: 1px solid;
+}
+
+#answers ul li {
+	border-bottom: 1px solid;
+}
+
 ul#nav, ul#nav li {
     list-style-type:none;
     margin:0;
@@ -147,7 +179,6 @@ ul#nav {
     width: 100%;
     font-family: 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica, sans-serif;
     font-size: 1.4em;
-    letter-spacing: -1px;
     font-weight: 400;
 }
 
@@ -162,6 +193,8 @@ ul#nav a{
     width:4.5em;
     background:url(../img/button_bg_10_25.jpg);
     text-decoration:none;
+	padding-left: 5px;
+	padding-right: 5px;
     color: #228; /*48f*/
     border: 1px solid #aaf;
 }
@@ -206,15 +239,24 @@ div#content {
     display:block;
 }
 
-#content #article2col {
+#content #article2col, #content #questions {
     float:left;
     width:75%;
     padding:0;
     margin:0;
     padding-left: 15px;
     font-size: 13px;
-	line-height: 1.4em;
+	line-height: 1.2em;
     display:block;
+}
+
+#questions h1 {
+	border-bottom: 1px solid;
+}
+
+#questions h3 {
+	font-size: 1.2em;
+	font-weight: 1600;
 }
 
 #content #sidebar {
@@ -358,7 +400,7 @@ input#search {
 	height: 500px;
 }
 
-#article textarea.comment-text {
+#article textarea.comment-text, textarea.answer-text {
 	width: 80%;
 	height: 80px;
 }
@@ -380,10 +422,10 @@ div.official {
 	font-size: 0.9em;
 }
 
-div.comment-vote {
+.vote, .favorite {
 	display: block;
 	float: left;
-	width: 55px;
+	width: 40px;
 	min-height: 50px;
 	padding-top: 0px;
 	text-align: center;

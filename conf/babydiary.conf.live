@@ -12,7 +12,8 @@ root_dir = /var/www2/www.curvedicrescita.com/htdocs
 tmpl_path = /var/www2/www.curvedicrescita.com/templates
 
 # Root path of CGIs
-cgi_root = /exec/home
+cgi_root = /exec
+cgi_home = /exec/home
 
 # Show Google Adsense ads? (1=yes, 0=no)
 show_ads = 1

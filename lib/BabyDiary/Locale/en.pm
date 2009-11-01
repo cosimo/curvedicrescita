@@ -14,6 +14,7 @@ use vars q(%Lexicon);
 
     'schede'           => 'cards',
     'tags'             => 'tags',
+    'articoli'         => 'articles',
     'domande'          => 'questions',
     'curve'            => 'curves',
     'ostetrica'        => 'midwife',
@@ -30,8 +31,11 @@ use vars q(%Lexicon);
 
     'tags popolari'    => 'popular tags',
     'Ancora nessun articolo...' => 'No article yet...',
-    'i piu\' letti'  => 'Most popular',
+    'Ancora nessuna domanda...' => 'No question yet...',
+    'i piu\' letti'    => 'Most popular',
+    'le piu\' lette'   => 'Most popular',
     'ultimi articoli'  => 'latest articles',
+    'ultime domande'   => 'latest questions',
     'archivio articoli'=> 'articles archive',
 
     'Elenco delle tag' => 'Browse tags',
@@ -43,6 +47,8 @@ use vars q(%Lexicon);
     'Username too short' => 'Username too short',
     'Username already taken' => 'Username already taken',
     'Field "[_1]" is mandatory' => 'Field "[_1]" is mandatory',
+    'fai una domanda' => 'ask a question',
+	'Domande piu\' recenti' => 'Latest questions',
 
 );
 

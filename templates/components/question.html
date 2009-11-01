@@ -1,0 +1,73 @@
+<br/>
+
+<div id="question">
+
+<tmpl_if name="question_title">
+<h1>
+	<tmpl_var name="question_title">
+	<tmpl_include name="article/buttons.html">
+</h1>
+<tmpl_include name="article/publish_status.html">
+</tmpl_if>
+
+<!-- Question content -->
+<tmpl_if name="question_content">
+
+<table>
+<tr valign="top">
+
+	<td id="stats">
+		<br/>
+		<tmpl_include name="question/vote.html">
+	</td>
+
+	<td id="question-text">
+		<tmpl_var name="question_content">
+
+		<div id="tags">
+		<tmpl_var name="question_keywords">
+		</div>
+
+		<tmpl_include name="question/author.html">
+
+		<br/>
+	</td>
+
+</tr>
+</table>
+	
+<script type="text/javascript" src="/js/comments.js"></script>
+
+<tmpl_else>
+
+	<br/>
+
+	<h2>Domanda non trovata</h2>
+
+	<p>
+	La domanda non &egrave; stato trovata in archivio.<br/>
+	Ricontrolla l'indirizzo e riprova.
+	</p>
+
+	<tmpl_include name="shared/google_custom_search.html">
+
+	<p>
+	Puoi anche provare a <a href="/exec/home/tags">cercare tra le tag</a>.
+	</p>
+
+</tmpl_if>
+
+<tmpl_if name="question_related">
+
+<h2>Domande correlate</h2>
+
+<ul>
+<tmpl_loop name="question_related">
+<li><a href="<tmpl_var url>"><tmpl_var title></a> (<b><tmpl_var relevance></b> punti)</li>
+</tmpl_loop>
+</ul>
+</tmpl_if>
+
+<tmpl_include name="question/answers.html">
+
+</div>

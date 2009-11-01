@@ -1,6 +1,8 @@
 #
 # Google Sitemap generator
 #
+# TODO Add support for questions
+#
 # $Id$
 
 package BabyDiary::Sitemap;

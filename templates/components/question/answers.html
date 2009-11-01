@@ -1,0 +1,110 @@
+<tmpl_if answers_list><!-- Answers -->
+
+	<a name="answers">
+	<div id="answers">
+
+	<h2><tmpl_var name="question_answers"> Risposte</h2>
+
+	<table>
+
+	<tmpl_loop name="answers_list">
+
+	<tr valign="top">
+
+		<td id="stats"> <br/>
+
+		<tmpl_include name="vote.html">
+
+<!--		<div class="vote">
+			<a href="#" onclick="javascript:vote_up('<tmpl_var id>'); return false;"><img src="/img/vote-up.png" alt="+1" border="0"></a><br/>
+			<span id="answer-<tmpl_var id>-rep"><tmpl_var reputation></span><br/>
+			<a href="#" onclick="javascript:vote_down('<tmpl_var id>'); return false;"><img src="/img/vote-down.png" alt="-1" border="0"></a>
+		</div>
+-->
+
+		</td>
+
+		<td>
+		<tmpl_if name="is_official">
+		<div class="answer official" id="answer-<tmpl_var id>">
+		<tmpl_else>
+		<div class="answer" id="answer-<tmpl_var id>">
+		</tmpl_if>
+
+		<div class="answer-text">
+
+			<tmpl_var content>
+
+			<div id="author">
+				<tmpl_var createdby_avatar>
+				&nbsp; <b><tmpl_var name="createdby"></b>
+
+				<p>
+				Pubblicata <b><tmpl_var name="createdon"></b><br/>
+				<b><tmpl_var name="views"></b> visualizzazioni
+				</p>
+
+				<tmpl_if name="lastupdateby">
+				<br/>Modificato da <strong><tmpl_var name="lastupdateby"></strong>,
+				<tmpl_var name="lastupdateon"></tmpl_if>
+
+				<tmpl_if admin> &nbsp; | &nbsp;
+				<a href="<tmpl_var cgi_root>/question/answer_delete?id=<tmpl_var question_id>&cid=<tmpl_var id>">Cancella</a> 
+				</tmpl_if>
+			</div>
+		</div>
+		</div>
+
+		</td>
+	</tr>
+
+	<tr><td colspan="2"><h2></h2></td></tr>
+
+	</tmpl_loop>
+
+	</table>
+
+	<a name="last-answer"></a>
+
+</div>
+
+	<h2>Vuoi rispondere anche tu?</h2>
+
+<tmpl_else>
+
+	<h2>Ancora nessuna risposta. Rispondi tu!</h2>
+
+</tmpl_if>
+
+<tmpl_if name="answers_allowed">
+
+	<form name="answer-form" action="<tmpl_var cgi_root>/question/answer_post" method="post">
+		<input type="hidden" name="id" value="<tmpl_var question_id>">
+		<input type="hidden" name="otk" value="<tmpl_var answer_otk>">
+		<textarea id="cm1" class="answer-text" name="text">
+		</textarea><br/>
+		<input type="submit" value=" Pubblica ">
+	</form>
+
+	<script type="text/javascript" src="/js/tiny_mce/tiny_mce.js"></script>
+	<script type="text/javascript">
+		tinyMCE.init({
+			mode: 'exact',
+			elements: 'cm1',
+			language: 'it',
+			theme: 'simple'
+		});
+	</script>
+
+<tmpl_else>
+
+	<p>
+	Se vuoi rispondere a questa domanda,
+	devi <a href="#" onclick="toggle_balloon('link','balloon',560,0,'<tmpl_var cgi_root>/login');">accedere</a>
+	con il tuo profilo oppure
+	<a href="<tmpl_var cgi_root>/home/signup">registrarti</a> se
+	non sei ancora un utente registrato.
+	</p>
+
+</tmpl_if>
+

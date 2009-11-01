@@ -1,4 +1,7 @@
 # $Id$
+#
+# TODO remove comments part and transform into answers
+#
 
 # Controller methods related to Questions section
 package BabyDiary::Application::Questions;
@@ -6,14 +9,14 @@ package BabyDiary::Application::Questions;
 use strict;
 use HTML::Entities;
 
+use BabyDiary::File::Answers;
 use BabyDiary::File::Questions;
-use BabyDiary::File::Comments;
 use BabyDiary::File::Users;
 use BabyDiary::View::Questions;
 use Opera::Util;
 
 #
-# Delete an article that is in the database
+# Delete an question that is in the database
 #
 sub delete
 {
@@ -23,61 +26,61 @@ sub delete
     # Check if user is logged in before allowing delete
     if(! $self->user_logged())
     {
-        $self->log('warn', 'User is not logged in. Don\'t allow to delete articles');
-        $self->user_warning('Please login!', 'Login to application to delete articles');
-        return $self->forward('articles');
+        $self->log('warn', 'User is not logged in. Don\'t allow to delete questions');
+        $self->user_warning('Please login!', 'Login to application to delete questions');
+        return $self->forward('questions');
     }
 
-    # Check if article id was passed
-    my $art_id = $self->query->param('id');
-    if(! $art_id)
+    # Check if question id was passed
+    my $question_id = $self->query->param('id');
+    if(! $question_id)
     {
-        $self->log('warn', 'Delete of article without article_id...');
-        $self->user_warning('Delete failed', 'Can\'t delete without article number');
-        $self->forward('articles');
+        $self->log('warn', 'Delete of question without question_id...');
+        $self->user_warning('Delete failed', 'Can\'t delete without question number');
+        $self->forward('questions');
     }
 
-    # User can delete an article if:
+    # User can delete an question if:
     #
     # 1) user is an admin
-    # 2) article original poster is the same user
+    # 2) question original poster is the same user
     #
     my $users      = BabyDiary::File::Users->new();
-    my $articles   = BabyDiary::File::Questions->new();
+    my $questions   = BabyDiary::File::Questions->new();
     my $curr_user  = $self->session->param('user');
     my $can_delete = $users->is_admin($curr_user)                  # User is an admin: can delete everything
-                  || ($articles->owner($art_id) eq $curr_user);    # User is owner of this article
+                  || ($questions->owner($question_id) eq $curr_user);    # User is owner of this question
 
     if(!$can_delete)
     {
-        $self->log('warn', 'Delete of article id ', $art_id, ' is not allowed.');
-        $self->user_warning('Question delete not allowed', 'You are not the owner of the article. You are not allowed to delete it');
-        $self->forward('articles');
+        $self->log('warn', 'Delete of question id ', $question_id, ' is not allowed.');
+        $self->user_warning('Question delete not allowed', 'You are not the owner of the question. You are not allowed to delete it');
+        $self->forward('questions');
     }
 
-    # Delete article record on db
-    my $ok = $articles->delete({id=>$art_id});
+    # Delete question record on db
+    my $ok = $questions->delete({id=>$question_id});
 
     if($ok)
     {
-        $self->log('notice', 'Deleted article id ', $art_id);
-        $self->user_warning('Question deleted!', 'The selected article was deleted!', 'info');
+        $self->log('notice', 'Deleted question id ', $question_id);
+        $self->user_warning('Question deleted!', 'The selected question was deleted!', 'info');
     }
     else
     {
-        $self->log('warn', 'Delete of article id ', $art_id, ' *FAILED*');
+        $self->log('warn', 'Delete of question id ', $question_id, ' *FAILED*');
         $self->user_warning(
 			'Question delete failed',
-			'Sorry! The article wasn\'t deleted. There was some problem. Please retry later or report the problem at <b>info@curvedicrescita.com</b>'
+			'Sorry! The question wasn\'t deleted. There was some problem. Please retry later or report the problem at <b>info@curvedicrescita.com</b>'
 		);
     }
 
-    # Return to articles search
-    return $self->forward('articles');
+    # Return to questions search
+    return $self->forward('questions');
 }
 
 #
-# Display a form to modify article
+# Display a form to modify question
 #
 sub modify
 {
@@ -87,60 +90,60 @@ sub modify
     # Check if user is logged in before allowing delete
     if(! $self->user_logged())
     {
-        $self->log('warn', 'User is not logged in. Don\'t allow to modify articles');
-        $self->user_warning('Please login!', 'Login to application to modify articles');
-        return $self->forward('articles');
+        $self->log('warn', 'User is not logged in. Don\'t allow to modify questions');
+        $self->user_warning('Please login!', 'Login to application to modify questions');
+        return $self->forward('questions');
     }
 
-    # Check if article id was passed
-    my $art_id = $query->param('id');
-    if(! $art_id)
+    # Check if question id was passed
+    my $question_id = $query->param('id');
+    if(! $question_id)
     {
-        $self->log('warn', 'Modify of article without article_id...');
-        $self->user_warning('Modify failed', 'Can\'t modify without article number');
-        $self->forward('articles');
+        $self->log('warn', 'Modify of question without question_id...');
+        $self->user_warning('Modify failed', 'Can\'t modify without question number');
+        $self->forward('questions');
     }
 
-    $self->log('notice', 'Modifying article id ', $art_id);
+    $self->log('notice', 'Modifying question id ', $question_id);
 
-    # Load current article
+    # Load current question
     my $users    = BabyDiary::File::Users->new();
-    my $articles = BabyDiary::File::Questions->new();
-    my $rec = $articles->get({
-        where => { id => $art_id }
+    my $questions = BabyDiary::File::Questions->new();
+    my $rec = $questions->get({
+        where => { id => $question_id }
     });
 
     # Get name of current user
     my $curr_user  = $self->session->param('user');
 
-    # Check that user can modify the article
+    # Check that user can modify the question
     my $can_modify =
         $users->is_admin($curr_user)                     # User is an admin: can delete everything
-        || ($articles->owner($art_id) eq $curr_user);    # User is owner of this article
+        || ($questions->owner($question_id) eq $curr_user);    # User is owner of this question
 
     if(!$can_modify)
     {
-        $self->log('warn', 'Modify of article id ', $art_id, ' is not allowed.');
-        $self->user_warning('Question modify not allowed', 'You are not the owner of the article. You are not allowed to modify it');
-        $self->forward('articles');
+        $self->log('warn', 'Modify of question id ', $question_id, ' is not allowed.');
+        $self->user_warning('Question modify not allowed', 'You are not the owner of the question. You are not allowed to modify it');
+        $self->forward('questions');
     }
 
     # Fill all template parameters
     my $tmpl = $self->fill_params();
 
-    # If article is not found, display a notice
+    # If question is not found, display a notice
     if(!$rec)
     {
-        $tmpl->param( article_content => '<h2>Articolo non trovato...</h2>' );
+        $tmpl->param( question_content => '<h2>Articolo non trovato...</h2>' );
         return $tmpl->output();
     }
 
     # If we come from a modify request with all the needed data,
-    # save the modified article now.
+    # save the modified question now.
     if($query->request_method() eq 'POST')
     {
 
-        # Update query on articles file
+        # Update query on questions file
 		my %to_update = (
 			title    => scalar $query->param('title'),
             keywords => scalar $query->param('keywords'),
@@ -148,7 +151,7 @@ sub modify
             published=> scalar $query->param('published'),
 		);
 
-		# If article *wasn't* published yet, don't update last modify by and timestamp.
+		# If question *wasn't* published yet, don't update last modify by and timestamp.
 		# We use the previous state, not the soon-to-be-new one
 		my $published_state = exists $rec->{published} ? $rec->{published} : undef;
 
@@ -158,32 +161,32 @@ sub modify
 			$to_update{lastupdateby} = $curr_user;
 		}
 
-        my $update_ok = $articles->update(\%to_update, {id=>$art_id});
+        my $update_ok = $questions->update(\%to_update, {id=>$question_id});
 
-        # Return to article view page
+        # Return to question view page
         if(!$update_ok)
         {
-            $self->user_warning('Question modify error!', 'Sorry! The article wasn\'t modified. There was some problem. Please retry later or report the problem at <b>bugs@myoperatest.com</b>');
+            $self->user_warning('Question modify error!', 'Sorry! The question wasn\'t modified. There was some problem. Please retry later or report the problem at <b>bugs@myoperatest.com</b>');
         }
         else
         {
-            $self->user_warning('Question modified!', 'The article was modified correctly.', 'info');
+            $self->user_warning('Question modified!', 'The question was modified correctly.', 'info');
         }
 
-        return $self->forward('article');
+        return $self->forward('question');
     }
 
     # Question is found, display it nicely formatted
-    $self->log('notice', 'Found article `', $rec->{title}, '\'');
+    $self->log('notice', 'Found question `', $rec->{title}, '\'');
 
-    # Supply parameters for all article properties
-    for(@{$articles->fields})
+    # Supply parameters for all question properties
+    for(@{$questions->fields})
     {
-        $tmpl->param( 'article_' . $_ => $rec->{$_} );
+        $tmpl->param( 'question_' . $_ => $rec->{$_} );
     }
 
 	# Special case for 'published' drop-down list
-	$tmpl->param('article_published_' . ($rec->{published}||'0') => 1);
+	$tmpl->param('question_published_' . ($rec->{published}||'0') => 1);
 
     # Generate template output
     return $tmpl->output();
@@ -191,7 +194,7 @@ sub modify
 
 
 #
-# Create a new article in the database
+# Create a new question in the database
 #
 sub post
 {
@@ -199,7 +202,7 @@ sub post
     my $query = $self->query();
 
     # Check for user / password 
-    $self->log('notice', 'Params received from article create/modify form');
+    $self->log('notice', 'Params received from question create/modify form');
 
     my %prm;
     for($query->param())
@@ -221,8 +224,8 @@ sub post
     #$prm{content} =~ s/&lt;[^>]*(&gt;)?//g;
 
     # Check credentials against password saved in users file
-    my $art = BabyDiary::File::Questions->new();
-    my $posted = $art->post({
+    my $question = BabyDiary::File::Questions->new();
+    my $posted = $question->post({
         title     => $prm{title},
         keywords  => $prm{keywords},
         createdby => $self->session->param('user'),
@@ -230,24 +233,24 @@ sub post
 		published => $prm{published},
     });
 
-    $self->log('notice', 'Posted article with title `', $prm{title}, '\' => ', ($posted?'OK':'*FAILED*'));
+    $self->log('notice', 'Posted question with title `', $prm{title}, '\' => ', ($posted?'OK':'*FAILED*'));
 
-    # Return to articles page
+    # Return to questions page
     if(!$posted)
     {
-        $self->user_warning('Question post error!', 'Sorry! Your article wasn\'t posted. There was some problem. Please retry later or report the problem at <b>info@curvedicrescita.com</b>');
+        $self->user_warning('Question post error!', 'Sorry! Your question wasn\'t posted. There was some problem. Please retry later or report the problem at <b>info@curvedicrescita.com</b>');
     }
     else
     {
         $self->user_warning(
 			'Articolo salvato',
-			'Il tuo articolo &egrave; stato salvato. Grazie per il tuo contributo!',
+			'Il tuo questionicolo &egrave; stato salvato. Grazie per il tuo contributo!',
 			'info',
 		);
     }
 
-    # Return to articles search
-    return $self->forward('articles');
+    # Return to questions search
+    return $self->forward('questions');
 }
 
 sub delete_comment {
@@ -255,16 +258,16 @@ sub delete_comment {
 
 	my $query = $self->query;
 	my $comment_id = $query->param('cid');
-	my $article_id = $query->param('id');
+	my $question_id = $query->param('id');
 
 	# Only numeric ids
 	$comment_id =~ s{\D}{}g;
-	$article_id =~ s{\D}{}g;
+	$question_id =~ s{\D}{}g;
 
 	# Only admins can delete comments
 	my $is_admin = $self->session->param('admin');
 	if (! $is_admin) {
-		return $self->go_back_or_forward('article');
+		return $self->go_back_or_forward('question');
 	}
 
 	my $comm = BabyDiary::File::Comments->new();
@@ -276,7 +279,7 @@ sub delete_comment {
 			'Commento non trovato',
 			q(Il commento da rimuovere non &egrave; stato trovato...)
 		);
-		return $self->forward('article');
+		return $self->forward('question');
 	}
 
 	my $deleted = $comm->delete({
@@ -288,13 +291,13 @@ sub delete_comment {
 			'Commento non rimosso',
 			q(C'&egrave; stato un problema nella cancellazione del commento.<br/>Per favore riprova pi&ugrave; tardi.)
 		);
-		return $self->forward('article');
+		return $self->forward('question');
 	}
 
 	# TODO: 'rtype' can differ from 'ART'
-	my $articles = BabyDiary::File::Questions->new();
-	my $slug = $articles->slug($article_id || $comment->{rid});
-	my $prev_url = "/exec/article/$slug#comments";
+	my $questions = BabyDiary::File::Questions->new();
+	my $slug = $questions->slug($question_id || $comment->{rid});
+	my $prev_url = "/exec/question/$slug#comments";
 
 	$self->header_type('redirect');
 	$self->header_props(-url => $prev_url);
@@ -302,15 +305,93 @@ sub delete_comment {
 	return;
 }
 
+#
+# Default view: list of latest questions
+#
+sub latest
+{
+    my ($self, $how_many) = @_;
+
+	# By default, show how many
+	$how_many ||= 15;
+
+    my $questions = BabyDiary::File::Questions->new();
+
+	# Not yet used here
+	my $keyword_or_term = q{};
+
+	# Get latest open questions
+    my $list = $questions->list({
+		where => {
+			open => 7,
+			published => { '<>' => 0 },
+		},
+		order => 'createdon DESC',
+		limit => $how_many,
+	});
+
+    # Fill all template parameters
+    my $tmpl = $self->fill_params();
+
+	my $title = $self->msg(q(Domande piu' recenti));
+    $tmpl->param(page_title => $title);
+
+	# Highlight menu section
+	$tmpl->param(menu_questions => 1);
+
+    # If some questions found, display them in a TMPL_LOOP
+    if ($list) {
+
+        my $count = scalar @$list;
+        $self->log('notice', 'Found ', $count, ' latest questions');
+
+        for my $question (@$list) {
+
+            # Highlight keyword or term
+            Opera::Util::highlight_term($keyword_or_term, \$question->{content});
+            Opera::Util::highlight_term($keyword_or_term, \$question->{title});
+            Opera::Util::highlight_term($keyword_or_term, \$question->{keywords});
+
+            $question->{question_link}     = BabyDiary::View::Questions::format_title_link($question);
+            $question->{question_author}   = BabyDiary::View::Questions::format_author($question);
+            $question->{question_keywords} = BabyDiary::View::Questions::format_keywords($question);
+            $question->{question_excerpt}  = BabyDiary::View::Questions::format_question_excerpt($question);
+
+			# Necessary for the vote/favorite part to work
+            $question->{question_reputation} = $question->{reputation};
+            $question->{logged} = $self->user_logged;
+
+			# For question deletion by admin
+            $question->{admin} = $self->session->param('admin');
+			$question->{cgi_root} = $tmpl->param('cgi_root');
+
+			$question->{createdby_avatar} =
+				BabyDiary::View::Questions::format_author_avatar($question);
+
+			$question->{createdby} = BabyDiary::View::Questions::format_author($question);
+			$question->{createdon} = Opera::Util::format_date_natural($question->{createdon});
+
+			# We have to repeat this, because format_question_excerpt() strips html
+			Opera::Util::highlight_term($keyword_or_term, \$question->{question_excerpt});
+
+        }
+
+        $tmpl->param(latest_questions => $list);
+    }
+
+    # Generate template output
+    return $tmpl->output();
+}
+
 sub post_comment {
 	my ($self) = @_;
 
 	my $query = $self->query;
-	my $article_id = $query->param('id');
+	my $question_id = $query->param('id');
 	my $comment    = $query->param('text');
 
 	# Only numeric ids
-	$article_id =~ s{\D}{}g;
+	$question_id =~ s{\D}{}g;
 
 	# Strip dangerous content from comment html
 	$comment = BabyDiary::View::Questions::format_comment($comment);
@@ -320,34 +401,34 @@ sub post_comment {
 	if (! $current_user) {
 		$self->user_warning(
 			'Accesso richiesto',
-			'Per postare commenti agli articoli &egrave; richiesto l\'accesso.'
+			'Per postare commenti agli questionicoli &egrave; richiesto l\'accesso.'
 		);
-		return $self->forward('article');
+		return $self->forward('question');
 	}
 
 	my $comm = BabyDiary::File::Comments->new();
-	my $posted = $comm->post($article_id, $current_user, $comment);
+	my $posted = $comm->post($question_id, $current_user, $comment);
 
 	if (! $posted) {
 		$self->user_warning(
 			'Commento non pubblicato',
 			q(C'&egrave; stato un problema nella pubblicazione del commento.<br/>Per favore riprova pi&ugrave; tardi.)
 		);
-		return $self->forward('article');
+		return $self->forward('question');
 	}
 
 	if ($self->config('send_comments_notification')) {
 		require BabyDiary::Notifications;
 		BabyDiary::Notifications::send_comment_mail(
 			$current_user,
-			$article_id,
+			$question_id,
 			$comment
 		);
 	}
 
-	my $articles = BabyDiary::File::Questions->new();
-	my $slug = $articles->slug($article_id);
-	my $prev_url = "/exec/article/$slug#last-comment";
+	my $questions = BabyDiary::File::Questions->new();
+	my $slug = $questions->slug($question_id);
+	my $prev_url = "/exec/question/$slug#last-comment";
 
 	$self->header_type('redirect');
 	$self->header_props(-url => $prev_url);
@@ -356,7 +437,7 @@ sub post_comment {
 }
 
 #
-# Display search results for articles, either from suggest-style search-box,
+# Display search results for questions, either from suggest-style search-box,
 # or from keywords search
 #
 sub search
@@ -364,28 +445,28 @@ sub search
     my $self = $_[0];
     my $query = $self->query();
 
-    # Search of articles can be by single keyword (field=keyword)
+    # Search of questions can be by single keyword (field=keyword)
     # or by search query (field=q)
     my $term;
     my $keyword;
 
     if(defined($term = $query->param('q')))
     {
-        $self->log('notice', 'Searching articles by term `', $term, '\'');
+        $self->log('notice', 'Searching questions by term `', $term, '\'');
     }
     elsif(defined($keyword = $query->param('keyword')))
     {
-        $self->log('notice', 'Searching articles by keyword `', $term, '\'');
+        $self->log('notice', 'Searching questions by keyword `', $term, '\'');
     }
 
-    # Load article (if present)
-    my $articles = BabyDiary::File::Questions->new();
+    # Load question (if present)
+    my $questions = BabyDiary::File::Questions->new();
     my $list;
 
     if(defined $keyword && $keyword ne '')
     {
         $keyword = Opera::Util::btrim($keyword);
-        $list = $articles->match({
+        $list = $questions->match({
 			where => { published => {'<>', 0} },
             matchstring => $keyword,
             matchfields => 'title,keywords',
@@ -394,7 +475,7 @@ sub search
     elsif(defined $term && $term ne '')
     {
         $term = Opera::Util::btrim($term);
-        $list = $articles->match({
+        $list = $questions->match({
 			where => { published => {'<>', 0} },
             matchstring => $term,
             matchfields => 'title,content,keywords',
@@ -417,29 +498,29 @@ sub search
         search_no_results => $self->msg('Nessun risultato trovato in base ai criteri'),
     );
 
-    # If some articles found, display them in a TMPL_LOOP
+    # If some questions found, display them in a TMPL_LOOP
     if($list)
     {
 
         my $count = scalar @$list;
-        $self->log('notice', 'Found ', $count, ' articles that match');
+        $self->log('notice', 'Found ', $count, ' questions that match');
         
         $tmpl->param(search_results_count => $count);
 
-        for my $art (@$list)
+        for my $question (@$list)
         {
             # Highlight keyword or term
-            Opera::Util::highlight_term($keyword_or_term, \$art->{content});
-            Opera::Util::highlight_term($keyword_or_term, \$art->{title});
-            Opera::Util::highlight_term($keyword_or_term, \$art->{keywords});
+            Opera::Util::highlight_term($keyword_or_term, \$question->{content});
+            Opera::Util::highlight_term($keyword_or_term, \$question->{title});
+            Opera::Util::highlight_term($keyword_or_term, \$question->{keywords});
 
-            $art->{article_link}     = BabyDiary::View::Questions::format_title_link($art);
-            $art->{article_author}   = BabyDiary::View::Questions::format_author($art);
-            $art->{article_keywords} = BabyDiary::View::Questions::format_keywords($art);
-            $art->{article_excerpt}  = BabyDiary::View::Questions::format_article_excerpt($art);
+            $question->{question_link}     = BabyDiary::View::Questions::format_title_link($question);
+            $question->{question_author}   = BabyDiary::View::Questions::format_author($question);
+            $question->{question_keywords} = BabyDiary::View::Questions::format_keywords($question);
+            $question->{question_excerpt}  = BabyDiary::View::Questions::format_question_excerpt($question);
 
-			# We have to repeat this, because format_article_excerpt() strips html
-			Opera::Util::highlight_term($keyword_or_term, \$art->{article_excerpt});
+			# We have to repeat this, because format_question_excerpt() strips html
+			Opera::Util::highlight_term($keyword_or_term, \$question->{question_excerpt});
 
         }
 
@@ -451,7 +532,7 @@ sub search
 }
 
 #
-# Display details about a single article
+# Display details about a single question
 #
 sub view
 {
@@ -459,148 +540,136 @@ sub view
     my $query = $self->query();
 
     # Required parameter: "id"
-    my $art_id = $query->param('id');
+    my $question_id = $query->param('id');
 
     # it.answers.yahoo.com broken link
-    $art_id =~ s{\D}{}g;
+    $question_id =~ s{\D}{}g;
 
-    $self->log('notice', 'Displaying article id:', $art_id);
+    $self->log('notice', 'Displaying question id:', $question_id);
 
     # Fill all template parameters
     my $tmpl = $self->fill_params();
 
-    # Render selected article to template
-    render($self, $tmpl, $art_id);
+    # Render selected question to template
+    render($self, $tmpl, $question_id);
 
     # Generate template output
     return $tmpl->output();
 }
 
 sub render {
-    my ($self, $tmpl, $art_id) = @_;
+    my ($self, $tmpl, $question_id) = @_;
 
-    # Load article (if present)
+    # Load question (if present)
     my $ok  = 0;
-    my $art = BabyDiary::File::Questions->new();
- 
+    my $question = BabyDiary::File::Questions->new();
+
  	# Check if current visitor is an admin
 	my $users = BabyDiary::File::Users->new();
 	my $current_user = $self->session->param('user');
 	my $is_admin = $users->is_admin($current_user);
 
-	# Make sure that only admins (and authors) can see unpublished articles
-	my @article_filter = $is_admin
+	# Make sure that only admins (and authors) can see unpublished questions
+	my @question_filter = $is_admin
 		? ( )
 		: ( published => {'<>', 0} )
 		;
 
-    # If no article selected, fetch the
+    # If no question selected, fetch the
 	# front-page default one
     my $rec;
 
-    if (defined $art_id)
+    if (defined $question_id)
     {
-        $rec = $art->get({
+        $rec = $question->get({
             where => {
-				@article_filter,
-				id => $art_id,
+				@question_filter,
+				id => $question_id,
 			}
         });
     }
-    else
-    {
-        $self->log('notice', 'Fetching latest front-page article');
-        my $list = $art->list({
-			where => {
-				published => { '<>', 0 },
-			},
-			# First "front-paged" articles, then normal ones
-			# Order by id desc ensures chronological order
-            order => 'published DESC, id DESC',
-            limit => 1,
-        });
-
-        if ($list) {
-            $rec = $list->[0];
-            $art_id = $rec->{id};
-        }
-    }
 
     #
-    # Now overwrite content with a nicely formatted article content...
+    # Now overwrite content with a nicely formatted question content...
     #
 
-    # If article is not found, display a notice
+    # If question is not found, display a notice
     if(!$rec)
     {
-        $tmpl->param( article_content => "" );
+        $tmpl->param( question_content => "" );
     }
     # Question is found, display it nicely formatted
     else
     {
-        $self->log('notice', 'Found article `', $rec->{title}, '\'');
+        $self->log('notice', 'Found question `', $rec->{title}, '\'');
 
-        # Increase number of views of article (only for non-admin users)
+        # Increase number of views of question (only for non-admin users)
         #
         # XXX This is obviously not going to work in this way for highly concurrent environments
-        # Also, it can be a good idea to drop the whole concept of articles views, to avoid
+        # Also, it can be a good idea to drop the whole concept of questions views, to avoid
         # database writes on every page view...
 
         # We don't want our admin work to impact on visit count
         if (! $is_admin) {
             $rec->{views}++;
-            $art->update({ views=>$rec->{views} }, { id=>$art_id });
+            $question->update({ views=>$rec->{views} }, { id=>$question_id });
         }
 
-        # Supply parameters for all article properties
-        $tmpl->param( article_id        => $rec->{id} );
-        $tmpl->param( article_createdby => BabyDiary::View::Questions::format_author($rec) );
-        # TODO Here we could format the date in any convenient way...
-        $tmpl->param( article_createdon => $rec->{createdon} );
+        # Supply parameters for all question properties
+        $tmpl->param(
+			id                 => $rec->{id},
+        	question_id        => $rec->{id},
+        	question_createdby => BabyDiary::View::Questions::format_author($rec),
+        	question_createdby_avatar => BabyDiary::View::Questions::format_author_avatar($rec),
+        	question_createdon => Opera::Util::format_date_natural($rec->{createdon}),
+        	question_lastupdateby => BabyDiary::View::Questions::format_author($rec, 'lastupdateby'),
+        	question_lastupdateon => $rec->{lastupdateon},
+		);
 
-        $tmpl->param( article_lastupdateby => BabyDiary::View::Questions::format_author($rec, 'lastupdateby') );
-        $tmpl->param( article_lastupdateon => $rec->{lastupdateon} );
+        # Replicate question title for document/page title
+        my $question_title = BabyDiary::View::Questions::format_title($rec);
 
-        # Replicate article title for document/page title
-        my $article_title = BabyDiary::View::Questions::format_title($rec);
-        $tmpl->param( article_title     => $article_title );
-        $tmpl->param( page_title        => $article_title );
-        $tmpl->param( article_keywords  => BabyDiary::View::Questions::format_keywords($rec) );
-        $tmpl->param( article_views     => $rec->{views} );
-        $tmpl->param( article_content   => BabyDiary::View::Questions::format_article($rec) );
-        $tmpl->param( article_published => $rec->{published} );
+        $tmpl->param(
 
-		# Artificial published states for the drop-down list
-        $tmpl->param( 'article_published_' . ($rec->{published} || '0') => 1 );
+			page_title         => $question_title,
+			menu_questions     => 1,
+
+			question_title     => $question_title,
+			question_keywords  => BabyDiary::View::Questions::format_keywords($rec),
+			question_views     => $rec->{views},
+			question_content   => BabyDiary::View::Questions::format_question($rec),
+			question_published => $rec->{published},
+			question_reputation=> $rec->{reputation},
+
+			# Artificial published states for the drop-down list
+        	'question_published_' . ($rec->{published} || '0') => 1,
+		);
 
         # Check permissions for cancel/modify buttons
         #
         # If user is admin, allow cancel and modify.
-        # If not, allow remove/change only if logged user is the article author
+        # If not, allow remove/change only if logged user is the question author
         my $modify_allowed = $is_admin || $current_user eq $rec->{createdby};
 
         $self->log('notice', 'Current user [', $current_user, '] is', ($is_admin ? '' : ' *NOT*'), ' an admin');
 
         if($current_user eq $rec->{createdby})
         {
-            $self->log('notice', 'Current user [', $current_user, '] is the author of article');
+            $self->log('notice', 'Current user [', $current_user, '] is the author of question');
         }
 
-        $tmpl->param( article_remove_allowed => $modify_allowed );
-        $tmpl->param( article_modify_allowed => $modify_allowed );
+        $tmpl->param(
+			question_remove_allowed => $modify_allowed,
+        	question_modify_allowed => $modify_allowed,
+		);
 
         #
-        # Build related articles section
+        # Build related questions section
         # 
-        my @related = $art->related($art_id);
-        $tmpl->param( article_related => \@related );
+        my @related = $question->related($question_id);
+        $tmpl->param( question_related => \@related );
 
-		#
-		# Comments section, only for published articles
-		#
-		if ($rec->{published}) {
-			render_comments($self, $tmpl, $art_id);
-		}
+		render_answers($self, $tmpl, $question_id);
 
         $ok = 1;
     }
@@ -608,32 +677,34 @@ sub render {
     return $ok;
 }
 
-sub render_comments {
-	my ($self, $tmpl, $article_id) = @_;
+sub render_answers {
+	my ($self, $tmpl, $question_id) = @_;
 
-	my $comments_allowed = 1;
+	my $answers_allowed = 1;
 	my $current_user = $self->session->param('user');
 	if (! $current_user) {
-		$comments_allowed = 0;
+		$answers_allowed = 0;
 	}
 
-	$tmpl->param( comments_allowed => $comments_allowed );
+	$tmpl->param( answers_allowed => $answers_allowed );
 
-	my $comm = BabyDiary::File::Comments->new();
-	my $comments_list = $comm->comments_by_article($article_id);
+	my $ans = BabyDiary::File::Answers->new();
+	my $answers_list = $ans->answers_by_question($question_id);
+	if ($answers_list) {
 
-	if ($comments_list) {
+		# How many answers found
+		$tmpl->param(question_answers => scalar @{ $answers_list });
 
 		my $is_admin = $self->session->param('admin');
 		my %user_cache;
 		my $users = BabyDiary::File::Users->new();
 
-		for my $c (@{ $comments_list }) {
+		for my $a (@{ $answers_list }) {
 
 			#
 			# Format username
 			#
-			my $username = $c->{createdby};
+			my $username = $a->{createdby};
 
             # Special users are flagged so that comment is highlighted
             my $is_official = 0;
@@ -646,26 +717,25 @@ sub render_comments {
 				$userdata = $user_cache{$username};	
 			}
 			else {
-				$userdata = $users->get({ where => {username => $c->{createdby}} });
+				$userdata = $users->get({ where => {username => $a->{createdby}} });
 				$user_cache{$username} = $userdata;
 			}
-			$c->{createdby} = $userdata->{realname};
 
-			#
-			# Format comment date
-			#
-			$c->{createdon} = Opera::Util::format_date($c->{createdon});
+			$a->{createdby} = BabyDiary::View::Questions::format_author($a);
+			$a->{createdon} = Opera::Util::format_date_natural($a->{createdon});
 
-			# We need to know if current user is an admin
-			$c->{admin} = $is_admin;
-			$c->{article_id} = $article_id;
+			$a->{createdby_avatar} =
+				BabyDiary::View::Questions::format_author_avatar($userdata, 'username');
 
-            # Comment is from someone that administers the site
-            $c->{is_official} = $is_official;
+			$a->{admin} = $is_admin;
+			$a->{question_id} = $question_id;
+
+            # Answer is from someone that administers the site
+            $a->{is_official} = $is_official;
 
 		}
 
-		$tmpl->param( comments_list => $comments_list );
+		$tmpl->param( answers_list => $answers_list );
 
 	}
 
@@ -681,35 +751,35 @@ sub topics
     my $keyword = 'scheda';
 
     # Load list from database.
-    $self->log('notice', 'Getting list of articles for topics sidebar');
+    $self->log('notice', 'Getting list of questions for topics sidebar');
 
-	# By default, don't show non-published articles
-	my @article_filter = (
+	# By default, don't show non-published questions
+	my @question_filter = (
 		published => { '<>', 0 },
 	);
 
 	# Admins must see everything
 	my $is_admin = $self->session->param('admin');
 	if ($is_admin) {
-		@article_filter = ();
+		@question_filter = ();
 	}
 
-    my $articles = BabyDiary::File::Questions->new();
-    my $art_list = $articles->list({
+    my $questions = BabyDiary::File::Questions->new();
+    my $question_list = $questions->list({
         fields => ['id', 'title', 'createdby', 'views', 'published', 'lastupdateon'], 
         where  => {
-			@article_filter,
+			@question_filter,
 			keywords => { LIKE => '%scheda%' },
 		},
         order  => ['id'],
     });
 
-    if (! $art_list) {
-        $self->log('notice', 'No articles for the topics sidebar');
+    if (! $question_list) {
+        $self->log('notice', 'No questions for the topics sidebar');
         return;
     }
 
-    $self->log('notice', 'Found ' . scalar(@$art_list) . ' articles for the topics sidebar');
+    $self->log('notice', 'Found ' . scalar(@$question_list) . ' questions for the topics sidebar');
 
 	my @two_weeks_ago = localtime(time() - 14 * 86400);
 	my $thr_date = sprintf '%04d-%02d-%02d',
@@ -717,18 +787,18 @@ sub topics
 		$two_weeks_ago[4] + 1,
 		$two_weeks_ago[3];
 
-	for my $art (@{$art_list}) {
-		$art->{url} = $articles->url($art->{id});
-		$art->{link} = BabyDiary::View::Questions::format_title_link($art);
-		# Mark last-updated articles
-		$art->{new} = $art->{lastupdateon} ge $thr_date ? 1 : 0;
+	for my $question (@{$question_list}) {
+		$question->{url} = $questions->url($question->{id});
+		$question->{link} = BabyDiary::View::Questions::format_title_link($question);
+		# Mark last-updated questions
+		$question->{new} = $question->{lastupdateon} ge $thr_date ? 1 : 0;
 	}
 
-    return($art_list);
+    return($question_list);
 }
 
 #
-# Retrieve the latest n articles and build an html list with them
+# Retrieve the latest n questions and build an html list with them
 #
 sub latest_n
 {
@@ -738,45 +808,42 @@ sub latest_n
 
     # Load list from database.
     # Here a caching logic could save us from loading many times the same thing
-    $self->log('notice', 'Getting list of articles');
+    $self->log('notice', 'Getting list of questions');
 
-	# By default, admins can see everything, even non-published articles
+	# By default, admins can see everything, even non-published questions
 	my $is_admin = $self->session->param('admin');
-	my @article_filter = (
+	my @question_filter = (
 		published => {'<>', 0}
 	);
 
-    my $articles = BabyDiary::File::Questions->new();
-    my $art_list = $articles->list({
+    my $questions = BabyDiary::File::Questions->new();
+    my $question_list = $questions->list({
         fields => ['id', 'title', 'createdby', 'views', 'published'],
 		where  => $is_admin
 			? undef
-			: { @article_filter },
+			: { @question_filter },
         limit  => $n,
         order  => [ $order ],
     });
 
-    if(!$art_list)
+    if(!$question_list)
     {
-        $self->log('notice', 'No articles for the top 10');
-        return CGI::ol( CGI::li('No articles') );
+        $self->log('notice', 'No questions for the top 10');
+        return CGI::ul( CGI::li('No questions') );
     }
 
     my $html_list = '<ul>';
 
-    $self->log('notice', scalar(@$art_list) . ' articles for the top 10');
-    for my $art (@$art_list)
-    {
+    $self->log('notice', scalar(@$question_list) . ' questions for the top 10');
+    for my $question (@$question_list) {
         $html_list .= CGI->li(
-              BabyDiary::View::Questions::format_title_link($art)
-            #. ' di '
-            #. BabyDiary::View::Questions::format_author($art)
+        	BabyDiary::View::Questions::format_title_link($question)
         );
     }
 
     $html_list .= '</ul>';
 
-    $self->log('notice', 'Latest n articles completed');
+    $self->log('notice', 'Latest n questions completed');
 
     return($html_list);
 }
@@ -802,11 +869,11 @@ sub tags
 {
     my $self = $_[0];
 
-    my $articles = BabyDiary::File::Questions->new();
+    my $questions = BabyDiary::File::Questions->new();
 
     # Get all distinct keywords from database and
     # obtain a frequency distribution
-    my %tags = $articles->tags_frequency();
+    my %tags = $questions->tags_frequency();
     
     # Fill all template parameters
     my $tmpl = $self->fill_params();
@@ -853,15 +920,15 @@ sub tags_cloud
 
     # Ok, HTML::TagCloud is present
     my $cloud = HTML::TagCloud->new(levels=>20);
-    my $articles = BabyDiary::File::Questions->new();
+    my $questions = BabyDiary::File::Questions->new();
 
     # Get all distinct keywords from database and
     # obtain a frequency distribution
-    my %tags = $articles->tags_frequency();
+    my %tags = $questions->tags_frequency();
 
     for my $tag (keys %tags)
     {
-        $cloud->add( $tag, $self->url_for('article_search?keyword='.CGI::escape($tag)), $tags{$tag});
+        $cloud->add( $tag, $self->url_for('question_search?keyword='.CGI::escape($tag)), $tags{$tag});
     }
 
     $self->log('notice', 'Tag cloud completed (' . scalar(keys %tags) . ' tags found)');
@@ -872,9 +939,9 @@ sub tags_cloud
 sub cumulus_cloud
 {
     my $self = $_[0];
-    my $articles = BabyDiary::File::Questions->new();
+    my $questions = BabyDiary::File::Questions->new();
     my $html;
-    my %tags = $articles->tags_frequency();
+    my %tags = $questions->tags_frequency();
 
     # Limit n. of tags
     my $n = 30;
@@ -893,7 +960,7 @@ sub cumulus_cloud
         $font_size = 10 if $font_size < 10;
         $font_size = 25 if $font_size > 25;
 
-        $html .= '<a href="' . $self->url_for('article_search?keyword='.CGI::escape($tag)).
+        $html .= '<a href="' . $self->url_for('question_search?keyword='.CGI::escape($tag)).
             '" title="' . $tags{$tag} . ' ' . substr($tag, 0, 20) .
             '" rel="tag" class="tag-link-' . ($tags{$tag}) . '" style="font-size:' . $font_size . '">' .
             HTML::Entities::decode_entities($tag) . '</a>';

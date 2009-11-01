@@ -1,4 +1,4 @@
-# $Id$
+# $Id$z
 
 package BabyDiary::Application;
 
@@ -90,8 +90,9 @@ sub setup
 
 		diary           => \&BabyDiary::Application::Diary::start,
 
-		# Questions
-        latest          => \&BabyDiary::Application::Questions::latest,
+        question        => \&BabyDiary::Application::Questions::view,
+        questions_latest=> \&BabyDiary::Application::Questions::latest,
+        question_new    => \&BabyDiary::Application::Questions::modify,
 
         tags            => \&BabyDiary::Application::Articles::tags,
 
@@ -103,21 +104,6 @@ sub setup
         signup_thanks   => \&BabyDiary::Application::Signup::thanks,
 
     );
-
-=cut
-        help            => \&default,
-        logout          => \&logout,            # in O::A::Auth
-        articles        => \&default,
-        article_post    => \&article_post,      # in O::A::Articles
-        article_view    => \&article_view,      # in O::A::Articles
-        article_delete  => \&article_delete,    # in O::A::Articles
-        article_modify  => \&article_modify,    # in O::A::Articles
-        user_create     => \&user_create,       # in O::A::Users
-        users_search    => \&user_search,       # in O::A::Users
-        user_delete     => \&user_delete,       # in O::A::Users
-        user_modify     => \&user_modify,       # in O::A::Users
-        user_view       => \&user_view,         # in O::A::Users
-=cut
 
     return;
 }
@@ -256,7 +242,11 @@ sub render_components {
     $tmpl->param( articles_latest  => $self->BabyDiary::Application::Articles::latest_n(10) );
     $tmpl->param( articles_popular => $self->BabyDiary::Application::Articles::best_n() );
 
-    #$tmpl->param( articles_cloud   => $self->BabyDiary::Application::Articles::tags_cloud() );
+	# Latest/best questions
+    $tmpl->param( questions_latest => $self->BabyDiary::Application::Questions::latest_n(10) );
+    $tmpl->param( questions_popular=> $self->BabyDiary::Application::Questions::best_n() );
+
+    #tmpl->param( articles_cloud  => $self->BabyDiary::Application::Articles::tags_cloud() );
     $tmpl->param( cumulus_cloud    => $self->BabyDiary::Application::Articles::cumulus_cloud() );
 
     # Automatic topics left sidebar
@@ -319,7 +309,9 @@ sub render_session {
     my %param;
 
     # Basic application parameters (cgi path, static resources path, ...)
-    $param{mycgi_path} = $self->config('cgi_root');
+    $param{mycgi_path} = $self->config('cgi_home');
+    $param{cgi_root} = $self->config('cgi_root');
+
 	$param{show_ads} = $self->config('show_ads');
 	$param{show_custom_search} = $self->config('show_custom_search');
     $param{www_path} = '/';

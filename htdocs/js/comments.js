@@ -1,5 +1,11 @@
 // comments.js - $Id$
-function vote(id, delta, type) {
+function vote(id, delta, type, logged) {
+
+	if (! logged) {
+		alert('Per favore, accedi per votare');
+		return;
+	}
+
 	if (! id) return;
 	if (! type) type = 'comment';
 
@@ -14,11 +20,32 @@ function vote(id, delta, type) {
 	return false;
 }
 
-function vote_up(comment, type) {
-	return vote(comment, 1, type);
+function vote_up(id, type, logged) {
+	return vote(id, 1, type, logged);
 }
 
-function vote_down(comment, type) {
-	return vote(comment, -1, type);
+function vote_down(id, type, logged) {
+	return vote(id, -1, type, logged);
+}
+
+function vote_favorite(id, type, logged) {
+	if (! logged) {
+		alert('Per favore, accedi per marcare come favorito');
+		return;
+	}
+
+	if (! id) return;
+	if (! type) type = 'comment';
+
+	var fid = type + '-' + parseInt(id) + '-fav';
+	fid = document.getElementById(fid);
+	if (! fid) return;
+
+	var is_fave = fid.innerHTML.match(/favorite\-on/) ? 1 : 0;
+	var new_state = is_fave ? 'off' : 'on';
+
+	alert('fave new state:'+new_state);
+	
+	return;
 }
 

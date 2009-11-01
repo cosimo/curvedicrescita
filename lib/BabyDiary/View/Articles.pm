@@ -8,6 +8,7 @@ use CGI ();
 use HTML::BBCode;
 use HTML::Strip;
 use BabyDiary::File::Articles;
+use BabyDiary::File::Users;
 
 #
 # Format and display article content
@@ -70,25 +71,26 @@ sub format_article_excerpt
     return($content);
 }
 
-#
-# Display article author name as link to my.opera.com profile
-#
 sub format_author
 {
     my($art, $key) = @_;
     my $name = '';
     $key ||= 'createdby';
 
-    if(exists $art->{$key} && $art->{$key} ne '')
-    {
+    if (exists $art->{$key} && $art->{$key} ne '') {
+
 		# User page NIY
-		# CGI->a({href=>'/exec/home/user/' . CGI::escape($art->{$key}) }, $art->{$key});
-        $name = $art->{$key};
+		#$name = CGI->a({href=>'/exec/home/user/' . CGI::escape($art->{$key}) }, $art->{$key});
+
+		my $users = BabyDiary::File::Users->new();
+		my $rec = $users->get_by_id($art->{$key});
+		$name = $rec->{realname} || 'anonimo?';
+		$name = ucfirst $name;
     }
 
-    return($name);
+    return $name;
 }
-	
+
 sub format_comment {
 	my ($comment) = @_;
 	
