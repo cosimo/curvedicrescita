@@ -22,6 +22,8 @@ CREATE TABLE questions (
 	published integer not null default 0,
 	views     integer not null default 0,
 	favorited integer not null default 0,
+	reputation integer not null default 0,
+	answers   integer not null default 0,
 	modified  timestamp not null
 );
 
