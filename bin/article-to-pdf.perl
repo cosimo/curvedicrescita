@@ -19,9 +19,12 @@ sub massage {
 
 	$content =~ s{<script[^>]*>(.+?)</script>}{}gsim;
 	$content =~ s{<style[^>]*>(.+?)</style>}{}gsim;
-	$content =~ s{<pre>([^<]+)</pre>}{C<< $1 >>}gim;
+	$content =~ s{<pre>([^<]+)</pre>}{C<< $1 >>}gsim;
 	$content =~ s{<h(\d)>([^<]+)</h\d>}{\n\n=head$1 $2\n\n}gim;
-	$content =~ s{<cite>([^<]+)</cite>}{I<< $1 >>}gim;
+
+	$content =~ s{<cite>([^<]+)</cite>}{I<< $1 >>}gsim;
+	$content =~ s{</?cite>}{}gsim;
+
 	$content =~ s{<br>}{\n}gim;
 	$content =~ s{<div[^>]*>}{}gim;
 	$content =~ s{</div>}{}gim;
@@ -32,8 +35,8 @@ sub massage {
 	$content =~ s{</li>}{}gim;
 	$content =~ s{</[uo]l>}{\n\n=back\n\n}gim;
 
-	$content =~ s{<[bB]>(.+?)</[bB]>}{B<< $1 >>}gm;
-	$content =~ s{<[iI]>(.+?)</[iI]>}{I<< $1 >>}gm;
+	$content =~ s{<[bB]>(.+?)</[bB]>}{B<< $1 >>}gsm;
+	$content =~ s{<[iI]>(.+?)</[iI]>}{I<< $1 >>}gsm;
 
 	# Blockquotes
 	#$content =~ s{<blockquote>}{\n\n  }gim;
@@ -86,6 +89,7 @@ if ($author eq 'Tamara') {
 }
 my $url = "http://www.curvedicrescita.com/exec/article/$slug";
 my $date = Opera::Util::format_date($art->{createdon});
+my $last_modification_date = Opera::Util::format_date($art->{lastmodifiedon} || $art->{createdon});
 
 my @tags = split m{\s*,\s*} => $tags;
 $tags = join(', ', map { "I<$_>" } @tags);
@@ -110,17 +114,21 @@ $content
   
   
 
-=head1 Data di pubblicazione
-
-$date
-
 =head1 Autore
 
 $author
 
-=head1 Fonte
+=head1 Pubblicato su
 
 Curve di crescita, L<$url>
+
+=head2 Data prima pubblicazione
+
+$date
+
+=head2 Ultima modifica
+
+$last_modification_date
 
 =end
 
