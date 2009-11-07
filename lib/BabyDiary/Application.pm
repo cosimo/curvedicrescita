@@ -2,7 +2,7 @@
 
 package BabyDiary::Application;
 
-$VERSION = '0.02';
+$VERSION = '0.03';
 
 use strict;
 use warnings;
@@ -92,7 +92,10 @@ sub setup
 
         question        => \&BabyDiary::Application::Questions::view,
         questions_latest=> \&BabyDiary::Application::Questions::latest,
-        question_new    => \&BabyDiary::Application::Questions::modify,
+        question_delete => \&BabyDiary::Application::Questions::delete,
+        question_modify => \&BabyDiary::Application::Questions::modify,
+        question_new    => \&BabyDiary::Application::Questions::new_form,
+		question_post   => \&BabyDiary::Application::Questions::post,
 
         tags            => \&BabyDiary::Application::Articles::tags,
 
@@ -243,7 +246,7 @@ sub render_components {
     $tmpl->param( articles_popular => $self->BabyDiary::Application::Articles::best_n() );
 
 	# Latest/best questions
-    $tmpl->param( questions_latest => $self->BabyDiary::Application::Questions::latest_n(10) );
+    $tmpl->param( questions_latest_html => $self->BabyDiary::Application::Questions::latest_n(10) );
     $tmpl->param( questions_popular=> $self->BabyDiary::Application::Questions::best_n() );
 
     #tmpl->param( articles_cloud  => $self->BabyDiary::Application::Articles::tags_cloud() );

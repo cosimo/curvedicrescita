@@ -19,25 +19,31 @@ sub add_slug {
 
 	# Check if article already has a slug
 	my $id = $model->{id};
-	my $slug;
+
+	# Or if it was passed in the model hashref
+	my $slug = $model->{slug} || q{};
 
 	$slugs ||= BabyDiary::File::Slugs->new();
-	my $slug_rec = $slugs->get({
-		where => {
-			type=>$self->type(),
-			id=>$id
-		}
-	});
 
-	if ($slug_rec) {
-		$slug = $slug_rec->{slug};
-		return $slug;
+	if (! $slug) {
+		my $slug_rec = $slugs->get({
+			where => {
+				type=>$self->type(),
+				id=>$id
+			}
+		});
+
+		if ($slug_rec) {
+			$slug = $slug_rec->{slug};
+			return $slug;
+		}
+
+		# Passing the date will automatically prepend it to the slug
+		$slug = Opera::Util::slug($model->{title}, $model->{createdon});
+
 	}
 
-	# Prepend date to article slug
-	my $model_date = $model->{createdon};
-	$model_date =~ s{^(\d+)-(\d+)-(\d+).*$}{$1/$2/$3};
-	$slug = $model_date . '/' . Opera::Util::slug($model->{title});
+	$self->log('notice', 'Adding slug to model ' . (ref $self));
 
 	my $ok = $slugs->insert_or_replace(
 		{
@@ -51,6 +57,8 @@ sub add_slug {
 			type => $self->type(),
 		}
 	);
+
+	$self->log('notice', 'Added slug {' . $slug . '} => ' . $ok);
 
 	return $ok ? $slug : undef;
 }

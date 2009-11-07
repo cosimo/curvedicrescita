@@ -7,6 +7,11 @@
 	<tmpl_var name="question_title">
 	<tmpl_include name="article/buttons.html">
 </h1>
+
+<div align="right">
+Vai alle <a href="<tmpl_var cgi_root>/question/latest">domande più recenti</a>
+</div>
+
 <tmpl_include name="article/publish_status.html">
 </tmpl_if>
 
@@ -35,7 +40,7 @@
 
 </tr>
 </table>
-	
+
 <script type="text/javascript" src="/js/comments.js"></script>
 
 <tmpl_else>

@@ -61,39 +61,42 @@ sub post
 {
     require Opera::Util;
 
-    my($self, $art) = @_;
+    my($self, $question) = @_;
     my $ok = 0;
     my $id;
 
     # Check that question structure is correct
-    if(ref $art ne 'HASH')
+    if(ref $question ne 'HASH')
     {
         $self->log('warn', 'No data to post question!');
         return($ok);
     }
 
-    if(    (! exists $art->{title}    || ! $art->{title})
-        || (! exists $art->{content}  || ! $art->{content})
+    if(    (! exists $question->{title}    || ! $question->{title})
+        || (! exists $question->{content}  || ! $question->{content})
     )
     {
         $self->log('warn', 'Question hasn\'t all needed data. Can\'t post!');
         return($ok);
     }
 
-    for(sort(keys(%$art)))
+    for(sort(keys(%$question)))
     {
-        $self->log('notice', 'Article ' , $_ , ': `', $art->{$_}, '\'');
+        $self->log('notice', 'Question ' , $_ , ': `', $question->{$_}, '\'');
     }
 
     # Put default data
-    #$art->{createdby} ||= '';
-    $art->{createdon} = Opera::Util::current_timestamp();
-    $art->{views}     = 0;
-    $art->{id}        = undef;
-	$art->{published} = 0;
+    $question->{createdon} = Opera::Util::current_timestamp();
+    $question->{views}     = 0;
+    $question->{id}        = undef;
+
+	# Questions are published directly
+	$question->{published} = 1;
+
+	$question->{slug}      = Opera::Util::slug($question->{title}, $question->{createdon});
 
     # Insert record and retrieve the primary key id
-    eval { $ok = $self->insert($art); };
+    eval { $ok = $self->insert($question); };
     if ($@) {
         $self->log('error', 'Insert failed: ' . $@);
         $ok = 0;
@@ -102,19 +105,19 @@ sub post
     # Retrieve last insert id
     if(!$ok)
     {
-        $self->log('error', 'Article post failed because INSERT failed!');
+        $self->log('error', 'Question post failed because INSERT failed!');
         return;
     }
 
-    # Article was posted correctly, retrieve auto-inc id
+    # Question was posted correctly, retrieve auto-inc id
     my $id = $self->last_insert_id();
     $self->log('notice', 'New question id = ' . $id);
 
 	# Necessary for the slug to be linked to the question
-	$art->{id} = $id;
+	$question->{id} = $id;
 
 	# Write the slug now
-	$ok = $self->add_slug($art);
+	$ok = $self->add_slug($question);
 
 	$self->log('notice', "Slug $id add " . ($ok ? " ok ($ok)" : "*FAILED*"));
 

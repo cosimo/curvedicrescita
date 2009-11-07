@@ -23,3 +23,16 @@
 </div>
 
 <tmpl_include name="components/notice.html">
+
+<tmpl_if question_id>
+<div id="tab" style="clear:both; padding-left: 20px; padding-top:6px; background-color: #228; height:24px">
+<span style="color:white; font-size: 1em">Puoi rispondere alla domanda o tornare alle più recenti.</span>
+</div>
+</tmpl_if>
+
+<tmpl_if questions_latest>
+<div id="tab" style="clear:both; padding-left: 20px; padding-top:6px; background-color: #228; height:24px">
+<span style="color:white; font-size: 1em">Queste sono le ultime domande poste in ordine di tempo.</span>
+</div>
+</tmpl_if>
+

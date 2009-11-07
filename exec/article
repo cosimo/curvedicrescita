@@ -13,6 +13,7 @@ use File::Basename;
 use BabyDiary::Application;
 
 my $item_id;
+my $name = basename($0);
 my $path = $ENV{PATH_INFO};
 $path =~ s{^/}{};
 
@@ -31,12 +32,26 @@ elsif ($path =~ m{^latest/?$}) {
 }
 
 elsif ($path =~ m{^id/(\d+)/?}) {
-	$ENV{PATH_INFO} = "/question";
+	$ENV{PATH_INFO} = "/$name";
+	$ENV{QUERY_STRING} = "id=$1";
+}
+
+elsif ($path =~ m{^delete/id/(\d+)$}) {
+	$ENV{PATH_INFO} = "/${name}_delete";
+	$ENV{QUERY_STRING} = "id=$1";
+}
+
+elsif ($path =~ m{^modify/id/(\d+)$}) {
+	$ENV{PATH_INFO} = "/${name}_modify";
 	$ENV{QUERY_STRING} = "id=$1";
 }
 
 elsif ($path eq 'new') {
-	$ENV{PATH_INFO} = "/question_new";
+	$ENV{PATH_INFO} = "/${name}_new";
+}
+
+elsif ($path eq 'post') { 
+	$ENV{PATH_INFO} = "/${name}_post";
 }
 
 # View an article through slug
@@ -44,7 +59,6 @@ else {
 
 	require BabyDiary::File::Slugs;
 	my $slug = BabyDiary::File::Slugs->new();
-	my $name = basename($0);
 	$item_id = $slug->find_id($path, $name);
 
 	# Redirect to home page if nothing found

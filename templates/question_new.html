@@ -1,0 +1,48 @@
+<tmpl_include name="document/open.html">
+<tmpl_include name="document/header.html">
+
+<body>
+<tmpl_include name="components/signin.html">
+<tmpl_include name="components/header.html">
+
+<div id="content">
+
+    <div id="questions">
+
+    <h2>Pubblica una nuova domanda</h2>
+
+    <form name="f3" action="post" method="post">
+
+        <p>
+        <label for="title">Titolo della domanda <small>(ex.: Come cambiare i pannolini?)</small></label><br/>
+        <input id="title" type=text name="title" size="80" maxlength="500">
+        </p>
+
+        <p>
+        <label for="keywords">Lista di tag <small>(ex.: pedagogia, 3 mesi, alimentazione, vaccino)</small></label><br/>
+        <input id="keywords" type=text name="keywords" size="80" maxlength="250">
+        </p>
+
+        <p>
+        <label for="body">La tua domanda è... <small>(testo o HTML)</small></label><br/>
+        <textarea id="content" name="content" cols="80" rows="16" maxlength="65000"></textarea>
+        </p>
+
+        <p>
+        <label for="submit">Potrai correggere la domanda anche dopo averla inviata.</label>
+		<br/><br/>
+
+        <input class="submit" type="submit" value=" Invia domanda ">
+        </p>
+
+    </form>
+
+    </div>
+
+    <tmpl_include name="components/sidebar.html">
+
+</div>
+
+<tmpl_include name="document/footer.html">
+<tmpl_include name="document/close.html">
+

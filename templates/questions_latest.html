@@ -5,12 +5,6 @@
 <tmpl_include name="components/signin.html">
 <tmpl_include name="components/header.html">
 
-<div id="tab" style="clear:both; padding-left: 20px; padding-top:6px; background-color: #228; height:24px">
-<span style="color:white; font-size: 1em">
-Queste sono le ultime domande poste in ordine di tempo.
-</span>
-</div>
-
 <div id="content">
 
     <div id="questions">
@@ -48,7 +42,7 @@ Queste sono le ultime domande poste in ordine di tempo.
 				<td colspan="2" align="right">
 				<b>Admin:
 				<a href="<tmpl_var cgi_root>/question/modify/id/<tmpl_var id>">Modifica</a> |
-				<a href="<tmpl_var cgi_root>/question/delete/id/<tmpl_var id>">Rimuovi</a>
+				<a onclick="return sure();" href="<tmpl_var cgi_root>/question/delete/id/<tmpl_var id>">Rimuovi</a>
 				</b>
 				</td>
 			</tr>
@@ -62,7 +56,11 @@ Queste sono le ultime domande poste in ordine di tempo.
     </tmpl_loop>
 
 	<script language="javascript" src="/js/comments.js"></script>
-
+	<script language="javascript">
+	function sure() {
+		return confirm('Sei sicuro di voler cancellare questa domanda?\n\nNon sarà possibile annullare!\n'); 
+	}
+	</script>
     <!-- tmpl_else -->
     <h2>Ancora nessuna domanda, purtroppo...</h2>
 

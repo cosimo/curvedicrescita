@@ -1,0 +1,2 @@
+<tmpl_if question_modify_allowed><a href="<tmpl_var cgi_root>/question/modify/id/<tmpl_var question_id>"><img border=0 src="/img/icon-modify.png" width="32" height="32" align="absmiddle" title="Modifica domanda"></a></tmpl_if>
+<tmpl_if question_remove_allowed><a onclick="javascript:confirm('Sei sicuro di voler cancellare questa domanda?')" href="<tmpl_var cgi_root>/question/delete/id/<tmpl_var question_id>"><img src="/img/icon-remove.png" width="32" height="32" align="absmiddle" title="Cancella domanda"></a></tmpl_if>

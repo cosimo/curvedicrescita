@@ -1,0 +1,68 @@
+<tmpl_include name="document/open.html">
+<tmpl_include name="document/header.html">
+
+<body>
+<tmpl_include name="components/signin.html">
+<tmpl_include name="components/header.html">
+
+<div id="content">
+
+    <div id="questions">
+
+	<h1>Modifica domanda</h1>
+
+	<br/>
+
+	<form name="question_modify" action="/exec/question/modify/id/<tmpl_var question_id>" method="post">
+
+	<label for="title">Titolo</label><br/>
+
+	<input style="font-size: 16pt" size="80" maxlength="255" name="title" value="<tmpl_var question_title>">
+	<tmpl_include name="components/question/buttons.html">
+	</h1>
+
+	<p><small>Pubblicato da <tmpl_var question_createdby>, <tmpl_var question_createdon> (<tmpl_var question_views> visualizzazioni)</small></p>
+
+	<label for="keywords">Tags</label><br/>
+
+	<img align="absmiddle" width="32" height="32" src="/img/icon-tags.png" alt="Tags" title="Tag associate alla domanda" />
+	<input name="keywords" size="80" maxlength="255" value="<tmpl_var name=question_keywords>"></p>
+
+	<br/>
+
+	<p>
+	<label for="content">Contenuto</label><br/>
+
+	<textarea name="content" cols="80" rows="15"><tmpl_var question_content>
+	</textarea>
+	</p>
+
+	<p>
+	<label for="published">Accesso</label><br/>
+	<select name="published">
+		<option value="0"<tmpl_if name="question_published_0"> selected</tmpl_if>>Non pubblico</option>
+		<option value="1"<tmpl_if name="question_published_1"> selected</tmpl_if>>Pubblico</option>
+		<option value="3"<tmpl_if name="question_published_3"> selected</tmpl_if>>In home page</option>
+	</select>
+	</p>
+
+	<p>
+	Ricontrolla bene e ...
+	</p>
+
+	<input type="button" value="Annulla" onclick="location.href='<tmpl_var cgi_root>/question/latest'">
+	&nbsp; oppure &nbsp; <input type="submit" value="Salva le modifiche">
+	<input type="hidden" name="id" value="<!-- tmpl_var question_id -->">
+
+	<br/>
+	</form>
+
+    </div>
+
+    <tmpl_include name="components/sidebar.html">
+
+</div>
+
+<tmpl_include name="document/footer.html">
+<tmpl_include name="document/close.html">
+

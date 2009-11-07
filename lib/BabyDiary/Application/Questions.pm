@@ -28,7 +28,7 @@ sub delete
     {
         $self->log('warn', 'User is not logged in. Don\'t allow to delete questions');
         $self->user_warning('Please login!', 'Login to application to delete questions');
-        return $self->forward('questions');
+        $self->forward('questions_latest');
     }
 
     # Check if question id was passed
@@ -37,7 +37,7 @@ sub delete
     {
         $self->log('warn', 'Delete of question without question_id...');
         $self->user_warning('Delete failed', 'Can\'t delete without question number');
-        $self->forward('questions');
+        $self->forward('questions_latest');
     }
 
     # User can delete an question if:
@@ -55,7 +55,7 @@ sub delete
     {
         $self->log('warn', 'Delete of question id ', $question_id, ' is not allowed.');
         $self->user_warning('Question delete not allowed', 'You are not the owner of the question. You are not allowed to delete it');
-        $self->forward('questions');
+        $self->forward('questions_latest');
     }
 
     # Delete question record on db
@@ -75,8 +75,8 @@ sub delete
 		);
     }
 
-    # Return to questions search
-    return $self->forward('questions');
+    # Return to latest questions list
+    return $self->redirect('/exec/question/latest');
 }
 
 #
@@ -166,11 +166,11 @@ sub modify
         # Return to question view page
         if(!$update_ok)
         {
-            $self->user_warning('Question modify error!', 'Sorry! The question wasn\'t modified. There was some problem. Please retry later or report the problem at <b>bugs@myoperatest.com</b>');
+            $self->user_warning('Errore nella modifica', 'Ci dispiace, ma la domanda non è stata modificata. C\'è stato un problema. Riprova più tardi.');
         }
         else
         {
-            $self->user_warning('Question modified!', 'The question was modified correctly.', 'info');
+            $self->user_warning('Domanda modificata', 'La domanda è stata modificata!', 'info');
         }
 
         return $self->forward('question');
@@ -218,12 +218,6 @@ sub post
         tr{<>}{}ds;
     }
 
-    # Clean up content. Detect and strip html code, either
-    # in "<...>" format, or "&lt;...&gt", or "<..."
-    #$prm{content} =~ s/<[^>]*>?//g;
-    #$prm{content} =~ s/&lt;[^>]*(&gt;)?//g;
-
-    # Check credentials against password saved in users file
     my $question = BabyDiary::File::Questions->new();
     my $posted = $question->post({
         title     => $prm{title},
@@ -243,14 +237,17 @@ sub post
     else
     {
         $self->user_warning(
-			'Articolo salvato',
-			'Il tuo questionicolo &egrave; stato salvato. Grazie per il tuo contributo!',
+			'Domanda accettata',
+			'La tua domanda &egrave; stata ricevuta. Grazie per il tuo contributo!',
 			'info',
 		);
     }
 
-    # Return to questions search
-    return $self->forward('questions');
+    # Return to latest questions
+	$self->header_type('redirect');
+	$self->header_props(-url => '/exec/question/latest');
+
+    return;
 }
 
 sub delete_comment {
@@ -338,6 +335,7 @@ sub latest
 
 	# Highlight menu section
 	$tmpl->param(menu_questions => 1);
+	$tmpl->param(questions_latest => 1);
 
     # If some questions found, display them in a TMPL_LOOP
     if ($list) {
@@ -378,6 +376,24 @@ sub latest
 
         $tmpl->param(latest_questions => $list);
     }
+
+    # Generate template output
+    return $tmpl->output();
+}
+
+# Display a form to post a new question
+sub new_form
+{
+    my ($self) = @_;
+
+    $self->log('notice', 'Displaying form for new question');
+
+    # Fill all template parameters
+    my $tmpl = $self->fill_params();
+
+	$tmpl->param(menu_questions => 1);
+	$tmpl->param(new_question => 1);
+	$tmpl->param(questions_latest => 0);
 
     # Generate template output
     return $tmpl->output();
