@@ -112,8 +112,12 @@ sub search_url_terms {
 
 # Poor man's slug
 sub slug {
-	my ($string) = @_;
+	my ($string, $date) = @_;
 	my $slug = lc $string;
+
+	if (defined $date) {
+		$date =~ s{^(\d+)-(\d+)-(\d+).*$}{$1/$2/$3};
+	}
 
 	$slug =~ s{\b(il|la|lo|gli|le|d|di|del|delle|degli|della|a|al|allo|alla|alle|agli|ad|da|in|con|su|per|tra|fra|un|uno|una|e|i|o|oppure|che|nel|nella|negli|nelle|sul|sullo|sulla|sugli|sulle)\b}{}g;
 
@@ -131,6 +135,10 @@ sub slug {
 	$slug =~ s{\-\-+}{-}g;
 	$slug =~ s{^\-+}{};
 	$slug =~ s{\-+$}{};
+
+	if (defined $date) {
+		$slug = "$date/$slug";
+	}
 
 	return $slug;
 }
