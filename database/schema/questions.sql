@@ -24,7 +24,7 @@ CREATE TABLE questions (
 	favorited integer not null default 0,
 	reputation integer not null default 0,
 	answers   integer not null default 0,
-	modified  timestamp not null
+	modified  timestamp
 );
 
 CREATE INDEX i_questions_title ON questions (title);
