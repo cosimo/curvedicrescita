@@ -13,6 +13,7 @@ use CGI;
 use Config::Auto;
 
 use BabyDiary::File::Articles;
+use BabyDiary::File::Questions;
 use BabyDiary::File::Slugs;
 use Opera::Util;
 
@@ -122,6 +123,54 @@ sub generate {
 		}
 
 		print $tag_url, ' changefreq=weekly priority=', $priority, "\n";
+	}
+
+	print "\n";
+	print "#\n";
+	print "# Latest questions page\n";
+	print "#\n";
+	print $base_url, 'exec/question/latest changefreq=weekly priority=0.95', "\n";
+
+	print "\n";
+	print "#\n";
+	print "# Questions\n";
+	print "#\n";
+
+	my $questions = BabyDiary::File::Questions->new();
+	$list = $questions->list({
+		where => { published => {'<>', 0} },
+		order => 'id DESC'
+	});
+
+	my $n_questions = 30;
+
+	for (@$list) {
+
+		my $q_url  = $questions->url($_->{id});
+		$q_url =~ s{^/}{};
+		$q_url = $base_url . $q_url;
+
+		my $last_mod = $_->{lastupdateon} || $_->{createdon};
+		$last_mod = Opera::Util::format_date_iso8601($last_mod);
+
+		my $priority = 0.95;
+		if ($_->{views} > 1000) {
+			$priority = 0.5;
+		} elsif ($_->{views} > 500) {
+			$priority = 0.6;
+		} elsif ($_->{views} > 100) {
+			$priority = 0.8;
+		}
+
+		if ($n_questions-- > 0) {
+			$priority += 1.0;
+			$priority = 0.99 if $priority >= 1.0;
+		}
+
+		my $change_freq = "weekly";
+		printf "%s lastmod=%s changefreq=%s priority=%1.2f\n",
+			$q_url, $last_mod, $change_freq, $priority;
+
 	}
 
 	return;
