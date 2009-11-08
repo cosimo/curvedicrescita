@@ -58,6 +58,6 @@ function vote_favorite(id, type, logged) {
 		}
 	});
 
-	return ok;
+	return;
 }
 
