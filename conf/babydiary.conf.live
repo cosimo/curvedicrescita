@@ -29,3 +29,7 @@ send_comments_notification = 1
 
 # for every answer
 send_answers_notification = 1
+
+# email address to which send all mail messages
+send_admin_mail_to = Tamara De Zotti <info@curvedicrescita.com>
+
