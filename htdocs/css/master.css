@@ -113,7 +113,7 @@ body hr {
     font-weight: bold;
 }
 
-#tags a {
+#article #tags a, #question #tags a, #questions #tags a {
     background-color: #ddf;
     color: #33d;
     border-bottom: 1px solid #88f;
@@ -534,5 +534,24 @@ div#notice_box_info h3, div#notice_box_info p {
     margin:0;
     padding:0 0 0 10px;
 	font-weight: bold;
+}
+
+/* Blue tab under main header */
+body #tab {
+	clear:both;
+	padding-left: 20px;
+	padding-top:6px; 
+	background-color: #228;
+	height:24px
+}
+
+body #tab span {
+	color:#fff;
+	font-size: 1em;
+}
+
+body #tab span a {
+	color:#ccf;
+	font-size: 1em;
 }
 
