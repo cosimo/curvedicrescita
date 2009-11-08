@@ -1,0 +1,56 @@
+#!c:/dev/perl510/bin/perl.exe
+#
+# $Id: validate 56 2008-11-30 21:26:40Z Cosimo $
+#
+# Helper CGI that marks stuff as favorites
+#
+# Parameters: type, id
+
+use strict;
+use lib '../lib';
+use BabyDiary::Application;
+use BabyDiary::File::Favorites;
+
+# Read web parameters
+my $app = BabyDiary::Application->new(
+    PARAMS => { cfg_file => '../conf/babydiary.conf' }
+);
+
+my $query = $app->query();
+my %prm   = $query->Vars();
+my $response = q{};
+my $user = $app->session->param('user');
+
+if ($user) {
+
+	$app->log('warn', 'Mark as favorite ', \%prm);
+
+	# If one of the required parameters is missing, validation fails
+	if(
+		(defined $prm{id}   && $prm{id})   &&
+		(defined $prm{type} && $prm{type}) &&
+		defined $prm{on}
+	) {
+		my $type = $prm{type};
+		if ($type ne 'question' && $type ne 'article') {
+			$app->log("Invalid type $type");
+			$response = "0;invalid type $type";
+		}
+		else {
+			my $fav = BabyDiary::File::Favorites->new();
+			my $ok = $fav->toggle($user, $type, $prm{id}, $prm{on});
+			$response = $ok ? "1;ok" : "0;failed";
+			$app->log("Marking as favorite result => $response");
+		}
+	}
+}
+
+$app->log('warn','Response: ' . $response);
+
+# Return text content for ajax javascript calls
+print
+    $query->header(-type => 'text/plain', -length => length $response),
+    $response ;
+
+#
+# End of script
