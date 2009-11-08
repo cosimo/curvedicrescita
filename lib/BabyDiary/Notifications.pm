@@ -85,6 +85,71 @@ sub send_activation_mail {
     return $sent;
 }
 
+sub send_answer_mail {
+    my ($user, $question, $answer) = @_;
+
+	require BabyDiary::File::Questions;
+	require BabyDiary::File::Users;
+
+	my $users = BabyDiary::File::Users->new();
+	my $questions = BabyDiary::File::Questions->new();
+
+    my $user_info = $users->get({where => {username=>$user}});
+    if (! $user_info) {
+        warn "No user '$user' found? Can't send answer notification email\n";
+        return;
+    }
+
+	my $question_info  = $question->get({where => {id=>$question}});
+	if (! $question_info) {
+		warn "No question '$question' found. Can't send answer notification email\n";
+		return;
+	}
+
+	my $realname = $user_info->{realname};
+
+	my $title = $question_info->{title};
+    my $subject = qq(Nuova risposta di $realname alla domanda '$title');
+	my $question_link = 'http://www.curvedicrescita.com/exec/question/' . $questions->slug($question);
+
+	my $text = <<EMAIL_TEXT;
+Caro amministratore,
+
+$realname ha appena pubblicato una nuova risposta alla domanda
+$title su www.curvedicrescita.com:
+
+-----------------------------
+$answer
+-----------------------------
+
+Vai alla domanda:
+  $question_link
+
+Vai direttamente alle risposte:
+  $question_link#answers
+
+-- 
+Lo staff di curvedicrescita.com
+
+EMAIL_TEXT
+
+	# Send the activation mail to the user
+	my %message = (
+        from    => 'info@curvedicrescita.com',
+        to      => 'info@curvedicrescita.com',
+        subject => $subject,
+        text    => $text,
+	);
+
+	my $sent = mail(\%message);
+
+	# Send also to myself for double checking...
+	$message{to} = 'Cosimo Streppone <cosimo@streppone.it>';
+	mail(\%message);
+
+    return $sent;
+}
+
 sub send_comment_mail {
     my ($user, $article, $comment) = @_;
 
