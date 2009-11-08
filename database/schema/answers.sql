@@ -16,7 +16,7 @@ CREATE TABLE answers (
 	-- 0:non public, 1:public
 	published integer not null default 1,
 	reputation integer not null default 0,
-	modified timestamp not null
+	modified timestamp
 );
 
 CREATE INDEX i_answers_question ON answers (rid);
