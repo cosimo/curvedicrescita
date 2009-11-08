@@ -1,7 +1,7 @@
 /*
 	Charting library - http://www.curvedicrescita.com
 	(c) 2008-2009 Cosimo Streppone, cosimo@streppone.it
-    $Id: Chart.js 175 2009-02-22 11:01:52Z cosimo $
+    $Id$
 */
 
 if (Chart == undefined) var Chart = function(div, type, width, height) {

@@ -1,4 +1,4 @@
-// $Id: audio.js 53 2008-11-30 21:11:49Z Cosimo $
+// $Id$
 function audio_play (url, is_loop)
 {
     var el_name = '_my_sound';

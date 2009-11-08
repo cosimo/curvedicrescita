@@ -1,4 +1,4 @@
-// Inline DOM tag filtering - $Id: tags-search.js 186 2009-03-08 16:35:47Z cosimo $
+// Inline DOM tag filtering - $Id$
 
 function tags_filter () {
 
