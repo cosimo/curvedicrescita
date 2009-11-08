@@ -135,7 +135,7 @@ sub process {
     my ($self) = @_;
     $self->log('notice', 'Processing signup form');
 
-    my $next_url = $self->url_for('signup');
+    my $next_url = $self->url_for('home/signup');
     my $query = $self->query();
 
     # Check form parameters
@@ -199,7 +199,7 @@ sub process {
     BabyDiary::Notifications::send_activation_mail($prm{username});
 
     # Redirect to disallow multiple submits with reload
-    $self->redirect($self->url_for('signup_thanks'));
+    $self->redirect($self->url_for('home/signup_thanks'));
 }
 
 sub thanks {

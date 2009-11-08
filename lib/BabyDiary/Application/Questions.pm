@@ -7,9 +7,11 @@
 package BabyDiary::Application::Questions;
 
 use strict;
+use CGI ();
 use HTML::Entities;
 
 use BabyDiary::File::Answers;
+use BabyDiary::File::Favorites;
 use BabyDiary::File::Questions;
 use BabyDiary::File::Users;
 use BabyDiary::View::Questions;
@@ -334,7 +336,6 @@ sub latest
     $tmpl->param(page_title => $title);
 
 	# Highlight menu section
-	$tmpl->param(menu_questions => 1);
 	$tmpl->param(questions_latest => 1);
 
     # If some questions found, display them in a TMPL_LOOP
@@ -386,17 +387,80 @@ sub new_form
 {
     my ($self) = @_;
 
+    if(! $self->user_logged())
+    {
+        $self->log('warn', 'User is not logged in. Do not allow to post questions');
+		my $msg = 'Accedi per fare una domanda';
+		my $redir_url = $self->config('cgi_root')
+			. '/question/latest?'
+			. 'notice_message=' . CGI::escape($msg)
+			. '&notice_class=warning';
+
+        $self->redirect($redir_url);
+    }
+
     $self->log('notice', 'Displaying form for new question');
 
     # Fill all template parameters
     my $tmpl = $self->fill_params();
 
-	$tmpl->param(menu_questions => 1);
 	$tmpl->param(new_question => 1);
 	$tmpl->param(questions_latest => 0);
 
     # Generate template output
     return $tmpl->output();
+}
+
+sub post_answer {
+	my ($self) = @_;
+
+	my $query = $self->query;
+	my $question_id = $query->param('id');
+	my $answer = $query->param('text');
+
+	# Only numeric ids
+	$question_id =~ s{\D}{}g;
+
+	# Strip dangerous content from comment html
+	$answer = BabyDiary::View::Questions::format_comment($answer);
+
+	# Only registered and logged in users can comment
+	my $current_user = $self->session->param('user');
+	if (! $current_user) {
+		my $msg = 'Devi accedere per poter rispondere a una domanda.';
+		$self->redirect_with_user_message($msg, 'question/latest', 'warning');
+		return;
+	}
+
+	my $ans = BabyDiary::File::Answers->new();
+	my $posted = $ans->post($question_id, $current_user, $answer);
+
+	if (! $posted) {
+		$self->log('warn', "Failed to post answer by $current_user to question $question_id");
+		my $msg = q(C'&egrave; stato un problema nella pubblicazione della risposta.<br/>Per favore riprova pi&ugrave; tardi.);
+		$self->redirect_with_user_message($msg, 'question/latest', 'warning');
+		return;
+	}
+
+	$self->log('notice', "Posted new answer by $current_user to question $question_id");
+
+	if ($self->config('send_answers_notification')) {
+		require BabyDiary::Notifications;
+		BabyDiary::Notifications::send_answer_mail(
+			$current_user,
+			$question_id,
+			$answer,
+		);
+	}
+
+	my $questions = BabyDiary::File::Questions->new();
+	my $slug = $questions->slug($question_id);
+	my $prev_url = $self->url_for("question/$slug#last-answer");
+
+	$self->log('notice', "Redirecting to question '$slug'");
+
+	$self->redirect($prev_url);
+	return;
 }
 
 sub post_comment {
@@ -648,8 +712,6 @@ sub render {
         $tmpl->param(
 
 			page_title         => $question_title,
-			menu_questions     => 1,
-
 			question_title     => $question_title,
 			question_keywords  => BabyDiary::View::Questions::format_keywords($rec),
 			question_views     => $rec->{views},
@@ -678,6 +740,11 @@ sub render {
 			question_remove_allowed => $modify_allowed,
         	question_modify_allowed => $modify_allowed,
 		);
+
+		# Favorited status
+		my $fav = BabyDiary::File::Favorites->new();
+		my $fav_status = $fav->check($current_user, 'question', $question_id);
+		$tmpl->param( question_favorited => $fav_status );
 
         #
         # Build related questions section
@@ -964,13 +1031,6 @@ sub cumulus_cloud
 
     for my $tag (sort { $tags{$b} <=> $tags{$a} } keys %tags)
     {
-
-        if ($tag eq 'scheda') {
-            next;
-        }
-
-        # "Unpopular tags"
-        #my $font_size = 50 / $tags{$tag};
 
         my $font_size = 2 * $tags{$tag};
         $font_size = 10 if $font_size < 10;

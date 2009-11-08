@@ -96,6 +96,7 @@ sub setup
         question_modify => \&BabyDiary::Application::Questions::modify,
         question_new    => \&BabyDiary::Application::Questions::new_form,
 		question_post   => \&BabyDiary::Application::Questions::post,
+		question_answer_post => \&BabyDiary::Application::Questions::post_answer,
 
         tags            => \&BabyDiary::Application::Articles::tags,
 
@@ -230,6 +231,7 @@ sub render_view
     $self->render_session($tmpl);
     $self->fill_messages($tmpl);
     $self->render_components($tmpl);
+    $self->render_notice($tmpl);
     $self->render_menu($tmpl);
 
     return $tmpl;
@@ -242,15 +244,15 @@ sub render_components {
     my ($self, $tmpl) = @_;
 
     # For articles-related sections, calculate also lists of latest/best articles
-    $tmpl->param( articles_latest  => $self->BabyDiary::Application::Articles::latest_n(10) );
+    $tmpl->param( articles_latest => $self->BabyDiary::Application::Articles::latest_n(10) );
     $tmpl->param( articles_popular => $self->BabyDiary::Application::Articles::best_n() );
 
 	# Latest/best questions
     $tmpl->param( questions_latest_html => $self->BabyDiary::Application::Questions::latest_n(10) );
-    $tmpl->param( questions_popular=> $self->BabyDiary::Application::Questions::best_n() );
+    $tmpl->param( questions_popular => $self->BabyDiary::Application::Questions::best_n() );
 
-    #tmpl->param( articles_cloud  => $self->BabyDiary::Application::Articles::tags_cloud() );
-    $tmpl->param( cumulus_cloud    => $self->BabyDiary::Application::Articles::cumulus_cloud() );
+    $tmpl->param( articles_cloud => $self->BabyDiary::Application::Articles::cumulus_cloud() );
+    $tmpl->param( questions_cloud => $self->BabyDiary::Application::Questions::cumulus_cloud() );
 
     # Automatic topics left sidebar
     $tmpl->param( topics => $self->BabyDiary::Application::Articles::topics() );
@@ -282,6 +284,10 @@ sub render_menu {
     $param{mode} = $rm;
     $param{"menu_$rm"} = 1;
 
+	if ($rm =~ m{^question}) {
+		$param{menu_questions} = 1;
+	}
+
     # Special menu items
     if ($rm eq 'article_search') {
         my $kw = $self->query->param('keyword');
@@ -303,6 +309,18 @@ sub render_menu {
     }
 
     return;
+}
+
+sub render_notice {
+	my ($self, $tmpl) = @_;
+	my $q = $self->query();
+
+	if (my $msg = $q->param('notice_message')) {
+		$tmpl->param(notice_message => $msg);
+		$tmpl->param(notice_class => $q->param('notice_class') || 'notice');
+	}
+
+	return;
 }
 
 sub render_session {
@@ -497,6 +515,21 @@ sub session_init
     return;
 }
 
+sub redirect_with_user_message {
+	my ($self, $message, $back_url, $class) = @_;
+
+	$class ||= 'notice';
+
+	my $prev_url = $ENV{HTTP_REFERER} || $self->url_for($back_url);
+	$prev_url .=
+		'?notice_message=' . CGI::escape($message) .
+		'&notice_class=' . $class;
+
+	$self->redirect($prev_url);
+
+	return;
+}
+
 #
 # Tells if the current user is actually logged in or it is
 # an anonymous
@@ -543,158 +576,5 @@ sub user_warning
     return;
 }
 
-
 1;
 
-#
-# End of class
-
-=pod
-
-=head1 NAME
-
-Opera::Application - Main controller class for MyOperaTest application
-
-=head1 SYNOPSIS
-
-Used like every other CGI::Application subclass, nothing special here.
-
-  my $app = Opera::Application->new();
-  $app->run();
-
-=head1 DESCRIPTION
-
-This class is derived from CGI::Application. It works by defining a set of methods
-as application "runmodes". Has access to several objects like CGI, CGI::Session,
-CGI::Cookie, most of those needed to handle a web application.
-
-=head1 METHODS
-
-Brief explanation of main methods for this class
-
-=over -
-
-=item setup()
-
-Defines all application "runmodes" and start runmode.
-Many runmodes are implemented by methods that always belong to C<Opera::Application>
-package, but are found in "external" modules, like for example C<Opera::Application::Articles>.
-This is meant to clearly separate functionality and to avoid having very heavy packages.
-
-=item cgiapp_init()
-
-CGI::Application specific hook. Allows to execute all initialization steps for our
-application, like reading configuration files, and other tasks that must be executed
-always for every runmode.
-
-In our case, this takes care of setting up the UTF-8 charset and initializing session
-class configuration parameters.
-
-See C<CGI::Application> for more details.
-
-=item default()
-
-Implements default runmode, that consists of loading the appropriate template (named like
-the current runmode), fill up with standard application template variables and generating
-output.
-
-=item default_error()
-
-Implements a special runmode, called when application has an untrapped exception.
-See L<CGI::Application> for more details.
-
-=item fill_message()
-
-Reads all localization messages and fills the underlying L<HTML::Template> object
-with all needed language messages. This is done automatically for all localized
-messages. It is probably not very efficient. It should be worked on to provide
-only the needed messages.
-
-=item fill_params()
-
-Creates the underlying L<HTML::Template> object and provides all needed static
-parameters and basic template configuration (static www path, cgi path, ...).
-
-This also takes care of loading (example) n. of members of the community,
-articles and users side sections, ...
-
-Basically it does a lot of work!
-
-=item locale()
-
-Simple accessor. Returns an instance of L<BabyDiary::Locale> class, that is delegated
-to deal with localization tasks. This method is used by C<msg()>. See ahead.
-
-=item log( $level, @message )
-
-Logging method. Allows to log notices, warnings and errors to a centralized
-application log. This is obtained through a proxy class that is L<Opera::Logger>.
-There are three levels (now) of logging: notice, warning and error.
-They are displayed in three different colors on the log files. Example:
-
-    sub myrunmode {
-        my $self = shift;    # Opera::Application
-        $self->log('notice', 'My runmode is starting...');
-        # ...
-        $self->log('warn', 'My runmode is ended in error');
-        # ...
-    }
-
-=item msg( $msg_id, @params )
-
-'Glue' method. This is meant to access localization language messages in an easy,
-practical and compact way. Used throughout the application to output messages like
-"Search results for {word}". Example:
-
-    sub myrunmode {
-        my $self = shift;    # Opera::Application
-        my $myword = $self->query->param('search_term');
-        my $message= $self->msg('Search results for [_1]', $myword);
-        # Here '$message' string will be localized in current language
-        return $message;
-    }
-
-This method automatically accesses L<BabyDiary::Locale> class.
-See L<BabyDiary::Locale> for more details.
-
-=item session_init()
-
-Called by C<cgiapp_init()>, creates the basic configuration of underlying
-L<CGI::Session> class. This is setup for example to avoid the standard "CGISESSID"
-cookie, just to avoid revealing the internal structure to external clients.
-It also sets the default session expire times, and basic link to sessions table
-on MySQL database.
-
-If there's a session cookie, it loads the corresponding session data structure.
-If not, cookie is issued to client and session is created.
-
-There's not much more to say, L<CGI::Session> does everything it's needed.
-
-=item user_logged()
-
-Returns a boolean telling if user is logged-in (true) or if it's still anonymous.
-
-=item user_warning( $title, $message )
-
-Sets a special parameter inside template to allow the display of user notices
-in a nice and clean way from wherever inside the application.
-
-You must supply title of the notice and main message (they both can contain
-also HTML and Javascript). In fact, this is used also by the validation
-mechanism.
-
-=back
-
-=head1 SEE ALSO
-
-=over -
-
-=item L<CGI::Application>
-
-=back
-
-=head1 AUTHOR
-
-Cosimo Streppone L<cosimo@streppone.it>
-
-=cut

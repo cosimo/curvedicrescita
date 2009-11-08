@@ -46,6 +46,10 @@ elsif ($path =~ m{^modify/id/(\d+)$}) {
 	$ENV{QUERY_STRING} = "id=$1";
 }
 
+elsif ($path eq 'answer/post') {
+	$ENV{PATH_INFO} = "/${name}_answer_post";
+}
+
 elsif ($path eq 'new') {
 	$ENV{PATH_INFO} = "/${name}_new";
 }

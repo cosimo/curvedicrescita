@@ -1,4 +1,4 @@
-<div class="vote">
+<!--<div class="vote">
 
 	<a href="#"
 onclick="vote_up('<tmpl_var id>','question','<tmpl_var logged>'); return false;"><img src="/img/vote-arrow-up.png" alt="+1" border="0"></a><br/>
@@ -9,8 +9,16 @@ onclick="vote_up('<tmpl_var id>','question','<tmpl_var logged>'); return false;"
 onclick="vote_down('<tmpl_var id>','question','<tmpl_var logged>'); return false;"><img src="/img/vote-arrow-down.png" alt="-1" border="0"></a>
 
 </div>
+-->
 
 <div class="favorite">
-	<a href="#" onclick="vote_favorite('<tmpl_var id>','question','<tmpl_var logged>'"><img src="/img/favorite-off.png"></a>
+	<div id="question-<tmpl_var id>-fav">
+	<a href="#" onclick="vote_favorite('<tmpl_var id>','question','<tmpl_var logged>');">
+	<tmpl_if question_favorited>
+	<img src="/img/favorite-on.png">
+	<tmpl_else>
+	<img src="/img/favorite-off.png">
+	</tmpl_if>
+	</a>
+	</div>
 </div>
-

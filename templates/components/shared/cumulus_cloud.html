@@ -1,5 +1,5 @@
 <!-- Flash tag cloud. Uses Culumus Cloud by Roy Tank -->
-<tmpl_if name="cumulus_cloud">
+<tmpl_if name="questions_cloud">
 	<h2><tmpl_var name="msg:tags popolari"></h2>
 
 	<div id="wpcumuluswidgetcontent"></div>
@@ -12,7 +12,7 @@
 	widget_so.addVariable("tspeed", "100");
 	widget_so.addVariable("distr", "true");
 	widget_so.addVariable("mode", "tags");
-	widget_so.addVariable("tagcloud", "<tmpl_var cumulus_cloud>");
+	widget_so.addVariable("tagcloud", "<tmpl_if menu_questions><tmpl_var questions_cloud><tmpl_else><tmpl_var articles_cloud></tmpl_if>");
 	widget_so.write("wpcumuluswidgetcontent");
 	</script>
 </tmpl_if>

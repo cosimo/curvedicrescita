@@ -100,7 +100,7 @@ sub send_answer_mail {
         return;
     }
 
-	my $question_info  = $question->get({where => {id=>$question}});
+	my $question_info  = $questions->get({where => {id=>$question}});
 	if (! $question_info) {
 		warn "No question '$question' found. Can't send answer notification email\n";
 		return;

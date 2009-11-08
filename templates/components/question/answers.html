@@ -11,20 +11,11 @@
 
 	<tr valign="top">
 
-		<td id="stats"> <br/>
+	<td id="stats"> <br/>
+		<tmpl_include name="answer_vote.html">
+	</td>
 
-		<tmpl_include name="vote.html">
-
-<!--		<div class="vote">
-			<a href="#" onclick="javascript:vote_up('<tmpl_var id>'); return false;"><img src="/img/vote-up.png" alt="+1" border="0"></a><br/>
-			<span id="answer-<tmpl_var id>-rep"><tmpl_var reputation></span><br/>
-			<a href="#" onclick="javascript:vote_down('<tmpl_var id>'); return false;"><img src="/img/vote-down.png" alt="-1" border="0"></a>
-		</div>
--->
-
-		</td>
-
-		<td>
+	<td>
 		<tmpl_if name="is_official">
 		<div class="answer official" id="answer-<tmpl_var id>">
 		<tmpl_else>
@@ -39,10 +30,7 @@
 				<tmpl_var createdby_avatar>
 				&nbsp; <b><tmpl_var name="createdby"></b>
 
-				<p>
-				Pubblicata <b><tmpl_var name="createdon"></b><br/>
-				<b><tmpl_var name="views"></b> visualizzazioni
-				</p>
+				<p><tmpl_var name="createdon"></p>
 
 				<tmpl_if name="lastupdateby">
 				<br/>Modificato da <strong><tmpl_var name="lastupdateby"></strong>,
@@ -55,7 +43,7 @@
 		</div>
 		</div>
 
-		</td>
+	</td>
 	</tr>
 
 	<tr><td colspan="2"><h2></h2></td></tr>
@@ -78,7 +66,7 @@
 
 <tmpl_if name="answers_allowed">
 
-	<form name="answer-form" action="<tmpl_var cgi_root>/question/answer_post" method="post">
+	<form name="answer-form" action="<tmpl_var cgi_root>/question/answer/post" method="post">
 		<input type="hidden" name="id" value="<tmpl_var question_id>">
 		<input type="hidden" name="otk" value="<tmpl_var answer_otk>">
 		<textarea id="cm1" class="answer-text" name="text">

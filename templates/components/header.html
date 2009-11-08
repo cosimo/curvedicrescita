@@ -4,8 +4,8 @@
     </div>
     <div id="menu">
         <ul id="nav">
-            <li id="domande"<tmpl_if menu_questions> class="activelink"</tmpl_if>><a href="/exec/question/latest/"><tmpl_var name="msg:domande"></a></li>
-            <li id="articoli"<tmpl_if menu_articles> class="activelink"</tmpl_if>><a href="/exec/home/"><tmpl_var name="msg:articoli"></a></li>
+            <li id="domande"<tmpl_if menu_questions> class="activelink"</tmpl_if>><a href="<tmpl_var cgi_root>/question/latest/"><tmpl_var name="msg:domande"></a></li>
+            <li id="articoli"<tmpl_if menu_articles> class="activelink"</tmpl_if>><a href="<tmpl_var cgi_root>/home/"><tmpl_var name="msg:articoli"></a></li>
             <li id="curve"<tmpl_if menu_diary> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/diary"><tmpl_var name="msg:curve"></a></li>
             <li id="tags"<tmpl_if menu_tags> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/tags"><tmpl_var name="msg:tags"></a></li>
 			<!--
@@ -25,14 +25,17 @@
 <tmpl_include name="components/notice.html">
 
 <tmpl_if question_id>
-<div id="tab" style="clear:both; padding-left: 20px; padding-top:6px; background-color: #228; height:24px">
-<span style="color:white; font-size: 1em">Puoi rispondere alla domanda o tornare alle più recenti.</span>
+<div id="tab">
+<span>Puoi rispondere alla domanda o
+<a href="<tmpl_var cgi_root>/question/latest">tornare alle più recenti</a>.
+</span>
 </div>
 </tmpl_if>
 
 <tmpl_if questions_latest>
-<div id="tab" style="clear:both; padding-left: 20px; padding-top:6px; background-color: #228; height:24px">
-<span style="color:white; font-size: 1em">Queste sono le ultime domande poste in ordine di tempo.</span>
+<div id="tab">
+<span>
+Queste sono le ultime domande poste in ordine di tempo.
+</span>
 </div>
 </tmpl_if>
-

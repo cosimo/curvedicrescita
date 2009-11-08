@@ -73,14 +73,15 @@ sub login
     }
 
     ## Return to original page (or start if nothing defined)
-    my $prev_mode = $prm{prev_mode} || 'homepage';
-    $self->log('notice', 'Return to ', $prev_mode, ' application runmode');
+    my $prev_url = $ENV{HTTP_REFERER} || '/';
+	
+	if ($prev_url =~ m{logout}) {
+		$prev_url = '/';
+	}
 
-	return $self->forward($prev_mode);
+	$self->redirect($prev_url);
 
-    #$self->header_type('redirect');
-	#$self->header_props(-url => '/');
-	#return;
+	return;
 }
 
 #
@@ -99,8 +100,10 @@ sub logout
     $self->session->param(user=>'');
     $self->session->delete();
 
-    # Return to home page
-    $self->forward('homepage');
+    # Return to previous URL (or home page)
+	my $prev_url = $ENV{HTTP_REFERER};
+    $self->redirect($prev_url || $self->config('mycgi_path'));
+
 }
 
 1;

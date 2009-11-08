@@ -16,39 +16,37 @@
 
     <div class="question">
 
-		<table border="0">
+		<table border="0" cellspacing="20">
 		<tr>
-		<td><tmpl_include name="components/question/vote.html"></td>
-		<td>
+		<td width="40">
+			<tmpl_include name="components/question/vote.html">
+		</td>
+		<td width="70%">
 			<div id="summary">
 				<h3><tmpl_var question_link></h3>
 				<tmpl_var question_excerpt>
 			</div>
 
 			<br/>
+			<tmpl_if question_keywords><div id="tags"><tmpl_var question_keywords></div></tmpl_if>
+		</td>
 
-			<table width="90%" cellspacing="0" cellpadding="0">
-			<tr>
-				<td>
-				<tmpl_if question_keywords><div id="tags"><tmpl_var question_keywords></div></tmpl_if>
-				</td>
-				<td>
-				<tmpl_include name="components/shared/author.html">
-				</td>
-			</tr>
+		<td width="30%">
+			<tmpl_include name="components/shared/author.html">
+		</td>
+		</tr>
 
-			<tmpl_if admin><!-- Admin links -->
-			<tr>
-				<td colspan="2" align="right">
-				<b>Admin:
-				<a href="<tmpl_var cgi_root>/question/modify/id/<tmpl_var id>">Modifica</a> |
-				<a onclick="return sure();" href="<tmpl_var cgi_root>/question/delete/id/<tmpl_var id>">Rimuovi</a>
-				</b>
-				</td>
-			</tr>
-			</tmpl_if>
+		<tmpl_if admin><!-- Admin links -->
+		<tr>
+			<td colspan="2" align="right">
+			<b>Admin:
+			<a href="<tmpl_var cgi_root>/question/modify/id/<tmpl_var id>">Modifica</a> |
+			<a onclick="return sure();" href="<tmpl_var cgi_root>/question/delete/id/<tmpl_var id>">Rimuovi</a>
+			</b>
+			</td>
+		</tr>
+		</tmpl_if>
 
-			</table>
 		</table>
 
 	</div>

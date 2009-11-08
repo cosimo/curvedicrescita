@@ -15,7 +15,7 @@ sub answers_by_question {
 
     my $answers = $self->list({
 		where => {
-			type      => 'Q',
+			type      => 'A',
 			rtype     => 'que',
 			rid       => $question_id,
 		},
@@ -40,8 +40,8 @@ sub post {
 	my ($self, $question_id, $user, $text) = @_;
 
 	my $answer = {
-		type      => 'C',
-		rtype     => 'art',
+		type      => 'A',
+		rtype     => 'que',
 		rid       => $question_id,
 		createdby => $user,
 		createdon => Opera::Util::current_timestamp,
