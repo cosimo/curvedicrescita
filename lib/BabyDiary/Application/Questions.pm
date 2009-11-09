@@ -344,6 +344,9 @@ sub latest
         my $count = scalar @$list;
         $self->log('notice', 'Found ', $count, ' latest questions');
 
+        my $fav = BabyDiary::File::Favorites->new();
+	    my $current_user = $self->session->param('user');
+
         for my $question (@$list) {
 
             # Highlight keyword or term
@@ -369,6 +372,9 @@ sub latest
 
 			$question->{createdby} = BabyDiary::View::Questions::format_author($question);
 			$question->{createdon} = Opera::Util::format_date_natural($question->{createdon});
+
+            # Favorited?
+            $question->{question_favorited} = $fav->check($current_user, 'question', $question->{id});
 
 			# We have to repeat this, because format_question_excerpt() strips html
 			Opera::Util::highlight_term($keyword_or_term, \$question->{question_excerpt});
