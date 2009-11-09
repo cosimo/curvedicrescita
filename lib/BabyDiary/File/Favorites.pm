@@ -12,6 +12,11 @@ use constant FIELDS => [ qw(rtype rid points createdon createdby note) ];
 sub check {
 	my ($self, $user, $rtype, $rid) = @_;
 
+    # Logged out users can't have favorites
+    if (! defined $user || ! $user) {
+        return;
+    }
+
 	my $fav_status = $self->get({
 		where => {
 			rtype => $rtype,
@@ -22,8 +27,11 @@ sub check {
 	});
 
 	if (! $fav_status) {
+        $self->log('notice', $rtype . '/' . $rid . ' is not faved by ' . $user);
 		return;
 	}
+
+    $self->log('notice', $rtype . '/' . $rid . ' is faved (' . $fav_status->{points} . 'x) by ' . $user);
 
 	return $fav_status->{points};
 }
