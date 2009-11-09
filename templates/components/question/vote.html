@@ -15,9 +15,9 @@ onclick="vote_down('<tmpl_var id>','question','<tmpl_var logged>'); return false
 	<div id="question-<tmpl_var id>-fav">
 	<a href="#" onclick="vote_favorite('<tmpl_var id>','question','<tmpl_var logged>');">
 	<tmpl_if question_favorited>
-	<img src="/img/favorite-on.png">
+	<img src="/img/favorite-on.png" border="0" alt="Annulla favorita">
 	<tmpl_else>
-	<img src="/img/favorite-off.png">
+	<img src="/img/favorite-off.png" border="0" alt="Marca come favorita">
 	</tmpl_if>
 	</a>
 	</div>
