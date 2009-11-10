@@ -11,6 +11,13 @@
 
     <h2>Pubblica una nuova domanda</h2>
 
+	<p>La domanda sar&agrave; pubblicata nella <a href="<tmpl_var cgi_root>/question/latest">sezione domande</a> e
+	tutti gli utenti potranno vederla e rispondere.</p>
+	
+	<p>Se invece vuoi porre una domanda che non sia visibile
+	agli altri utenti, o direttamente all'ostetrica del sito,
+	allora <a href="mailto:ostetrica@curvedicrescita.com?subject=Domanda%20su%20%2e%2e%2e">puoi scrivere una mail</a>.</p>
+
     <form name="f3" action="post" method="post">
 
         <p>
@@ -19,7 +26,9 @@
         </p>
 
         <p>
-        <label for="keywords">Lista di tag <small>(ex.: pedagogia, 3 mesi, alimentazione, vaccino)</small></label><br/>
+        <label for="keywords">Lista di tag <small>(ex.: pedagogia, 3 mesi, alimentazione, ostetrica, vaccino)</small></label><br/>
+		<small>Se la domanda &egrave; per l'ostetrica, <a href="#" onclick="document.f3.keywords.value+='ostetrica ';document.f3.keywords.focus();">aggiungi "ostetrica"
+		alla lista di tag.</a></small><br/>
         <input id="keywords" type=text name="keywords" size="80" maxlength="250">
         </p>
 
@@ -29,7 +38,8 @@
         </p>
 
         <p>
-        <label for="submit">Potrai correggere la domanda anche dopo averla inviata.</label>
+        <label for="submit">Per ora, tieni presente che <b>non</b> potrai correggere la domanda dopo averla inviata.<br/>
+		Stiamo lavorando su questo...</label>
 		<br/><br/>
 
         <input class="submit" type="submit" value=" Invia domanda ">

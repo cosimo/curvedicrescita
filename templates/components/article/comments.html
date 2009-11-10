@@ -47,9 +47,13 @@
 
 <br/>
 
-<h2>Domande o commenti?</h2>
-
 <tmpl_if name="comments_allowed">
+
+<h2>Commenti?</h2>
+
+<p>Se invece vuoi <b>porre una domanda</b>, puoi <a href="<tmpl_var cgi_root>/question/latest">
+vedere le ultime domande</a>, oppure <a href="<tmpl_var cgi_root>/question/new">fare
+una nuova domanda</a>.</p>
 
 <form name="comment-form" action="/exec/article/comment_post" method="post">
 	<input type="hidden" name="id" value="<tmpl_var article_id>">
@@ -71,11 +75,20 @@
 
 <tmpl_else>
 
+<h2>Domande o commenti?</h2>
+
 <p>
-Se vuoi scrivere un commento o una domanda relativa a questo articolo,
+Se vuoi scrivere un commento relativo a questo articolo,
 devi <a href="#" onclick="toggle_balloon('link','balloon',560,0,'/exec/login');">accedere</a> con il tuo profilo oppure
 <a href="/exec/home/signup">registrarti</a> se
 non sei ancora un utente registrato.
+</p>
+
+<p>
+Se invece <b>vuoi porre una domanda</b> all'ostetrica o a tutti gli altri
+utenti di CurveDiCrescita, allora <a href="/exec/question/latest">
+vai alla sezione delle domande</a> e clicca su <input type="button"
+value="fai una domanda">.
 </p>
 
 </tmpl_if>
