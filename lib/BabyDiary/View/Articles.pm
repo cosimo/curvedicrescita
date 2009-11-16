@@ -5,6 +5,7 @@ package BabyDiary::View::Articles;
 
 use strict;
 use CGI ();
+use Digest::MD5 ();
 use HTML::BBCode;
 use HTML::Strip;
 use BabyDiary::File::Articles;
@@ -91,6 +92,36 @@ sub format_author
     return $name;
 }
 
+sub format_author_avatar {
+	my ($rec, $key) = @_;
+
+	$key ||= 'createdby';
+	my $size = 40;
+
+	# Based on www.gravatar.com
+	my $user = lc $rec->{$key};
+	my $avatar_url = 'http://www.gravatar.com/avatar/';
+	my $md5 = Digest::MD5::md5_hex($user);
+	$avatar_url .= $md5;
+
+	my %av = (
+		class => 'avatar',
+		alt => 'user avatar',
+		align => 'left',
+		width => $size,
+		height => $size,
+        style => 'padding:5px',
+		src => qq{$avatar_url?s=$size&d=identicon},
+	);
+
+	my $html = q{};
+	for (keys %av) {
+		$html .= qq($_="$av{$_}");
+	}
+
+	return qq{<img $html>};
+
+}
 sub format_comment {
 	my ($comment) = @_;
 	
