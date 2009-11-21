@@ -147,8 +147,9 @@ sub generate {
 	for (@$list) {
 
 		my $q_url  = $questions->url($_->{id});
+
 		$q_url =~ s{^/}{};
-		$q_url = $base_url . $q_url;
+		$q_url = $base_url . $q_url ;
 
 		my $last_mod = $_->{lastupdateon} || $_->{createdon};
 		$last_mod = Opera::Util::format_date_iso8601($last_mod);
