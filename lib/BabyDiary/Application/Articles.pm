@@ -573,6 +573,9 @@ sub render {
 		# Artificial published states for the drop-down list
         $tmpl->param( 'article_published_' . ($rec->{published} || '0') => 1 );
 
+        # User avatar    
+        $tmpl->param( createdby_avatar => BabyDiary::View::Articles::format_author_avatar($rec) );
+
         # Check permissions for cancel/modify buttons
         #
         # If user is admin, allow cancel and modify.
