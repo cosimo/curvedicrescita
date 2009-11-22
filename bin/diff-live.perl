@@ -112,7 +112,7 @@ for my $file (@files) {
 
     print "Diff of `$file'...\n";
 
-    my $diff_cmd = qq{diff -ub $file.tmp.$$ $file};
+    my $diff_cmd = qq{diff -ub $file $file.tmp.$$};
     $status = system($diff_cmd);
 
     if (0 != $status) {
