@@ -9,11 +9,12 @@
 	<tmpl_include name="article/publish_status.html">
 
     <div id="author">
+	    <tmpl_var createdby_avatar>
         Pubblicato da <strong><tmpl_var name="article_createdby"></strong>,
         <tmpl_var name="article_createdon"> (<strong><tmpl_var name="article_views"></strong> visite)
-        <tmpl_if name="article_lastupdateby">
-		<br/>Modificato da <strong><tmpl_var name="article_lastupdateby"></strong>,
-        <tmpl_var name="article_lastupdateon"></tmpl_if>
+        <tmpl_if name="article_lastupdateby"><br/>
+		Ultima modifica: <tmpl_var name="article_lastupdateon"></tmpl_if>
+        <br clear="both"/>
     </div>
 
     <div id="tags">
