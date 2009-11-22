@@ -15,8 +15,12 @@
 
 &nbsp;
 
-Modificato da <strong><tmpl_var name="lastupdateby"></strong>,
-<tmpl_var name="lastupdateon">
+<tmpl_if admin>
+    <small>
+    Modificato da <strong><tmpl_var name="lastupdateby"></strong>,
+    <tmpl_var name="lastupdateon">
+    </small>
+    </tmpl_if>
 </tmpl_if>
 
 </div>
