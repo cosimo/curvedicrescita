@@ -10,6 +10,10 @@
 
 	<br/>
 
+    <tmpl_if name="show_ads">
+    <tmpl_include name="shared/google_adsense.html">
+    </tmpl_if>
+
 	<!-- Most popular questions -->
 	<h2><tmpl_var name="msg:le piu' lette"></h2>
 
@@ -34,9 +38,11 @@
 
 <tmpl_include name="shared/cumulus_cloud.html">
 
+<tmpl_unless menu_questions>
 <tmpl_if name="show_ads">
 <tmpl_include name="shared/google_adsense.html">
 </tmpl_if>
+</tmpl_unless>
 
 <tmpl_include name="shared/latest.html">
 </div>
