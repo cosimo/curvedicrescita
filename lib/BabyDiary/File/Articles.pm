@@ -13,7 +13,7 @@ use base qw(
 );
 
 use constant TABLE  => 'articles';
-use constant FIELDS => [ qw(id title content createdon createdby lastupdateon lastupdateby keywords published views) ];
+use constant FIELDS => [ qw(id title content createdon createdby lastupdateon lastupdateby keywords published views book_index) ];
 
 #
 # Tells who is the original creator or the given article

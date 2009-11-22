@@ -146,6 +146,7 @@ sub modify
             keywords => scalar $query->param('keywords'),
             content  => scalar $query->param('content'),
             published=> scalar $query->param('published'),
+            book_index=> scalar $query->param('book_index'),
 		);
 
 		# If article *wasn't* published yet, don't update last modify by and timestamp.
@@ -228,6 +229,7 @@ sub post
         createdby => $self->session->param('user'),
         content   => $prm{content},
 		published => $prm{published},
+		book_index => $prm{book_index},
     });
 
     $self->log('notice', 'Posted article with title `', $prm{title}, '\' => ', ($posted?'OK':'*FAILED*'));
@@ -569,6 +571,7 @@ sub render {
         $tmpl->param( article_views     => $rec->{views} );
         $tmpl->param( article_content   => BabyDiary::View::Articles::format_article($rec) );
         $tmpl->param( article_published => $rec->{published} );
+        $tmpl->param( article_book_index=> $rec->{book_index} );
 
 		# Artificial published states for the drop-down list
         $tmpl->param( 'article_published_' . ($rec->{published} || '0') => 1 );
