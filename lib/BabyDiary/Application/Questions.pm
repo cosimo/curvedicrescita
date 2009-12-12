@@ -254,13 +254,12 @@ sub post
 		);
 	}
 
-    $self->redirect_with_user_message(
+    return $self->redirect_with_user_message(
 		'La tua domanda &egrave; stata ricevuta. Grazie per il tuo contributo!',
-		$self->url_for('question/latest'),
+		'question/latest',
 		'notice',
 	);
 
-    return;
 }
 
 sub delete_comment {
@@ -445,8 +444,7 @@ sub post_answer {
 	my $current_user = $self->session->param('user');
 	if (! $current_user) {
 		my $msg = 'Devi accedere per poter rispondere a una domanda.';
-		$self->redirect_with_user_message($msg, 'question/latest', 'warning');
-		return;
+		return $self->redirect_with_user_message($msg, 'question/latest', 'warning');
 	}
 
 	my $ans = BabyDiary::File::Answers->new();
@@ -455,8 +453,7 @@ sub post_answer {
 	if (! $posted) {
 		$self->log('warn', "Failed to post answer by $current_user to question $question_id");
 		my $msg = q(C'&egrave; stato un problema nella pubblicazione della risposta.<br/>Per favore riprova pi&ugrave; tardi.);
-		$self->redirect_with_user_message($msg, 'question/latest', 'warning');
-		return;
+		return $self->redirect_with_user_message($msg, 'question/latest', 'warning');
 	}
 
 	$self->log('notice', "Posted new answer by $current_user to question $question_id");
