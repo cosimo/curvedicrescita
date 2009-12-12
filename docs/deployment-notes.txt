@@ -7,6 +7,10 @@
 - html::template
 - html::bbcode
 - html::strip
-- time::piece
-- cgi::application
-- text::unaccent
+- Time::Piece
+- CGI::Application
+- XML::RSS
+- Mime::Lite (era gia' installato)
+- App::pod2pdf
+- Cache::FileCache
+
