@@ -234,20 +234,31 @@ sub post
     # Return to questions page
     if(!$posted)
     {
-        $self->user_warning('Question post error!', 'Sorry! Your question wasn\'t posted. There was some problem. Please retry later or report the problem at <b>info@curvedicrescita.com</b>');
-    }
-    else
-    {
-        $self->user_warning(
-			'Domanda accettata',
-			'La tua domanda &egrave; stata ricevuta. Grazie per il tuo contributo!',
-			'info',
+        $self->redirect_with_user_message(
+			"Errore nel post della domanda",
+			$self->url_for('question/latest'),
+			'warning'
 		);
+		return;
     }
 
-    # Return to latest questions
-	$self->header_type('redirect');
-	$self->header_props(-url => '/exec/question/latest');
+	if ($self->config('send_questions_notification')) {
+
+	    my $current_user = $self->session->param('user');
+
+		require BabyDiary::Notifications;
+		BabyDiary::Notifications::send_question_mail(
+			$current_user,
+			$posted,
+			$prm{content},
+		);
+	}
+
+    $self->redirect_with_user_message(
+		'La tua domanda &egrave; stata ricevuta. Grazie per il tuo contributo!',
+		$self->url_for('question/latest'),
+		'notice',
+	);
 
     return;
 }
@@ -516,8 +527,7 @@ sub post_comment {
 	my $slug = $questions->slug($question_id);
 	my $prev_url = "/exec/question/$slug#last-comment";
 
-	$self->header_type('redirect');
-	$self->header_props(-url => $prev_url);
+	$self->redirect($prev_url);
 
 	return;
 }

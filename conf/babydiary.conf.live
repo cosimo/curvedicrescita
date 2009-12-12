@@ -27,9 +27,10 @@ smtp_host = localhost
 # Send notification mail for every comment published
 send_comments_notification = 1
 
-# for every answer
+# for every question/answer
+send_questions_notification = 1
 send_answers_notification = 1
 
-# email address to which send all mail messages
-send_admin_mail_to = Tamara De Zotti <info@curvedicrescita.com>
-
+# Email address to which send all mail messages
+send_admin_mail_from = info@curvedicrescita.com,
+send_admin_mail_to = Tamara De Zotti <info@curvedicrescita.com>,
