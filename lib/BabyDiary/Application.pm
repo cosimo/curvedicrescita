@@ -8,6 +8,7 @@ use strict;
 use warnings;
 use base 'CGI::Application';
 
+use Cache::FileCache;
 use CGI::Application::Plugin::ConfigAuto;
 use CGI::Application::Plugin::Forward;
 use CGI::Application::Plugin::Redirect;
@@ -52,6 +53,14 @@ sub url_for {
     $url .= '/' . $page;
 
     return $url;
+}
+
+{
+    my $FILE_CACHE;
+
+    sub cache {
+        my $cache = $FILE_CACHE ||= Cache::FileCache->new();   
+    }
 }
 
 #
@@ -168,23 +177,33 @@ sub fill_messages
         return;
     }
 
-    for my $msgid ($locale->all_messages())
-    {
-        # Replace TMPL_VARs inside language messages (this is an ugly solution,
-        # but has much added flexibility in language messages writing)
-        my $msg = $self->msg($msgid);
+    my $locale_id = ref $locale;
+    my $messages = $self->cache->get("messages-$locale_id");
 
-        # Create a "mini" template with only the message string and
-        # resolve all tmpl_* tags inside it
-        if($msg =~ m{tmpl_})
+    if (! $messages) {
+        for my $msgid ($locale->all_messages())
         {
-            my $mini_tmpl = HTML::Template->new( scalarref=>\$msg, associate=>$tmpl );
-            $msg = $mini_tmpl->output();
+            # Replace TMPL_VARs inside language messages (this is an ugly solution,
+            # but has much added flexibility in language messages writing)
+            my $msg = $self->msg($msgid);
+
+            # Create a "mini" template with only the message string and
+            # resolve all tmpl_* tags inside it
+            if($msg =~ m{tmpl_})
+            {
+                my $mini_tmpl = HTML::Template->new( scalarref=>\$msg, associate=>$tmpl );
+                $msg = $mini_tmpl->output();
+            }
+
+            $messages->{"msg:$msgid"} = $msg;
+
         }
 
-        $tmpl->param("msg:$msgid" => $msg);
+        $self->cache->set("messages-$locale_id" => $messages, "24 hours");
 
     }
+
+    $tmpl->param(%{ $messages });
 
     return;
 }
@@ -243,19 +262,31 @@ sub render_view
 sub render_components {
     my ($self, $tmpl) = @_;
 
-    # For articles-related sections, calculate also lists of latest/best articles
-    $tmpl->param( articles_latest => $self->BabyDiary::Application::Articles::latest_n(10) );
-    $tmpl->param( articles_popular => $self->BabyDiary::Application::Articles::best_n() );
+    my $components = $self->cache->get("cc-common-components");
 
-	# Latest/best questions
-    $tmpl->param( questions_latest_html => $self->BabyDiary::Application::Questions::latest_n(10) );
-    $tmpl->param( questions_popular => $self->BabyDiary::Application::Questions::best_n() );
+    if (! $components) {
 
-    $tmpl->param( articles_cloud => $self->BabyDiary::Application::Articles::cumulus_cloud() );
-    $tmpl->param( questions_cloud => $self->BabyDiary::Application::Questions::cumulus_cloud() );
+        $components = {
+            # For articles-related sections, calculate also lists of latest/best articles
+            articles_latest => $self->BabyDiary::Application::Articles::latest_n(10),
+            articles_popular => $self->BabyDiary::Application::Articles::best_n(),
 
-    # Automatic topics left sidebar
-    $tmpl->param( topics => $self->BabyDiary::Application::Articles::topics() );
+            # Latest/best questions
+            questions_latest_html => $self->BabyDiary::Application::Questions::latest_n(10),
+            questions_popular => $self->BabyDiary::Application::Questions::best_n(),
+
+            articles_cloud => $self->BabyDiary::Application::Articles::cumulus_cloud(),
+            questions_cloud => $self->BabyDiary::Application::Questions::cumulus_cloud(),
+
+            # Automatic topics left sidebar
+            topics => $self->BabyDiary::Application::Articles::topics(),
+        };
+
+        $self->cache->set("cc-common-components", $components, "24 hours");
+
+    }
+
+    $tmpl->param(%{ $components });
 
     # Copyright string on footer
     my $start = 2008;
