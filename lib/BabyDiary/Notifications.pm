@@ -7,6 +7,7 @@ package BabyDiary::Notifications;
 
 use strict;
 use warnings;
+use Carp;
 use Config::Auto;
 
 sub mail {
@@ -71,18 +72,36 @@ sub send_activation_mail {
 
 	# Send the activation mail to the user
 	my %message = (
-        from    => 'info@curvedicrescita.com',
+        from    => default_sender(),
         to      => $user,
         subject => $subject,
         text    => $text,
 	);
 	my $sent = mail(\%message);
 
-	# Send also to myself for double checking...
-	$message{to} = 'Tamara De Zotti <info@curvedicrescita.com>';
+	# Notify administrator as well
+	$message{to} = default_recipient();
 	mail(\%message);
 
     return $sent;
+}
+
+sub default_recipient {
+	my $conf = Config::Auto::parse('../conf/babydiary.conf');
+    my $to = $conf->{send_admin_mail_to};
+    if (! defined $to || ! $to || ref $to ne 'ARRAY') {
+        croak "Wrong or no 'send_admin_mail_to' defined in the configuration!";
+    }
+    return $to->[0];
+}
+
+sub default_sender {
+	my $conf = Config::Auto::parse('../conf/babydiary.conf');
+    my $to = $conf->{send_admin_mail_from};
+    if (! defined $to || ! $to || ref $to ne 'ARRAY') {
+        croak "Wrong or no 'send_admin_mail_from' defined in the configuration!";
+    }
+    return $to->[0];
 }
 
 sub send_answer_mail {
@@ -133,19 +152,73 @@ Lo staff di curvedicrescita.com
 
 EMAIL_TEXT
 
-	# Send the activation mail to the user
+	# Send the answer mail to the user
 	my %message = (
-        from    => 'info@curvedicrescita.com',
-        to      => 'info@curvedicrescita.com',
+        from    => default_sender(),
+        to      => $user,
         subject => $subject,
         text    => $text,
 	);
 
 	my $sent = mail(\%message);
 
-	# Send also to myself for double checking...
-	$message{to} = 'Cosimo Streppone <cosimo@streppone.it>';
+	# Notify administrator
+	$message{to} = default_recipient();
 	mail(\%message);
+
+    return $sent;
+}
+
+sub send_question_mail {
+    my ($user, $question) = @_;
+
+	require BabyDiary::File::Questions;
+	require BabyDiary::File::Users;
+
+	my $users = BabyDiary::File::Users->new();
+	my $questions = BabyDiary::File::Questions->new();
+
+    my $user_info = $users->get({where => {username=>$user}});
+    if (! $user_info) {
+        warn "No user '$user' found? Can't send question notification email\n";
+        return;
+    }
+
+	my $question_info  = $questions->get({where => {id=>$question}});
+	if (! $question_info) {
+		warn "No question '$question' found. Can't send question notification email\n";
+		return;
+	}
+
+	my $realname = $user_info->{realname};
+
+	my $title = $question_info->{title};
+    my $subject = qq(Nuova domanda di $realname: '$title');
+	my $question_link = 'http://www.curvedicrescita.com/exec/question/' . $questions->slug($question);
+
+	my $text = <<EMAIL_TEXT;
+Caro amministratore,
+
+$realname ha appena pubblicato una nuova domanda
+dal titolo $title su www.curvedicrescita.com.
+
+Vai alla domanda:
+  $question_link
+
+-- 
+Lo staff di curvedicrescita.com
+
+EMAIL_TEXT
+
+	# Send the activation mail to the user
+	my %message = (
+        from    => default_sender(),
+        to      => default_recipient(),
+        subject => $subject,
+        text    => $text,
+	);
+
+	my $sent = mail(\%message);
 
     return $sent;
 }
@@ -200,17 +273,13 @@ EMAIL_TEXT
 
 	# Send the activation mail to the user
 	my %message = (
-        from    => 'info@curvedicrescita.com',
-        to      => 'info@curvedicrescita.com',
+        from    => default_sender(),
+        to      => default_recipient(),
         subject => $subject,
         text    => $text,
 	);
 
 	my $sent = mail(\%message);
-
-	# Send also to myself for double checking...
-	$message{to} = 'Cosimo Streppone <cosimo@streppone.it>';
-	mail(\%message);
 
     return $sent;
 }
