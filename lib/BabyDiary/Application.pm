@@ -63,6 +63,13 @@ sub url_for {
     }
 }
 
+# Used when adding/changing a new article
+sub invalidate_cached_components {
+    my ($self) = @_;
+
+    return $self->cache->remove('cc-common-components');
+}
+
 #
 # Define runmodes
 #

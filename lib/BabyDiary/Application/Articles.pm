@@ -58,6 +58,8 @@ sub delete
     # Delete article record on db
     my $ok = $articles->delete({id=>$art_id});
 
+    $self->invalidate_components_cache();
+
     if($ok)
     {
         $self->log('notice', 'Deleted article id ', $art_id);
@@ -161,10 +163,21 @@ sub modify
 
         my $update_ok = $articles->update(\%to_update, {id=>$art_id});
 
+        # Change the slug too
+        my $slug = $query->param('slug');
+
+        $update_ok &&= $articles->add_slug({
+            %to_update,
+            id   => $art_id,
+            slug => $slug,
+        });
+
+        $self->invalidate_cached_components();
+
         # Return to article view page
         if(!$update_ok)
         {
-            $self->user_warning('Article modify error!', 'Sorry! The article wasn\'t modified. There was some problem. Please retry later or report the problem at <b>bugs@myoperatest.com</b>');
+            $self->user_warning('Article modify error!', 'Sorry! The article wasn\'t modified. There was some problem.');
         }
         else
         {
@@ -182,6 +195,9 @@ sub modify
     {
         $tmpl->param( 'article_' . $_ => $rec->{$_} );
     }
+
+    # Make slug directly editable
+    $tmpl->param( article_slug => $articles->slug($rec->{id}) );
 
 	# Special case for 'published' drop-down list
 	$tmpl->param('article_published_' . ($rec->{published}||'0') => 1);
@@ -229,8 +245,11 @@ sub post
         createdby => $self->session->param('user'),
         content   => $prm{content},
 		published => $prm{published},
-		book_index => $prm{book_index},
+		book_index=> $prm{book_index},
+        slug      => $prm{slug},
     });
+
+    $self->invalidate_cached_components();
 
     $self->log('notice', 'Posted article with title `', $prm{title}, '\' => ', ($posted?'OK':'*FAILED*'));
 

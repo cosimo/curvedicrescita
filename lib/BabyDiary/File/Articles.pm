@@ -75,6 +75,9 @@ sub post
     $art->{id}        = undef;
 	$art->{published} = 0;
 
+    # Remove slug before inserting record, or else it will fail
+    my $slug = exists $art->{slug} ? delete $art->{slug} : undef;
+
     # Insert record and retrieve the primary key id
     eval { $ok = $self->insert($art); };
     if ($@) {
@@ -97,6 +100,10 @@ sub post
 	$art->{id} = $id;
 
 	# Write the slug now
+    if (defined $slug) {
+        $art->{slug} = $slug;
+    }
+
 	$ok = $self->add_slug($art);
 
 	$self->log('notice', "Slug $id add " . ($ok ? " ok ($ok)" : "*FAILED*"));
