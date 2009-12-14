@@ -262,7 +262,17 @@ sub render_view
 sub render_components {
     my ($self, $tmpl) = @_;
 
-    my $components = $self->cache->get("cc-common-components");
+    # If user is admin, set a special key
+    my $is_admin = $self->session->param('admin');
+    my $use_cache = not $is_admin;
+
+    my $cache_key = q(cc-common-components);
+    my $cache_time = q(24 hours);
+    my $components;
+
+    if ($use_cache) {
+        $components = $self->cache->get($cache_key);
+    }
 
     if (! $components) {
 
@@ -282,19 +292,21 @@ sub render_components {
             topics => $self->BabyDiary::Application::Articles::topics(),
         };
 
-        $self->cache->set("cc-common-components", $components, "24 hours");
+        # Copyright string on footer
+        my $start = 2008;
+        my $year  = 1900 + (localtime())[5];
+        if ($year > $start) {
+            $year = $start . '-' . $year;
+        }
+        $components->{'copyright-year'} = $year;
+
+        if ($use_cache) {
+            $self->cache->set($cache_key, $components, $cache_time);
+        }
 
     }
 
     $tmpl->param(%{ $components });
-
-    # Copyright string on footer
-    my $start = 2008;
-    my $year  = 1900 + (localtime())[5];
-    if ($year > $start) {
-        $year = $start . '-' . $year;
-    }
-    $tmpl->param('copyright-year' => $year);
 
     # For the homepage, fetch last article id and render that
     my $runmode = $self->get_current_runmode();
@@ -304,7 +316,7 @@ sub render_components {
 
     return;
 }
-    
+
 sub render_menu {
     my ($self, $tmpl) = @_;
 
