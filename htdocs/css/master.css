@@ -47,6 +47,7 @@ div#logo {
     float:left;
     display:block;
     width:380px;
+	height:35px;
     margin:0;
     padding:0;
     border-bottom: 1px solid #ccf;
@@ -77,11 +78,14 @@ div#balloon #balloon_content {
 }
 
 div#logo #logoimg {
-    margin-bottom: -2px; /* -9px */
+	position:fixed;
+	left:0px;
+	top:0px;
 }
 
 div#logo #logotitle {
-    margin-bottom: -2px;
+	position:fixed;
+	left:80px;
 }
 
 h1 {
