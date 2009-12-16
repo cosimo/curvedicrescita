@@ -78,14 +78,15 @@ div#balloon #balloon_content {
 }
 
 div#logo #logoimg {
-	position:fixed;
+	position:absolute;
 	left:0px;
 	top:0px;
 }
 
 div#logo #logotitle {
-	position:fixed;
+	position:absolute;
 	left:80px;
+	top:22px;
 }
 
 h1 {
