@@ -440,6 +440,10 @@ div.official {
 	font-weight: bold;
 }
 
+span.bignum {
+	font-size: 2em;
+}
+
 div.comment-text {
 	margin-left: 0px; /* 65px; */
 }

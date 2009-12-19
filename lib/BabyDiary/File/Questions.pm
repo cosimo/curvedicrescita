@@ -32,6 +32,8 @@ use constant FIELDS => [ qw(
 	modified
 ) ];
 
+our $ANSWERS;
+
 #
 # Tells who is the original creator or the given question
 #
@@ -52,6 +54,28 @@ sub owner
     # Ok, question found. Return the owner
     $self->log('notice', 'Owner of question ', $question_id, ' is ', $rec->{createdby});
     return($rec->{createdby});
+}
+
+sub how_many_answers {
+	my ($self, $id) = @_;
+
+	require BabyDiary::File::Answers;
+	my $answers = $ANSWERS ||= BabyDiary::File::Answers->new();
+
+	my $how_many = $answers->list({
+		fields => [ 'count(*)' ],
+		where => {
+			rtype => 'que',
+			rid   => $id,
+			published => 1,
+		}
+	});
+
+	if (! $how_many || ref $how_many ne 'ARRAY') {
+		return;
+	}
+
+	return $how_many->[0]->{'count(*)'};
 }
 
 #

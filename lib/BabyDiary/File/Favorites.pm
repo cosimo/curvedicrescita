@@ -36,6 +36,24 @@ sub check {
 	return $fav_status->{points};
 }
 
+sub how_many {
+	my ($self, $rtype, $rid) = @_;
+
+	my $fav_count = $self->list({
+		fields => [ 'count(*)' ],
+		where => {
+			rtype => $rtype,
+			rid => $rid,
+		},
+	});
+
+	if (! $fav_count) {
+		return;
+	}
+
+	return $fav_count->[0]->{'count(*)'};
+}
+
 sub toggle {
     my ($self, $user, $rtype, $rid, $on) = @_;
 

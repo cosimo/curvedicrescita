@@ -15,10 +15,41 @@ onclick="vote_down('<tmpl_var id>','question','<tmpl_var logged>'); return false
 	<div id="question-<tmpl_var id>-fav">
 	<a href="#" onclick="vote_favorite('<tmpl_var id>','question','<tmpl_var logged>');">
 	<tmpl_if question_favorited>
-	<img src="/img/favorite-on.png" border="0" alt="Annulla favorita">
+	<img src="/img/favorite-on.png" border="0" width="32" height="31" alt="Annulla favorita">
 	<tmpl_else>
-	<img src="/img/favorite-off.png" border="0" alt="Marca come favorita">
+	<img src="/img/favorite-off.png" border="0" width="32" height="31" alt="Marca come favorita">
 	</tmpl_if>
 	</a>
 	</div>
 </div>
+
+<table cellspacing="0" cellpadding="2">
+
+<tmpl_if question_answers_count>
+<tr>
+<td align="center">
+	<tmpl_if question_answers_count>
+	<span class="bignum"><tmpl_var question_answers_count></span>
+	<tmpl_else>
+	<span class="bignum">0</span>
+	</tmpl_if>
+	<br/><small><tmpl_if one_answer>risposta<tmpl_else>risposte</tmpl_if></small>
+</td>
+</tr>
+
+<tmpl_if question_favorited_count>
+<!-- Disabled in the code for now -->
+<tr>
+<td align="center">
+	<span class="bignum"><tmpl_var question_favorited_count></span>
+	<br/><small>fav.</small>
+</td>
+</tr>
+</tmpl_if>
+
+</tmpl_if>
+
+</table>
+
+</div>
+

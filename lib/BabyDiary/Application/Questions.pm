@@ -386,6 +386,15 @@ sub latest
             # Favorited?
             $question->{question_favorited} = $fav->check($current_user, 'question', $question->{id});
 
+			# XXX Disabled for now, until we find a better design/layout
+            #$question->{question_favorited_count} = $fav->how_many('question', $question->{id});
+
+			# How many answers did we get?
+			$question->{question_answers_count} = $questions->how_many_answers($question->{id});
+
+			# To decide singular/plural word
+			$question->{one_answer} = $question->{question_answers_count} == 1;
+
 			# We have to repeat this, because format_question_excerpt() strips html
 			Opera::Util::highlight_term($keyword_or_term, \$question->{question_excerpt});
 
