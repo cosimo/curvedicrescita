@@ -7,7 +7,10 @@
 	<b><tmpl_var name="question_views"></b> visualizzazioni
 	</p>
 
+<tmpl_if name="admin">
 	<tmpl_if name="question_lastupdateby">
 	<br/>Modificato da <strong><tmpl_var name="question_lastupdateby"></strong>,
 	<tmpl_var name="question_lastupdateon"></tmpl_if>
+</tmpl_if>
+
 </div>
