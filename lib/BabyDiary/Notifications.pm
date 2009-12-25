@@ -13,8 +13,9 @@ use Config::Auto;
 sub mail {
     my ($args) = @_;
 
-	my $conf = Config::Auto::parse('../conf/babydiary.conf');
-	$args->{smtp} ||= $conf->{smtp_host};
+    my $conf = Config::Auto::parse('../conf/babydiary.conf');
+    $args->{smtp} ||= $conf->{smtp_host};
+    $args->{from} ||= default_sender();
 
     require MIME::Lite;
 
