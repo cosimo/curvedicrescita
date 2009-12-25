@@ -1033,7 +1033,7 @@ sub tags_cloud
 
     for my $tag (keys %tags)
     {
-        $cloud->add( $tag, $self->url_for('question_search?keyword='.CGI::escape($tag)), $tags{$tag});
+        $cloud->add( $tag, $self->url_for('home/article_search?keyword='.CGI::escape($tag)), $tags{$tag});
     }
 
     $self->log('notice', 'Tag cloud completed (' . scalar(keys %tags) . ' tags found)');
@@ -1058,7 +1058,7 @@ sub cumulus_cloud
         $font_size = 10 if $font_size < 10;
         $font_size = 25 if $font_size > 25;
 
-        $html .= '<a href="' . $self->url_for('question_search?keyword='.CGI::escape($tag)).
+        $html .= '<a href="' . $self->url_for('home/article_search?keyword='.CGI::escape($tag)).
             '" title="' . $tags{$tag} . ' ' . substr($tag, 0, 20) .
             '" rel="tag" class="tag-link-' . ($tags{$tag}) . '" style="font-size:' . $font_size . '">' .
             HTML::Entities::decode_entities($tag) . '</a>';
