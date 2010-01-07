@@ -24,6 +24,13 @@ function get_type() {
 }
 
 function date_from_text(text) {
+	if (! text) return;
+	// Firefox doesn't parse yyyy-mm-dd format
+	if (! Date.parse(text)) {
+		// So, rehash into mm/dd/yyyy
+		var date_pieces = text.split("-");
+		text = date_pieces[1] + "/" + date_pieces[2] + "/" + date_pieces[0];
+	}
 	var date = new Date(text);
 	return date;
 }
