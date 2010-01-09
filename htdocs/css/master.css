@@ -546,7 +546,7 @@ div#notice_box_info h3, div#notice_box_info p {
 }
 
 /* Blue tab under main header */
-body #tab {
+#tab {
 	clear:both;
 	padding-left: 20px;
 	padding-top:6px; 
@@ -554,13 +554,22 @@ body #tab {
 	height:24px
 }
 
-body #tab span {
+#tab span {
 	color:#fff;
 	font-size: 1em;
 }
 
-body #tab span a {
+#tab span a {
 	color:#ccf;
 	font-size: 1em;
+}
+
+.site-feeds {
+    display:inline;
+}
+
+.site-feeds-mini {
+    display:inline;
+    word-spacing:0.6em;
 }
 
