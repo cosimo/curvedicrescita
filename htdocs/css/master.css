@@ -77,10 +77,10 @@ div#balloon #balloon_content {
     display:block;
 }
 
-div#logo #logoimg {
+#logoimg {
 	position:absolute;
-	left:0px;
-	top:0px;
+	left:12px;
+	top:14px;
 }
 
 div#logo #logotitle {
