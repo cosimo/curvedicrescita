@@ -31,7 +31,11 @@
     &nbsp; | &nbsp;
     </tmpl_if>
 
+    <tmpl_include name="site-feeds-mini.html">
+    &nbsp; | &nbsp;
+
     <tmpl_var name="msg:cerca">
     <input id="search" type="text" size="14" name="q" value="<tmpl_var msg:argomento>" onclick="this.value='';" onblur="if(this.value=='')this.value='<tmpl_var msg:argomento>'">
+
 </div>
 </form>
