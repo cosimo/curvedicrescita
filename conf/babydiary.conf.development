@@ -6,14 +6,20 @@
 root_uri = http://localhost:8080/
 
 # Root directories of server
-root_dir = d:/users/cosimo_2/Desktop/curvedicrescita.com/htdocs
+root_dir = /home/cosimo/src/curvedicrescita/htdocs
 
 # Where are templates stored
-tmpl_path = d:/users/cosimo_2/Desktop/curvedicrescita.com/templates
+tmpl_path = /home/cosimo/src/curvedicrescita/templates
 
 # Root path of CGIs
 cgi_root = /exec
 cgi_home = /exec/home
+
+# Main site SQLite database
+database_name = /home/cosimo/src/curvedicrescita/database/data/babydiary.sqlite
+
+# Application stack traces dumped here
+application_log_file = /home/cosimo/src/curvedicrescita/logs/application.log
 
 # Show Google Adsense ads? (1=yes, 0=no)
 show_ads = 0
@@ -33,5 +39,5 @@ send_answers_notification = 1
 
 # Email address to which send all mail messages
 send_admin_mail_from = Curve di crescita <info@curvedicrescita.com>,
-send_admin_mail_to = Cosimo Streppone <cosimo@streppone.it>
+send_admin_mail_to = Tamara De Zotti <info@curvedicrescita.com>,
 

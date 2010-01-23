@@ -1,4 +1,4 @@
-#!c:/dev/perl510/bin/perl.exe
+#!/usr/bin/perl
 #
 # Everything starts from here.
 # This is the main application invocation CGI.
