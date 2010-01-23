@@ -1,0 +1,39 @@
+NameVirtualHost *:80
+
+<VirtualHost *:80>
+	ServerAdmin cosimo@streppone.it
+	ServerName curvedicrescita.ubuntu-domain.local
+
+	DocumentRoot /home/cosimo/src/curvedicrescita/htdocs
+
+	LogLevel warn
+	ErrorLog  "/var/log/apache2/curvedicrescita-dev/error.log"
+	CustomLog "/var/log/apache2/curvedicrescita-dev/access.log" combined
+
+	ServerSignature On
+
+	<Directory /home/cosimo/src/curvedicrescita/htdocs/>
+		Options All
+		AllowOverride All
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	# Allow server status reports, with the URL of
+	# http://servername/server-status
+	<Location /server-status>
+	    SetHandler server-status
+	    Order deny,allow
+	    Allow from all
+	</Location>
+
+	<Directory /home/cosimo/src/curvedicrescita/exec/>
+		Options +ExecCGI
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	ScriptAlias /exec/ /home/cosimo/src/curvedicrescita/exec/
+
+</VirtualHost>

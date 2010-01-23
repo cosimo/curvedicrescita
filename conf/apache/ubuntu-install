@@ -1,0 +1,39 @@
+#!/bin/sh
+
+apt-get install apache2 apache2.2-common apache2-mpm-prefork
+a2enmod cgi
+SITE=curvedicrescita-dev
+SITE_CONF=/etc/apache2/sites-available/$SITE
+if [ ! -L $SITE_CONF ]; then
+	rm -f $SITE_CONF
+	ln -s `pwd`/$SITE $SITE_CONF
+fi
+a2ensite $SITE
+
+mkdir /var/log/apache2/$SITE
+chown root.adm -R /var/log/apache2/$SITE
+
+if [ ! -d ../../logs ]; then
+	mkdir ../../logs
+fi
+
+if [ ! -e ../../logs/access.log ]; then
+	ln -s /var/log/apache2/$SITE/access.log ../../logs/access.log
+	ln -s /var/log/apache2/$SITE/error.log ../../logs/error.log
+fi
+
+apt-get install libcgi-application-perl
+apt-get install libcache-cache-perl
+apt-get install libconfig-auto-perl
+cpan CGI::Application::Plugin::ConfigAuto
+cpan CGI::Application::Plugin::AutoRunmode
+cpan CGI::Application::Plugin::Forward
+cpan CGI::Application::Plugin::Redirect
+apt-get install libcgi-application-plugin-session
+apt-get install libcgi-session-perl
+cpan CGI::Application::Plugin::Session
+apt-get install libsql-abstract-perl
+apt-get install libdbi-perl
+apt-get install libdbd-sqlite3-perl
+cpan HTML::BBCode
+cpan HTML::Strip
