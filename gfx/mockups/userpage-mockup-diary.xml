@@ -1,0 +1,144 @@
+<mockup version="1.0" skin="sketch" measuredW="949" measuredH="432" mockupW="885" mockupH="416">
+  <controls>
+    <control controlID="33" controlTypeID="__group__" x="631" y="137" w="-1" h="-1" measuredW="308" measuredH="142" zOrder="6" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="22" controlTypeID="com.balsamiq.mockups::Image" x="0" y="0" w="88" h="87" measuredW="77" measuredH="79" zOrder="0" locked="false" isInGroup="33">
+          <controlProperties>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="28" controlTypeID="com.balsamiq.mockups::Paragraph" x="108" y="2" w="200" h="140" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="33">
+          <controlProperties>
+            <text>Andrea%2C%2013/10/2006%0A3%20anni%20e%203%20mesi%0A96%20cm%0A19%20kg</text>
+          </controlProperties>
+        </control>
+        <control controlID="31" controlTypeID="com.balsamiq.mockups::LineChart" x="165" y="69" w="46" h="20" measuredW="187" measuredH="175" zOrder="2" locked="false" isInGroup="33"/>
+        <control controlID="32" controlTypeID="com.balsamiq.mockups::LineChart" x="165" y="47" w="48" h="20" measuredW="187" measuredH="175" zOrder="3" locked="false" isInGroup="33"/>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="55" controlTypeID="com.balsamiq.mockups::Label" x="61" y="121" w="496" h="29" measuredW="219" measuredH="29" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Cosa%20ha%20fatto%20oggi%20Andrea%3F</text>
+        <size>16</size>
+      </controlProperties>
+    </control>
+    <control controlID="41" controlTypeID="com.balsamiq.mockups::Icon" x="84" y="360" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>GearIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="45" controlTypeID="com.balsamiq.mockups::Icon" x="84" y="398" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>HourGlassIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::TabBar" x="54" y="52" w="835" h="100" measuredW="332" measuredH="100" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>33023</color>
+        <bold>true</bold>
+        <tabVPosition>top</tabVPosition>
+        <borderStyle>none</borderStyle>
+        <text>domande%2Carticoli%2Ccurve%2Ctabs%2Cfaq</text>
+        <selectedIndex>0</selectedIndex>
+        <tabHPosition>right</tabHPosition>
+      </controlProperties>
+    </control>
+    <control controlID="47" controlTypeID="com.balsamiq.mockups::Label" x="62" y="196" w="110" h="29" measuredW="110" measuredH="29" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Da%20ricordare%3A</text>
+        <color>0</color>
+        <size>16</size>
+      </controlProperties>
+    </control>
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::Label" x="62" y="322" w="110" h="29" measuredW="110" measuredH="29" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Ultimi%20eventi%3A</text>
+        <size>16</size>
+      </controlProperties>
+    </control>
+    <control controlID="17" controlTypeID="__group__" x="55" y="35" w="-1" h="-1" measuredW="278" measuredH="40" zOrder="2" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Label" x="36" y="0" w="242" h="40" measuredW="235" measuredH="40" zOrder="0" locked="false" isInGroup="17">
+          <controlProperties>
+            <text>Curvedicrescita.com</text>
+            <color>33023</color>
+            <size>24</size>
+          </controlProperties>
+        </control>
+        <control controlID="13" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="4" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="1" locked="false" isInGroup="17">
+          <controlProperties>
+            <icon>EmoticonIcon%7Cmedium</icon>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="18" controlTypeID="com.balsamiq.mockups::Label" x="726" y="8" w="-1" h="-1" measuredW="42" measuredH="25" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Cerca</text>
+      </controlProperties>
+    </control>
+    <control controlID="51" controlTypeID="com.balsamiq.mockups::Paragraph" x="119" y="290" w="332" h="37" measuredW="200" measuredH="140" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Vaccino%20trivalente%20entro%20il%20xx/xx/xxxx</text>
+      </controlProperties>
+    </control>
+    <control controlID="52" controlTypeID="com.balsamiq.mockups::Icon" x="86" y="288" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>SadFaceIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="53" controlTypeID="com.balsamiq.mockups::Paragraph" x="121" y="355" w="332" h="50" measuredW="200" measuredH="140" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>ha%20inventato%20una%20nuova%20parola%3A%20%22sferociaia%22%0A15%20giorni%20fa</text>
+      </controlProperties>
+    </control>
+    <control controlID="46" controlTypeID="__group__" x="86" y="226" w="365" h="40" measuredW="365" measuredH="71" zOrder="9" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="42" controlTypeID="com.balsamiq.mockups::Paragraph" x="33" y="1" w="332" h="39" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="46">
+          <controlProperties>
+            <text>13/02/2010%20Andrea%20compie%203%20anni%20e%204%20mesi%20oggi%21</text>
+          </controlProperties>
+        </control>
+        <control controlID="44" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="0" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="1" locked="false" isInGroup="46">
+          <controlProperties>
+            <icon>AlarmClockIcon%7Csmall</icon>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="15" controlTypeID="com.balsamiq.mockups::MenuBar" x="54" y="77" w="834" h="34" measuredW="305" measuredH="29" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>I%20miei%20bimbi%2CDiario%2CCurve%20di%20crescita</text>
+        <selectedIndex>1</selectedIndex>
+      </controlProperties>
+    </control>
+    <control controlID="56" controlTypeID="com.balsamiq.mockups::ComboBox" x="63" y="151" w="117" h="-1" measuredW="85" measuredH="25" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Attivita%27</text>
+      </controlProperties>
+    </control>
+    <control controlID="49" controlTypeID="com.balsamiq.mockups::Label" x="62" y="258" w="173" h="29" measuredW="173" measuredH="29" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Prossime%20vaccinazioni%3A</text>
+        <size>16</size>
+      </controlProperties>
+    </control>
+    <control controlID="27" controlTypeID="com.balsamiq.mockups::SearchBox" x="776" y="8" w="-1" h="-1" measuredW="116" measuredH="25" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>argomento</text>
+      </controlProperties>
+    </control>
+    <control controlID="54" controlTypeID="com.balsamiq.mockups::TextInput" x="187" y="151" w="408" h="-1" measuredW="104" measuredH="29" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>aggiungi%20qui...</text>
+      </controlProperties>
+    </control>
+    <control controlID="23" controlTypeID="com.balsamiq.mockups::LinkBar" x="405" y="6" w="-1" h="-1" measuredW="280" measuredH="25" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>accedi%2Cregistrati%2Cscrivici%2C%20tw%3Afb%3Arss</text>
+        <bold>false</bold>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
+
