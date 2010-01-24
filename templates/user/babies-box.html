@@ -1,0 +1,28 @@
+<tmpl_if name="babies">
+
+<table cellspacing="10" cellpadding="5" border="0">
+
+<tmpl_loop name="babies">
+<tr valign="top">
+
+<td>
+    <img src="/pics/baby/<tmpl_var id>" width="80" height="80" border="1" align="left">
+</td>
+
+<td>
+
+<b><tmpl_var name></b>, <tmpl_var birthdate_d>/<tmpl_var birthdate_m>/<tmpl_var birthdate_y><br/>
+<tmpl_var age><br/>
+<tmpl_if last_height><tmpl_var last_height> cm<br/></tmpl_if>
+<tmpl_if last_weight><tmpl_var last_weight> kg<br/></tmpl_if>
+</td>
+
+</tr>
+</tmpl_loop>
+
+</table>
+</tmpl_if>
+
+
+<h3>&nbsp; &nbsp; <a href="<tmpl_var cgi_root>/user/baby/new"> + Aggiungi nuovo bimbo (o gravidanza :)</h3></a>
+

@@ -1,0 +1,35 @@
+#!/usr/bin/perl
+#!c:/dev/perl510/bin/perl.exe
+
+#
+# User section page
+#
+
+use strict;
+use warnings;
+use lib '../lib';
+use CGI::Application::Dispatch;
+
+CGI::Application::Dispatch->dispatch(
+    prefix => 'BabyDiary::Application',
+    args_to_new => {
+        PARAMS => {
+            cfg_file => '/home/cosimo/src/curvedicrescita/conf/babydiary.conf'
+        }
+    },
+    debug => 0,
+    table => [
+        '/'         => { app => 'UserPage', rm => 'userpage_main' },
+        '/main/'    => { app => 'UserPage', rm => 'userpage_main' },
+        '/charts/'  => { app => 'UserPage', rm => 'userpage_charts' },
+        #':app/:rm/:id'             => { app => 'UserPage' },
+        #'date/:year/:month?/:day?' => {
+        #    app         => 'Blog',
+        #    rm          => 'by_date',
+        #    args_to_new => {
+        #        TMPL_PATH => "events/"
+        #    },
+        #},
+    ]
+);
+

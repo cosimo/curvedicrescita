@@ -1,0 +1,24 @@
+<tmpl_include name="document/open.html">
+<tmpl_include name="document/header.html">
+
+<body>
+<tmpl_include name="components/signin.html">
+<tmpl_include name="components/header.html">
+
+<tmpl_include name="user/submenu.html">
+
+<!-- Main content (chart) -->
+<div id="content">
+
+	<div id="topics">
+		<tmpl_include name="components/userdata.html">
+	</div>
+
+	<div id="article2col">
+		<tmpl_include name="components/chart.html">
+	</div>
+
+</div>
+
+<tmpl_include name="document/footer.html">
+<tmpl_include name="document/close.html">
