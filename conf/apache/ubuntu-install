@@ -37,3 +37,4 @@ apt-get install libdbi-perl
 apt-get install libdbd-sqlite3-perl
 cpan HTML::BBCode
 cpan HTML::Strip
+cpan CGI::Application::Dispatch
