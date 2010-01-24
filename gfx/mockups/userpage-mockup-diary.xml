@@ -16,6 +16,11 @@
         <control controlID="32" controlTypeID="com.balsamiq.mockups::LineChart" x="165" y="47" w="48" h="20" measuredW="187" measuredH="175" zOrder="3" locked="false" isInGroup="33"/>
       </groupChildrenDescriptors>
     </control>
+    <control controlID="59" controlTypeID="com.balsamiq.mockups::Paragraph" x="739" y="259" w="200" h="140" measuredW="200" measuredH="140" zOrder="20" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Giulia%2C%2025/04/2008%0A1%20anno%20e%209%20mesi%0A82%20cm%0A14%20kg</text>
+      </controlProperties>
+    </control>
     <control controlID="55" controlTypeID="com.balsamiq.mockups::Label" x="61" y="121" w="496" h="29" measuredW="219" measuredH="29" zOrder="17" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Cosa%20ha%20fatto%20oggi%20Andrea%3F</text>
@@ -39,7 +44,7 @@
         <tabVPosition>top</tabVPosition>
         <borderStyle>none</borderStyle>
         <text>domande%2Carticoli%2Ccurve%2Ctabs%2Cfaq</text>
-        <selectedIndex>0</selectedIndex>
+        <selectedIndex>2</selectedIndex>
         <tabHPosition>right</tabHPosition>
       </controlProperties>
     </control>
@@ -106,7 +111,7 @@
         </control>
       </groupChildrenDescriptors>
     </control>
-    <control controlID="15" controlTypeID="com.balsamiq.mockups::MenuBar" x="54" y="77" w="834" h="34" measuredW="305" measuredH="29" zOrder="1" locked="false" isInGroup="-1">
+    <control controlID="15" controlTypeID="com.balsamiq.mockups::MenuBar" x="56" y="79" w="834" h="34" measuredW="305" measuredH="29" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
         <text>I%20miei%20bimbi%2CDiario%2CCurve%20di%20crescita</text>
         <selectedIndex>1</selectedIndex>
@@ -123,11 +128,18 @@
         <size>16</size>
       </controlProperties>
     </control>
+    <control controlID="58" controlTypeID="com.balsamiq.mockups::Image" x="631" y="257" w="88" h="87" measuredW="77" measuredH="79" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
     <control controlID="27" controlTypeID="com.balsamiq.mockups::SearchBox" x="776" y="8" w="-1" h="-1" measuredW="116" measuredH="25" zOrder="5" locked="false" isInGroup="-1">
       <controlProperties>
         <text>argomento</text>
       </controlProperties>
     </control>
+    <control controlID="60" controlTypeID="com.balsamiq.mockups::LineChart" x="796" y="326" w="46" h="20" measuredW="187" measuredH="175" zOrder="21" locked="false" isInGroup="-1"/>
+    <control controlID="61" controlTypeID="com.balsamiq.mockups::LineChart" x="796" y="304" w="48" h="20" measuredW="187" measuredH="175" zOrder="22" locked="false" isInGroup="-1"/>
     <control controlID="54" controlTypeID="com.balsamiq.mockups::TextInput" x="187" y="151" w="408" h="-1" measuredW="104" measuredH="29" zOrder="16" locked="false" isInGroup="-1">
       <controlProperties>
         <text>aggiungi%20qui...</text>
@@ -141,4 +153,3 @@
     </control>
   </controls>
 </mockup>
-
