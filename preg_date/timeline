@@ -1,0 +1,65 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+use Data::Dumper;
+use PregnancyChecks;
+use Template;
+
+my $tt = Template->new( ABSOLUTE => 1 );
+my @events = all_checks();
+my $output;
+my $file = $ARGV[0];
+
+my ($day, $month, $year) = (12, 1, 2006);
+my @color = ( '#0055ff', '#008800', '#aa5500' );
+
+for my $e (@events) {
+
+	my $week_start = $e->{week_start};
+	my $week_end   = $e->{week_end};
+
+	if ($week_start =~ m{^(\d+)w(\d+)d$}) {
+		$week_start = $1;
+	}
+
+	if ($week_end =~ m{^(\d+)w(\d+)d$}) {
+		$week_end = $1 + 1;
+	}
+
+	my $check_date = DateTime->new(day=>$day, month=>$month, year=>$year);
+	my $start = $check_date->add(weeks => $week_start)->ymd();
+
+	$check_date = DateTime->new(day=>$day, month=>$month, year=>$year);
+	my $end = $check_date->add(weeks => $week_end)->ymd();
+
+	$e->{start} = $start;
+	$e->{end} = $end;
+
+	$e->{durationEvent} = 'true';
+
+	# Define color based on trimester
+	$e->{color} = $color[$e->{trimester} - 1];
+
+}
+
+unshift @events, {
+	name_it => 'Data ultima mestruazione',
+	description => 'Data dell\'ultima mestruazione',
+	start => sprintf("%04d-%02d-%02d", $year, $month, $day),
+	end => "",
+	durationEvent => 'false',
+};
+
+push @events, {
+	name_it => 'Data presunta del parto',
+	description => 'Data presunta del parto, stimata in base alla data dell\'ultima mestruazione',
+	start => birthdate($day, $month, $year),
+	end => "",
+	durationEvent => 'false',
+};
+
+$tt->process($file, { events => \@events })
+	or die $tt->error(), "\n";
+

@@ -1,0 +1,15 @@
+use PregnancyChecks;
+
+if (! @ARGV) {
+	die "Usage: $0 <day> <month> <year>\n";
+}
+
+my ($day, $month, $year) = @ARGV;
+
+print 'Birth day: ', birthdate($day, $month, $year), "\n";
+print 'Now this is week ', current_week($day, $month, $year), "\n";
+print "On 9/9/2008, it was week ", week_at_date($day, $month, $year, 9, 9, 2008), "\n";
+
+print Dumper(checks_at_week(13));
+
+

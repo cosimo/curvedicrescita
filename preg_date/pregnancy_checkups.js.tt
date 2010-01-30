@@ -1,0 +1,21 @@
+var timeline_data = {
+
+	"dateTimeFormat": "iso8601",
+	"url": "http://www.curvedicrescita.com/",
+	"title": "Visite di controllo in gravidanza",
+
+	"events" : [
+[% FOREACH event IN events %]
+		{
+		"start": "[% event.start %]",
+		"end": "[% event.end %]",
+		"title": "[% event.name_it %]",
+		"description": "[% event.description || event.name_it %]",
+		"color" : "[% event.color || "#000000" %]",
+		"textColor" : "#000000",
+		"durationEvent" : "[% event.durationEvent || "true" %]"
+		},
+[% END %]
+	]
+}
+
