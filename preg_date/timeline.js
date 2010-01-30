@@ -1,17 +1,26 @@
-// Timeline widget
+// Timeline widget, cosimo, 30/01/2010
+(function(){
 var tl;
-function onLoad() {
+var resizeTimerID = null;
+
+function showTimeline(form) {
 	var tl_el = document.getElementById("tl");
 	var eventSource1 = new Timeline.DefaultEventSource();
-	
+
 	var theme1 = Timeline.ClassicTheme.create();
 	theme1.autoWidth = true; // Set the Timeline's "width" automatically.
 							 // Set autoWidth on the Timeline's first band's theme,
 							 // will affect all bands.
-	theme1.timeline_start = new Date(Date.UTC(2006, 0, 1));
-	theme1.timeline_stop  = new Date(Date.UTC(2006, 11, 18));
 
-	var d = Timeline.DateTime.parseGregorianDateTime("2006-01-12")
+    var start_year = parseInt(form.umy.value);
+    var start_month = parseInt(form.umm.value);
+    var start_day = parseInt(form.umd.value);
+
+	theme1.timeline_start = new Date(Date.UTC(start_year, start_month - 1, start_day));
+	theme1.timeline_stop  = new Date(Date.UTC(start_year + 1, start_month - 1, start_day));
+
+	var d = Timeline.DateTime.parseGregorianDateTime(form.umy.value + '-' + form.umm.value + '-' . form.umd.value);
+
 	var bandInfos = [
 		Timeline.createBandInfo({
 			width:          45,
@@ -31,17 +40,17 @@ function onLoad() {
 	var url = '.'; // The base url for image, icon and background image
 				   // references in the data
 	eventSource1.loadJSON(timeline_data, url); // The data was stored into the 
-											   // timeline_data variable.
+
 	tl.layout(); // display the Timeline
 }
 
-var resizeTimerID = null;
-function onResize() {
+function resizeTimeline() {
 	if (resizeTimerID == null) {
 		resizeTimerID = window.setTimeout(function() {
 			resizeTimerID = null;
-			tl.layout();
+			if (tl) tl.layout();
 		}, 500);
 	}
 }
+);
 

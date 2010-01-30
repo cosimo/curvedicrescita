@@ -1,5 +1,4 @@
 // Cross browser event handling
-// $Id$
 function add_event (evt, cb, el) {
     if (! el) el = document;
     if (typeof el == 'string') el = document.getElementById(el);
