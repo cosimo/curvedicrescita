@@ -6,9 +6,10 @@ package Opera::Logger;
 use strict;
 use File::Path     ();
 use File::Basename ();
+use BabyDiary::Config;
 
 # Default path for logging
-$Opera::Logger::APP_LOG_FILE = 'd:/users/cosimo_2/Desktop/curvedicrescita.com/logs/application.log';
+$Opera::Logger::APP_LOG_FILE = BabyDiary::Config->get('application_log_file');
 
 # Constructor
 sub new

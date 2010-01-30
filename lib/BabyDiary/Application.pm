@@ -1,8 +1,6 @@
-# $Id$z
-
 package BabyDiary::Application;
 
-$VERSION = '0.03';
+$VERSION = '0.04';
 
 use strict;
 use warnings;
@@ -24,10 +22,10 @@ use File::Spec ();
 use BabyDiary::Application::Admin;
 use BabyDiary::Application::Articles;
 use BabyDiary::Application::Auth;
-use BabyDiary::Application::Diary;
 use BabyDiary::Application::Questions;
 use BabyDiary::Application::Signup;
 use BabyDiary::Application::StackTrace;
+use BabyDiary::Application::UserPage;
 use BabyDiary::Application::Users;
 
 # Log-helper class
@@ -103,8 +101,9 @@ sub setup
 
 		comment_delete  => \&BabyDiary::Application::Articles::delete_comment,
 		comment_post    => \&BabyDiary::Application::Articles::post_comment,
-
-		diary           => \&BabyDiary::Application::Diary::start,
+ 
+        userpage_main   => \&BabyDiary::Application::UserPage::main,
+        userpage_charts => \&BabyDiary::Application::UserPage::charts,
 
         question        => \&BabyDiary::Application::Questions::view,
         questions_latest=> \&BabyDiary::Application::Questions::latest,
