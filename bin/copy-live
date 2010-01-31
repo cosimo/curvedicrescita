@@ -1,0 +1,2 @@
+#!/bin/sh
+/usr/bin/env perl ./bin/copy-live.perl $@

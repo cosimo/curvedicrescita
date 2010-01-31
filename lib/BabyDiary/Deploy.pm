@@ -8,7 +8,7 @@ use File::Spec;
 use File::Path;
 
 BEGIN {
-	$ENV{LANG} = 'C';
+	$ENV{LANG} = '';
 }
 
 our $SVN_ROOT = 'file:///svnroot/curvedicrescita.com';
@@ -58,7 +58,8 @@ sub deploy_live {
         $dest = ssh_dest() . '/' . $file;
     }
 
-    my $copy_cmd = qq{d:\\bin\\pscp $file $dest >$DEV_NULL};
+    #my $copy_cmd = qq{d:\\bin\\pscp $file $dest >$DEV_NULL};
+    my $copy_cmd = qq{scp $file $dest >$DEV_NULL};
     #print $copy_cmd, "\n";
 
     my $status = system($copy_cmd);
