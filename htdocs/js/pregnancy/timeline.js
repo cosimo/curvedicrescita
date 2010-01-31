@@ -200,6 +200,7 @@ function getTimelineData(f) {
 }
 
 function showTimeline(form) {
+    if (! form) form = document.getElementById("pregdates");
 	var tl_el = document.getElementById("tl");
 	var eventSource1 = new Timeline.DefaultEventSource();
 	var theme1 = Timeline.ClassicTheme.create();
@@ -253,4 +254,6 @@ function resizeTimeline() {
 		}, 500);
 	}
 }
+
+add_event('load',showTimeline);
 
