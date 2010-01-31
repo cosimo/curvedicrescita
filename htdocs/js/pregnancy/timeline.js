@@ -180,27 +180,20 @@ function getTimelineData(f) {
     var events_len = events.length;
     for (var i = 0; i < events_len; i++) {
         var e = events[i];
-
         // Assign a default classname if not present already
         // XXX disables colored events in the bottom band
         //if (! e.classname) e.classname = "timeline-normal-event";
-
         // Convert date objects to string
         var d = e.start;
-        if (d instanceof Date) {
-            e.start = toIso(d);
-        }
+        if (d instanceof Date) { e.start = toIso(d); }
         d = e.end;
-        if (d instanceof Date) {
-            e.end = toIso(d);
-        }
+        if (d instanceof Date) { e.end = toIso(d); }
     }
-
     return timeline_data;
 }
 
 function showTimeline(form) {
-    if (! form) form = document.getElementById("pregdates");
+    if (! form) form = document.forms[1];
 	var tl_el = document.getElementById("tl");
 	var eventSource1 = new Timeline.DefaultEventSource();
 	var theme1 = Timeline.ClassicTheme.create();
@@ -255,5 +248,5 @@ function resizeTimeline() {
 	}
 }
 
-add_event('load',showTimeline);
+add_event("load",showTimeline);
 
