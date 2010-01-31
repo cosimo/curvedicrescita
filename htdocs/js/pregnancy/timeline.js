@@ -193,7 +193,6 @@ function getTimelineData(f) {
 }
 
 function showTimeline(form) {
-    if (! form) form = document.forms[1];
 	var tl_el = document.getElementById("tl");
 	var eventSource1 = new Timeline.DefaultEventSource();
 	var theme1 = Timeline.ClassicTheme.create();
@@ -248,5 +247,9 @@ function resizeTimeline() {
 	}
 }
 
-add_event("load",showTimeline);
+add_event("load",function () {
+    var f = document.forms[1];
+    showTimeline(f);
+} );
+
 
