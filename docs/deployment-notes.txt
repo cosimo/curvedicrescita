@@ -13,4 +13,7 @@
 - Mime::Lite (era gia' installato)
 - App::pod2pdf
 - Cache::FileCache
+- Date::Pregnancy
+- Data::ICal
+- Date::ICal
 

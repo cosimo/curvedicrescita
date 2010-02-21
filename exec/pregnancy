@@ -1,0 +1,25 @@
+#!/usr/bin/perl
+#!c:/dev/perl510/bin/perl.exe
+
+#
+# Pregnancy ICal export
+#
+
+use strict;
+use warnings;
+use lib '../lib';
+use CGI::Application::Dispatch;
+
+CGI::Application::Dispatch->dispatch(
+    prefix => 'BabyDiary::Application',
+    args_to_new => {
+        PARAMS => {
+            cfg_file => '../conf/babydiary.conf'
+        }
+    },
+    debug => 0,
+    table => [
+        '/ical/:year/:month/:day' => { app => 'Pregnancy', rm => 'ical' },
+    ]
+);
+

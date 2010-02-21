@@ -23,6 +23,7 @@ use BabyDiary::Application::Admin;
 use BabyDiary::Application::Articles;
 use BabyDiary::Application::Auth;
 use BabyDiary::Application::Questions;
+use BabyDiary::Application::Pregnancy;
 use BabyDiary::Application::Signup;
 use BabyDiary::Application::StackTrace;
 use BabyDiary::Application::UserPage;
@@ -104,6 +105,8 @@ sub setup
  
         userpage_main   => \&BabyDiary::Application::UserPage::main,
         userpage_charts => \&BabyDiary::Application::UserPage::charts,
+
+        ical            => \&BabyDiary::Application::Pregnancy::ical,
 
         question        => \&BabyDiary::Application::Questions::view,
         questions_latest=> \&BabyDiary::Application::Questions::latest,
