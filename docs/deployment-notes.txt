@@ -9,6 +9,7 @@
 - html::strip
 - Time::Piece
 - CGI::Application
+- CGI::Application::Dispatch
 - XML::RSS
 - Mime::Lite (era gia' installato)
 - App::pod2pdf
