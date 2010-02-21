@@ -14,7 +14,7 @@ CGI::Application::Dispatch->dispatch(
     prefix => 'BabyDiary::Application',
     args_to_new => {
         PARAMS => {
-            cfg_file => '/home/cosimo/src/curvedicrescita/conf/babydiary.conf'
+            cfg_file => '../conf/babydiary.conf'
         }
     },
     debug => 0,
@@ -22,14 +22,6 @@ CGI::Application::Dispatch->dispatch(
         '/'         => { app => 'UserPage', rm => 'userpage_main' },
         '/main/'    => { app => 'UserPage', rm => 'userpage_main' },
         '/charts/'  => { app => 'UserPage', rm => 'userpage_charts' },
-        #':app/:rm/:id'             => { app => 'UserPage' },
-        #'date/:year/:month?/:day?' => {
-        #    app         => 'Blog',
-        #    rm          => 'by_date',
-        #    args_to_new => {
-        #        TMPL_PATH => "events/"
-        #    },
-        #},
     ]
 );
 
