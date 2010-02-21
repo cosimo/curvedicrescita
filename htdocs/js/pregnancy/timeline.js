@@ -307,6 +307,14 @@ function resizeTimeline() {
 	}
 }
 
+function exportICal(form) {
+    var start_year = parseInt(form.umy.value);
+    var start_month = parseInt(form.umm.value);
+    var start_day = parseInt(form.umd.value);
+    var ical_url = '/exec/pregnancy/ical/' + start_year + '/' + start_month + '/' + start_day;
+    return window.open(ical_url, 'pregnancy-calendar');
+}
+
 add_event("load",function () {
     var f = document.forms[1];
     showTimeline(f);
