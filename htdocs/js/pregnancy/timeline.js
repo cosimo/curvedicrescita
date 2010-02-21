@@ -7,6 +7,7 @@ function getTimelineData(f) {
     var umm = parseInt(f.umm.value);
     var umd = parseInt(f.umd.value);
 	var um = new Date(Date.UTC(umy, umm-1, umd));
+	var now = new Date();
     var timeline_data = {
         "dateTimeFormat": "iso8601",
         "url": "http://www.curvedicrescita.com/",
@@ -230,7 +231,14 @@ function getTimelineData(f) {
             "description": "Data presunta del parto, stimata in base alla data dell'ultima mestruazione",
             "textColor": "red",
             "classname": "timeline-important-event",
-            "durationEvent" : "false" }
+            "durationEvent" : "false" },
+            { "start": now,
+            "end": "",
+            "title": "Oggi",
+            "description": "",
+            "textColor": "red",
+            "classname": "timeline-important-event",
+            "durationEvent" : "false" },
         ]
     };
 
