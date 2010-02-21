@@ -281,6 +281,59 @@ sub checks_at_week {
 
 }
 
+sub as_ical {
+
+    require Data::ICal;
+    require Data::ICal::Entry::Event;
+    require Date::ICal;
+
+    my @checks = all_checks();
+    my $calendar = Data::ICal->new();
+    my $main_url = 'http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-visite-gravidanza';
+
+    while (my $next_event = shift @checks) {
+        my $ical_event = Data::ICal::Entry::Event->new();
+        $next_event->{url} ||= '/pregnancy/week/' . $next_event->{week_start};
+        $ical_event->add_properties(
+            status   => 'INCOMPLETE',
+            summary  => $next_event->{name_it},
+            priority => $next_event->{mandatory} ? 4 : 5,
+            dtstart  => ical_date(time, $next_event->{week_start}),
+            dtend    => ical_date(time, $next_event->{week_end}, 1),
+            url      => $main_url,
+        );
+        $calendar->add_entry($ical_event);
+    }
+
+    print $calendar->as_string();
+}
+
+sub ical_date {
+    my ($start, $plus_weeks, $end_of_week) = @_;
+
+    my $start_secs = $start + 0;
+
+    # Weeks/days (4w3d)
+    if ($plus_weeks =~ m{^(\d+)w(\d+)d$}) {
+        $plus_weeks = $2 + 7 * $1;
+    }
+    else { # Plain weeks number
+        $plus_weeks *= 7;
+    }
+
+    $plus_weeks *= 86400;
+
+    if ($end_of_week) {
+        $plus_weeks += 86400 * 7 - 1;
+    }
+
+    $start_secs += $plus_weeks;
+
+    my $ical_date = Date::ICal->new(epoch => $start_secs)->ical;
+    return $ical_date;
+
+}
+
 1;
 
 # vim: set ts=4 sw=4 tw=0 et

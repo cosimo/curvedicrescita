@@ -1,0 +1,195 @@
+BEGIN:VCALENDAR
+PRODID:Data::ICal 0.13
+VERSION:2.0
+BEGIN:VEVENT
+DTEND:20100418T155445Z
+DTSTART:20100321T155446Z
+PRIORITY:5
+STATUS:INCOMPLETE
+SUMMARY:Controllo genetico
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20100523T155445Z
+DTSTART:20100418T155446Z
+PRIORITY:4
+STATUS:INCOMPLETE
+SUMMARY:Primo appuntamento con il ginecologo
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20100523T155445Z
+DTSTART:20100502T155446Z
+PRIORITY:5
+STATUS:INCOMPLETE
+SUMMARY:Villocentesi
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20100525T155445Z
+DTSTART:20100513T155446Z
+PRIORITY:4
+STATUS:INCOMPLETE
+SUMMARY:Ecografia primo trimestre
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20100525T155445Z
+DTSTART:20100513T155446Z
+PRIORITY:5
+STATUS:INCOMPLETE
+SUMMARY:Translucenza nucale
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20100525T155445Z
+DTSTART:20100513T155446Z
+PRIORITY:5
+STATUS:INCOMPLETE
+SUMMARY:Bi-test
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20100704T155445Z
+DTSTART:20100523T155446Z
+PRIORITY:4
+STATUS:INCOMPLETE
+SUMMARY:Secondo appuntamento con il ginecologo
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20100704T155445Z
+DTSTART:20100613T155446Z
+PRIORITY:5
+STATUS:INCOMPLETE
+SUMMARY:Amniocentesi
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20100801T155445Z
+DTSTART:20100704T155446Z
+PRIORITY:4
+STATUS:INCOMPLETE
+SUMMARY:Terzo appuntamento con il ginecologo
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20100801T155445Z
+DTSTART:20100704T155446Z
+PRIORITY:4
+STATUS:INCOMPLETE
+SUMMARY:Ecografia del secondo trimestre
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20100912T155445Z
+DTSTART:20100801T155446Z
+PRIORITY:4
+STATUS:INCOMPLETE
+SUMMARY:Quarto appuntamento con il ginecologo
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20100912T155445Z
+DTSTART:20100808T155446Z
+PRIORITY:5
+STATUS:INCOMPLETE
+SUMMARY:Corso di preparazione al parto
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20101010T155445Z
+DTSTART:20100912T155446Z
+PRIORITY:4
+STATUS:INCOMPLETE
+SUMMARY:Quinto appuntamento con il ginecologo
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20101010T155445Z
+DTSTART:20100919T155446Z
+PRIORITY:4
+STATUS:INCOMPLETE
+SUMMARY:Ecografia del terzo trimestre
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20101121T155445Z
+DTSTART:20101010T155446Z
+PRIORITY:4
+STATUS:INCOMPLETE
+SUMMARY:Sesto appuntamento con il ginecologo
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20101114T155445Z
+DTSTART:20101024T155446Z
+PRIORITY:4
+STATUS:INCOMPLETE
+SUMMARY:Tampone vaginale e rettale
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20101128T155445Z
+DTSTART:20101121T155446Z
+PRIORITY:4
+STATUS:INCOMPLETE
+SUMMARY:Settimo appuntamento con il ginecologo
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20101205T155445Z
+DTSTART:20101128T155446Z
+PRIORITY:4
+STATUS:INCOMPLETE
+SUMMARY:Ottavo appuntamento con il ginecologo
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20101212T155445Z
+DTSTART:20101205T155446Z
+PRIORITY:4
+STATUS:INCOMPLETE
+SUMMARY:Ecofalda
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20101212T155445Z
+DTSTART:20101205T155446Z
+PRIORITY:4
+STATUS:INCOMPLETE
+SUMMARY:Cardiotocografia
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+BEGIN:VEVENT
+DTEND:20101212T155445Z
+DTSTART:20101205T155446Z
+PRIORITY:4
+STATUS:INCOMPLETE
+SUMMARY:Nono appuntamento con il ginecologo
+URL:http://www.curvedicrescita.com/exec/article/2010/01/02/appuntamenti-vis
+ ite-gravidanza
+END:VEVENT
+END:VCALENDAR
+
+1
