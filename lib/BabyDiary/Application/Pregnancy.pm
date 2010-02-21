@@ -287,8 +287,6 @@ sub ical {
     require Data::ICal::Entry::Event;
     require Date::ICal;
 
-    $self->header_props(-type => 'text/calendar');
-
     my $year = $self->param('year');
     my $month = $self->param('month');
     my $day = $self->param('day');
@@ -325,7 +323,15 @@ sub ical {
         $calendar->add_entry($ical_event);
     }
 
-    return $calendar->as_string();
+    my $ics_content = $calendar->as_string();
+
+    $self->header_props(
+        '-type' => 'text/calendar',
+        '-content-disposition' => 'attachment;filename=gravidanza.ics',
+        '-content-length' => length($ics_content),
+    );
+
+    return $ics_content;
 }
 
 sub ical_date {
