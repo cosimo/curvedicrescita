@@ -262,6 +262,7 @@ function showTimeline(form) {
     var start_date = form.umy.value + '-' + form.umm.value + '-' + form.umd.value;
 	theme1.timeline_start = new Date(Date.UTC(start_year, start_month - 1, start_day));
 	theme1.timeline_stop  = new Date(Date.UTC(start_year + 1, start_month - 1, start_day));
+    theme1.mouseWheel = 'scroll';
 	var d = Timeline.DateTime.parseGregorianDateTime(start_date);
 	var bandInfos = [
 		Timeline.createBandInfo({
@@ -310,5 +311,4 @@ add_event("load",function () {
     var f = document.forms[1];
     showTimeline(f);
 } );
-
 
