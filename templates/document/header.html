@@ -11,5 +11,14 @@
 	<link rel="alternate"  type="application/rss+xml" title="Ultimi articoli pubblicati" href="http://feeds2.feedburner.com/Curvedicrescitacom-UltimiArticoli" />
 	<link rel="icon" href="/img/favicon.gif" type="image/x-icon" />
 	<link rel="shortcut icon" href="/img/favicon.gif" type="image/x-icon" />
+
+<tmpl_if article_uses_timeline>
+	<script>var Timeline_ajax_url="/js/timeline_2.3.0/timeline_ajax/simile-ajax-api.js", Timeline_urlPrefix="/js/timeline_2.3.0/timeline_js/", Timeline_parameters="bundle=true&amp;forceLocale=it";</script>
+	<script src="/js/event-handler.js" type="text/javascript"></script>
+	<script src="/js/date-utils.js" type="text/javascript"></script>
+	<script src="/js/timeline_2.3.0/timeline_js/timeline-api.js" type="text/javascript"></script>
+	<script src="/js/pregnancy/timeline.js" type="text/javascript"></script>
+</tmpl_if>
+
 </head>
 

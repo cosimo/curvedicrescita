@@ -1,4 +1,4 @@
-# $Id$
+# $Id: Articles.pm 357 2009-12-25 17:48:12Z cosimo_2 $
 
 # Controller methods related to Articles section
 package BabyDiary::Application::Articles;
@@ -597,6 +597,11 @@ sub render {
 
         # User avatar    
         $tmpl->param( createdby_avatar => BabyDiary::View::Articles::format_author_avatar($rec) );
+
+        # Stupid hack to allow timeline scripts in page <HEAD>
+        if ($art_id && $art_id == 257) {
+            $tmpl->param(article_uses_timeline => 1); 
+        }
 
         # Check permissions for cancel/modify buttons
         #

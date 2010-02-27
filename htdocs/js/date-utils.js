@@ -5,31 +5,12 @@ function daysInMonth(m, y) {
 
 function plusDays(dt,days) {
     var t = new Date(dt);
-    while (days >= 30) {
-        var m = t.getMonth();
-        days -= daysInMonth(m, t.getFullYear());
-        t.setMonth(1 + m);
-    }
-    while (days >= 7) {
-        days -= 7;
-        t.setDate(t.getDate() + 7);
-    }
-    if (days > 0) {
-        t.setDate(t.getDate()+days);
-    }
+    t.setDate(t.getDate() + days);
     return t;
 }
 
 function plusWeeks(dt,weeks) {
-    var t = new Date(dt);
-    while (weeks >= 4) {
-        weeks -= 4;
-        t.setMonth(t.getMonth() + 1);
-    }
-    if (weeks > 0) {
-        t.setDate(t.getDate() + weeks * 7);
-    }
-    return t;
+    return plusDays(dt, 7*weeks);
 }
 
 function plusWeeksDays(dt,weeks,days) {
