@@ -103,7 +103,7 @@ function getTimelineData(f) {
             { "start": plusWeeks(um,16),
             "end": plusWeeks(um,18),
             "title": "Esami ematochimici (tri-test)",
-            "description": "Esame chiamato anche Tri-test ed utilizzato per la diagnosi delle anomalie cromosomiche. Viene eseguito nei casi a rischio per et‡ maggiore o uguale a 35 anni o per anamnesi familiare o per scelta personale.",
+            "description": "Esame chiamato anche Tri-test ed utilizzato per la diagnosi delle anomalie cromosomiche. Viene eseguito nei casi a rischio per et√† maggiore o uguale a 35 anni o per anamnesi familiare o per scelta personale.",
             "color" : "#009900",
             "textColor" : "#000000",
             "durationEvent" : true },
