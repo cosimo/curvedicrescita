@@ -22,7 +22,7 @@ function getTimelineData(f) {
             { "start": plusWeeks(um,4),
             "end": plusWeeks(um,4),
             "title": "Test di gravidanza",
-            "description": "Puoi eseguire un test-stick acquistabile generalmente in farmacia. Dopo 12 giorni dal concepimento o 4 settimane dall'ultima mestruazione il test di gravidanza è in grado di rilevare l'HCG o la gonadotropina corionica umana, l'ormone il cui scopo è quello di creare l'ambiente ideale allo sviluppo dell'embrione e di bloccare le mestruazioni. Il test si esegue a casa immergendo il tampone assorbente nella prima urina del mattino.",
+            "description": "Puoi eseguire un test-stick acquistabile generalmente in farmacia. Dopo 12 giorni dal concepimento o 4 settimane dall'ultima mestruazione il test di gravidanza è in grado di rilevare l'HCG o la gonadotropina corionica umana, l'ormone il cui scopo è quello di creare l'ambiente ideale allo sviluppo dell'embrione e di bloccare le mestruazioni. Il test si esegue a casa immergendo il tampone assorbente nella prima urina del mattino",
             "link" : "http://www.curvedicrescita.com/exec/article/2009/03/12/meravigliosi-nove-mesi-primo-trimestre",
             "durationEvent" : false },
             { "start": plusWeeks(um,4), //"2010-02-09",
@@ -43,7 +43,7 @@ function getTimelineData(f) {
             { "start": plusWeeks(um,10), //"2010-03-23",
             "end": plusWeeks(um,12), //"2010-04-06",
             "title": "Villocentesi",
-            "description": "La villocentesi (opzionale) è una tecnica invasiva di diagnosi prenatale che presenta il rischio di indurre aborto nell'1% dei casi. Consiste nell'aspirazione di una piccola quantità di tessuto coriale (10-15 mg).",
+            "description": "La villocentesi (opzionale) è una tecnica invasiva di diagnosi prenatale che presenta il rischio di indurre aborto nell'1% dei casi. Consiste nell'aspirazione di una piccola quantità di tessuto coriale (10-15 mg)",
             "link" : "http://www.curvedicrescita.com/exec/article/2009/02/10/valutazione-translucenza-nucale",
             "color" : "#ff0000",
             "textColor" : "#000000",
@@ -51,7 +51,7 @@ function getTimelineData(f) {
             { "start": plusWeeksDays(um,11,4), //"2010-03-30",
             "end": plusWeeksDays(um,13,5), //"2010-04-13",
             "title": "Ecografia primo trimestre",
-            "description": "Con questa ecografia è possibile misurare la lunghezza del feto, valutare se il suo sviluppo corrisponde all'epoca di gravidanza valutata in base alla data dell'ultima mestruazione. Dalla fine del secondo mese si visualizza l'attività pulsatile del cuore, i movimenti fetali ed il numero dei feti.",
+            "description": "Con questa ecografia è possibile misurare la lunghezza del feto, valutare se il suo sviluppo corrisponde all'epoca di gravidanza valutata in base alla data dell'ultima mestruazione. Dalla fine del secondo mese si visualizza l'attività pulsatile del cuore, i movimenti fetali ed il numero dei feti",
             "link" : "http://www.curvedicrescita.com/exec/article/2009/02/09/ecografia-gravidanza",
             "color" : "#ff66cc",
             "textColor" : "#000000",
@@ -276,7 +276,8 @@ function getTheDamnDate(y,m,d) {
     dt += '/' + (m<10 ? '0' : '') + m;
     dt += '/' + (d<10 ? '0' : '') + d;
     var dt_obj = Timeline.DateTime.parseGregorianDateTime(dt);
-    //alert('ymd='+y+','+m+',d='+d+' dt=['+dt+'] d_obj=['+dt_obj+']');
+    //var dt_obj = new Date(y, m, d);
+    //alert('ymd='+y+','+m+',d='+d+' d_obj=['+dt_obj+']');
     return dt_obj;
 }
 
@@ -315,7 +316,7 @@ function showTimeline(form) {
             eventSource:    eventSource1,
             date:           d,
             theme:          theme1,
-            timeZone:       +1,
+            timeZone:       +10,
             layout:         "original",
             syncWith:       1
         }),
@@ -328,7 +329,7 @@ function showTimeline(form) {
             eventSource:    eventSource1,
             date:           d,
             theme:          theme1,
-            timeZone:       +1,
+            timeZone:       +10,
             layout:         "overview"
         })
     ];
