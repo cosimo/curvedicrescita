@@ -731,7 +731,7 @@ sub topics
 			@article_filter,
 			keywords => { LIKE => '%scheda%' },
 		},
-        order  => ['id'],
+        order  => ['id DESC'],
     });
 
     if (! $art_list) {
