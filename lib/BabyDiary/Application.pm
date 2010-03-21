@@ -106,7 +106,7 @@ sub setup
         userpage_main   => \&BabyDiary::Application::UserPage::main,
         userpage_charts => \&BabyDiary::Application::UserPage::charts,
 
-        ical            => \&BabyDiary::Application::Pregnancy::ical,
+        ical            => \&BabyDiary::Application::Pregnancy::export_ical,
 
         question        => \&BabyDiary::Application::Questions::view,
         questions_latest=> \&BabyDiary::Application::Questions::latest,
