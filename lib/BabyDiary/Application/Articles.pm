@@ -948,11 +948,11 @@ sub cumulus_cloud
 
 =head1 NAME
 
-Opera::Application::Articles - Controller tasks related to Articles section
+BabyDiary::Application::Articles - Controller tasks related to Articles section
 
 =head1 SYNOPSIS
 
-Not to be used directly. Is used by main Opera::Application class.
+Not to be used directly. Is used by main BabyDiary::Application class.
 
 =head1 DESCRIPTION
 
@@ -965,3 +965,4 @@ articles, "latest" articles or tag cloud feature.
 Cosimo Streppone L<cosimo@streppone.it>
 
 =cut
+
