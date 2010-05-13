@@ -22,7 +22,7 @@ sub activate_user {
     my $dup = $users->get({ where => {username => $user}});
     if ($dup) {
         $self->log('warn', 'User ' . $user . ' already in the regular users. Cannot activate.');
-        return;
+        return 1;
     }
 
     my $rec = $unreg_users->get({ where => {username => $user}});
