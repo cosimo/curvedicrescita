@@ -107,10 +107,11 @@ sub format_title {
         my $slug;
         my $title;
 
+        # FIXME Here we don't use $questions->url() because
+        # we want to use the internal slug field to speedup
         if (exists $question->{slug}) {
             $slug = $question->{slug};
         } else {
-            $questions ||= BabyDiary::File::Questions->new();
             $slug = $questions->slug($question->{id});
         }
 

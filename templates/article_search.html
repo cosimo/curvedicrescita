@@ -68,6 +68,15 @@
     <div id="author">Pubblicata il <tmpl_var createdon></div>
     <div id="tags"><tmpl_var question_keywords></div>
     <p id="excerpt"><tmpl_var question_excerpt></p>
+    <p id="answers">
+        <tmpl_if question_answers>
+            <a href="<tmpl_var question_url>">
+                <big><b><tmpl_var question_answers> Risposte</b></big>
+            </a>
+        <tmpl_else>
+            <big><b>Nessuna risposta!</b></big>
+        </tmpl_if>
+    </p>
     </tmpl_loop>
     </ol>
 

@@ -134,7 +134,8 @@ sub search_all
             $question->{question_author}   = BabyDiary::View::Questions::format_author($question);
             $question->{question_keywords} = BabyDiary::View::Questions::format_keywords($question);
             $question->{question_excerpt}  = BabyDiary::View::Questions::format_question_excerpt($question);
-            $question->{question_answers}  = $question->{answers};
+            $question->{question_answers}  = $questions->how_many_answers($question->{id});
+            $question->{question_url}      = $questions->url($question->{id});
 
 			# We have to repeat this, because format_article_excerpt() strips html
 			Opera::Util::highlight_term($keyword_or_term, \$question->{question_excerpt});
