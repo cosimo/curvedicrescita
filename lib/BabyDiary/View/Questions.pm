@@ -112,6 +112,7 @@ sub format_title {
         if (exists $question->{slug}) {
             $slug = $question->{slug};
         } else {
+            $questions ||= BabyDiary::File::Questions->new();
             $slug = $questions->slug($question->{id});
         }
 
