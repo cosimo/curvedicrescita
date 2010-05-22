@@ -445,7 +445,7 @@ sub search
         my $count = scalar @$list;
         $self->log('notice', 'Found ', $count, ' articles that match');
         
-        $tmpl->param(search_results_count => $count);
+        $tmpl->param(search_results_articles_count => $count);
 
         for my $art (@$list)
         {
@@ -464,7 +464,7 @@ sub search
 
         }
 
-        $tmpl->param( search_results => $list );
+        $tmpl->param( search_results_articles => $list );
     }
 
     # Generate template output

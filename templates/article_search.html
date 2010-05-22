@@ -13,40 +13,66 @@
 
     <h1><tmpl_var search_title></h1>
 
-    <p>Trovati <tmpl_var search_results_count> risultati. </p>
+    <tmpl_if search_results_articles>
 
-    <tmpl_if search_results>
+        <tmpl_if search_results_questions>
+            <h2>Trovati <a href="#articles"><tmpl_var search_results_articles_count> articoli</a> e
+            <a href="#questions"><tmpl_var search_results_questions_count> domande</a>.</h2>
+        <tmpl_else>
+            <h2>Trovati <tmpl_var search_results_articles_count> articoli e
+            nessuna domanda.</h2>
+        </tmpl_if>
+
+    <a name="articles"></a>
     <ol type="number">
 
-    <tmpl_loop search_results>
-
-    <li class="search_result"><!-- tmpl_var article_link --></li>
+    <tmpl_loop search_results_articles>
+    <li class="search_result"><tmpl_var article_link></li>
 
     <!-- <div id="author">
     Pubblicato il <tmpl_var createdon>
     <tmpl_if changedby>Modificato il <tmpl_var changedon> da <tmpl_var changedby></tmpl_if>
     </div> -->
-  
-    <div id="tags">
-    <!-- tmpl_var article_keywords -->
-    </div>
 
-    <p id="excerpt">
-    <!-- tmpl_var article_excerpt -->
-    </p>
-
+    <div id="tags"><!-- tmpl_var article_keywords --></div>
+    <p id="excerpt"> <!-- tmpl_var article_excerpt --> </p>
     </tmpl_loop>
     </ol>
 
-    <!-- tmpl_else -->
-    <h2>Nessun risultato trovato.</h2>
+    <tmpl_else>
+    <h2>Nessun articolo trovato.</h2>
 
 	<tmpl_include name="components/shared/google_custom_search.html">
 
-	<p>
-	Puoi anche provare a <a href="/exec/home/tags">cercare tra le tag</a>.
-	</p>
+	<p>Puoi anche provare a <a href="/exec/home/tags">cercare tra le tag</a>.</p>
 
+    </tmpl_if>
+
+    <p><hr></p>
+
+    <tmpl_if search_results_questions>
+
+    <tmpl_unless search_results_articles>
+        <h2>Trovate <tmpl_var search_results_questions_count> domande ma nessun articolo</h2>
+    <tmpl_else>
+        <h2>Trovate <tmpl_var search_results_questions_count> domande.</h2>
+    </tmpl_unless>
+
+    <a name="questions"></a>
+    <ol type="number">
+
+    <tmpl_loop search_results_questions>
+
+    <li class="search_result"><tmpl_var question_link></li>
+
+    <div id="author">Pubblicata il <tmpl_var createdon></div>
+    <div id="tags"><tmpl_var question_keywords></div>
+    <p id="excerpt"><tmpl_var question_excerpt></p>
+    </tmpl_loop>
+    </ol>
+
+    <tmpl_else>
+    <h2>Nessuna domanda trovata.</h2>
     </tmpl_if>
 
     </div>
