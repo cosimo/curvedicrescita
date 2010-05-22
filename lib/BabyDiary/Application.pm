@@ -24,6 +24,7 @@ use BabyDiary::Application::Articles;
 use BabyDiary::Application::Auth;
 use BabyDiary::Application::Questions;
 use BabyDiary::Application::Pregnancy;
+use BabyDiary::Application::Search;
 use BabyDiary::Application::Signup;
 use BabyDiary::Application::StackTrace;
 use BabyDiary::Application::UserPage;
@@ -98,7 +99,9 @@ sub setup
         article_delete  => \&BabyDiary::Application::Articles::delete,
         article_modify  => \&BabyDiary::Application::Articles::modify,
         article_post    => \&BabyDiary::Application::Articles::post,
+
         article_search  => \&BabyDiary::Application::Articles::search,
+        search          => \&BabyDiary::Application::Search::search_all,
 
 		comment_delete  => \&BabyDiary::Application::Articles::delete_comment,
 		comment_post    => \&BabyDiary::Application::Articles::post_comment,
