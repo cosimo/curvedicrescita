@@ -110,7 +110,7 @@ sub generate {
 	print "#\n";
 
 	for (sort keys %tags) {
-		my $tag_url  = $base_url . 'exec/home/article_search/?keyword=' . CGI::escape($_);
+		my $tag_url  = $base_url . 'exec/home/search/?keyword=' . CGI::escape($_);
 		my $priority = 0.5;
 		my $hits = $tags{$_};
 
