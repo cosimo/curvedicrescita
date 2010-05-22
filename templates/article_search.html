@@ -17,10 +17,10 @@
 
         <tmpl_if search_results_questions>
             <h2>Trovati <a href="#articles"><tmpl_var search_results_articles_count> articoli</a> e
-            <a href="#questions"><tmpl_var search_results_questions_count> domande</a>.</h2>
+            <a href="#questions"><tmpl_var search_results_questions_count> domande</a>:</h2>
         <tmpl_else>
             <h2>Trovati <tmpl_var search_results_articles_count> articoli e
-            nessuna domanda.</h2>
+            nessuna domanda:</h2>
         </tmpl_if>
 
     <a name="articles"></a>
@@ -53,9 +53,9 @@
     <tmpl_if search_results_questions>
 
     <tmpl_unless search_results_articles>
-        <h2>Trovate <tmpl_var search_results_questions_count> domande ma nessun articolo</h2>
+        <h2>Trovate <tmpl_var search_results_questions_count> domande ma nessun articolo:</h2>
     <tmpl_else>
-        <h2>Trovate <tmpl_var search_results_questions_count> domande.</h2>
+        <h2>Trovate <tmpl_var search_results_questions_count> domande:</h2>
     </tmpl_unless>
 
     <a name="questions"></a>

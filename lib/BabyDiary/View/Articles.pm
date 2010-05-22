@@ -151,7 +151,7 @@ sub format_keywords
     for(@kwords)
     {
         $_ = CGI->a({
-            href=>'/exec/home/article_search/?keyword=' . CGI::escape($_)
+            href=>'/exec/home/search/?keyword=' . CGI::escape($_)
         }, $_);
     }
 
