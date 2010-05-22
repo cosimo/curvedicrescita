@@ -258,10 +258,22 @@ sub match
     # Build SQL statement to run
     my $sql = SQL::Abstract->new();
     my $rval = '%' . $filter->{matchstring} . '%';
-    my $where = join(' OR ',
-        map { $_ . ' LIKE ' . $dbh->quote($rval) }
-        @{$match_fields}
-    );
+    my @match_where = map {
+        { $_ => { LIKE => $rval } }
+    } @{$match_fields};
+
+    # Find records with any of these conditions
+    my $where = [
+        -or => \@match_where
+    ];
+
+    # And if there's a previous filter applied,
+    # merge with match conditions. SQL::Abstract FTW!
+    if (exists $filter->{where} && $filter->{where}) {
+        $where = [
+            -and => [ $filter->{where}, $where ]
+        ];
+    }
 
     # Fake relevance here. No std SQL for that.
     push @{$fld}, '1 AS relevance';
@@ -271,6 +283,7 @@ sub match
 
     my($match_sql, @bind) = $sql->select($self->table, $fld, $where, $order);
     $self->log('notice', $self->table, ' match SQL ', $match_sql);
+    #$self->log('notice', $self->table, ' match bind params' . join(',', @bind));
 
     # Prepare DBI query
     eval {
@@ -317,7 +330,6 @@ sub match
 
     return(\@list);
 }
-
 
 sub update
 {
