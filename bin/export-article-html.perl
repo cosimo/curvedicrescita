@@ -44,15 +44,20 @@ sub wrap_paragraphs {
 }
 
 my $title = $ARGV[0] || 'Untitled';
-my $html = q{};
+my $json = q{};
 
 while (<STDIN>) {
-    $html .= $_;
+    $json .= $_;
 }
 
-if (! $html) {
-    die "No html content?\n";
+if (! $json) {
+    die "No article json loaded?\n";
 }
+
+my $article = JSON::XS->new()->decode($json);
+
+my $title = $article->{title};
+my $html = $article->{content};
 
 $html = join "\n",
     header($title),

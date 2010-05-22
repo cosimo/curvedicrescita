@@ -9,18 +9,18 @@
 
 	<tmpl_include name="components/signin.html">
 
-	<div id="header" style="border:0">
-		<div id="logo">
-			<a href="<tmpl_var mycgi_path>" title="Ritorna alla pagina principale"><img border="0" id="logoimg" src="/img/logo_66_50.gif"><img border="0" id="logotitle" src="/img/title_306_31_pink.gif"></a>
-		</div>
-
-		<div>
-			<h1 style="margin-top: 10px; margin-left: 30px; text-align:right">Statistiche e amministrazione</h1>
-		</div>
-
-		<br/>
-
+	<div id="header" style="border:0; margin-top: 20px">
+    <h1 style="margin-left: 30px; text-align:center">Statistiche e amministrazione</h1>
 	</div>
+
+    <div id="tab" style="padding-left: 20px; background-color: #228; height:24px">
+    <span style="color:white; font-size: 1em">
+        <ul>
+        <li>Statistiche</li>
+        <li>Notifiche</li>
+        </ul>
+    </span>
+    </div>
 
 	<div id="content" style="margin-left: 60px">
 
@@ -52,13 +52,10 @@
 
 <tmpl_else>
 
-<div style="margin-left: 60px">
-
-<h2>Ci dispiace, non c'&egrave; nulla qui...</h2>
-
-<a href="/exec/home">Torna alla pagina principale</a>
-
-</div>
+    <div style="margin-left: 60px">
+    <h2>Ci dispiace, non c'&egrave; nulla qui...</h2>
+    <a href="/exec/home">Torna alla pagina principale</a>
+    </div>
 
 </tmpl_if>
 

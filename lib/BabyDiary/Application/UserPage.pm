@@ -59,5 +59,20 @@ sub user_babies {
     return $list;
 }
 
+sub new_baby {
+    my ($self) = @_;
+
+    # No logged in user, no babies
+    my $user = $self->session->param('user');
+    if (! $user) {
+        $self->log('debug', 'User not logged in. Can\'t add babies.');
+        return;
+    }
+	
+    my $tmpl = $self->render_view('user/baby/new.html');
+    $tmpl->param(submenu_main => 1);
+    return $tmpl->output();
+}
+
 1;
 

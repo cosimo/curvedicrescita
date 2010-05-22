@@ -19,9 +19,10 @@ CGI::Application::Dispatch->dispatch(
     },
     debug => 0,
     table => [
-        '/'         => { app => 'UserPage', rm => 'userpage_main' },
-        '/main/'    => { app => 'UserPage', rm => 'userpage_main' },
-        '/charts/'  => { app => 'UserPage', rm => 'userpage_charts' },
+        '/'           => { app => 'UserPage', rm => 'userpage_main' },
+        '/main/'      => { app => 'UserPage', rm => 'userpage_main' },
+        '/baby/new/'  => { app => 'UserPage', rm => 'new_baby' },
+        '/charts/'    => { app => 'UserPage', rm => 'userpage_charts' },
     ]
 );
 
