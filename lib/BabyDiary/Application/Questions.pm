@@ -968,46 +968,6 @@ sub worst_n
 }
 
 #
-# Show a page with all the tags sorted
-#
-sub tags
-{
-    my $self = $_[0];
-
-    my $questions = BabyDiary::File::Questions->new();
-
-    # Get all distinct keywords from database and
-    # obtain a frequency distribution
-    my %tags = $questions->tags_frequency();
-    
-    # Fill all template parameters
-    my $tmpl = $self->fill_params();
-
-    # Sort tags in order of popularity and display them
-    my @tag_loop;
-	my $base_path = $tmpl->param('mycgi_path');
-
-    for (sort {$tags{$b} <=> $tags{$a}} keys %tags) {
-
-        push @tag_loop, {
-
-            tag => $_,
-            occurrencies => $tags{$_},
-			display => int(rand(2)) - 1,
-
-			# No-globals policy require this
-			mycgi_path => $base_path,
-
-        };
-
-    }
-
-    $tmpl->param(tags => \@tag_loop);
-
-    return $tmpl->output();
-}
-
-#
 # In the real-world, this "cloud" should be generated maybe daily
 # and then always cached...
 #

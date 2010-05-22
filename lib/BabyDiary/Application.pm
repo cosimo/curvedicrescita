@@ -120,7 +120,7 @@ sub setup
 		question_post   => \&BabyDiary::Application::Questions::post,
 		question_answer_post => \&BabyDiary::Application::Questions::post_answer,
 
-        tags            => \&BabyDiary::Application::Articles::tags,
+        tags            => \&BabyDiary::Application::Search::tags,
 
         login           => \&BabyDiary::Application::Auth::login,
         logout          => \&BabyDiary::Application::Auth::logout,

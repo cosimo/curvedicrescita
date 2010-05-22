@@ -150,5 +150,57 @@ sub search_all
     return $tmpl->output();
 }
 
+#
+# Show a page with all the tags sorted, both
+# from articles and questions
+#
+sub tags
+{
+    my $self = $_[0];
+
+    my $articles = BabyDiary::File::Articles->new();
+    my $questions = BabyDiary::File::Questions->new();
+
+    # Get all distinct keywords from database and
+    # obtain a frequency distribution
+    my %article_tags = $articles->tags_frequency();
+    my %question_tags = $questions->tags_frequency();
+    my %tags;
+
+    # Find the unique tags list
+    my %tag_list = map { $_ => 1 } keys %article_tags, keys %question_tags;
+    my @tag_list = keys %tag_list;
+    undef %tag_list;
+
+    # Merge article and question tags, summing occurrencies
+    for (@tag_list) {
+        my $occurrencies = 0;
+        $occurrencies += $article_tags{$_}  if exists $article_tags{$_};
+        $occurrencies += $question_tags{$_} if exists $question_tags{$_};
+        $tags{$_} = $occurrencies;
+    }
+
+    # Fill all template parameters
+    my $tmpl = $self->fill_params();
+
+    # Sort tags in order of popularity and display them
+    my @tag_loop;
+	my $base_path = $tmpl->param('mycgi_path');
+
+    for (sort {$tags{$b} <=> $tags{$a}} keys %tags) {
+        push @tag_loop, {
+            tag => $_,
+            occurrencies => $tags{$_},
+			display => int(rand(2)) - 1,
+			# No-globals policy require this
+			mycgi_path => $base_path,
+        };
+    }
+
+    $tmpl->param(tags => \@tag_loop);
+
+    return $tmpl->output();
+}
+
 1;
 
