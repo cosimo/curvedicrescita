@@ -28,6 +28,10 @@ sub search_all
     }
     elsif(defined($keyword = $query->param('keyword')))
     {
+        # XXX HACK Highlighted tags contain <span> elements when clicked
+        if ($keyword =~ m{<span}) {
+            ($keyword) = $keyword =~ m{<span[^>]*> (.+) </span>$}mx;
+        }
         $self->log('notice', 'Searching articles by keyword `', $term, '\'');
     }
 
@@ -150,13 +154,7 @@ sub search_all
     return $tmpl->output();
 }
 
-#
-# Show a page with all the tags sorted, both
-# from articles and questions
-#
-sub tags
-{
-    my $self = $_[0];
+sub all_tags_frequency {
 
     my $articles = BabyDiary::File::Articles->new();
     my $questions = BabyDiary::File::Questions->new();
@@ -180,17 +178,29 @@ sub tags
         $tags{$_} = $occurrencies;
     }
 
+    return \%tags;
+}
+
+#
+# Show a page with all the tags sorted, both
+# from articles and questions
+#
+sub tags
+{
+    my $self = $_[0];
+
     # Fill all template parameters
     my $tmpl = $self->fill_params();
+    my $tags = all_tags_frequency();
 
     # Sort tags in order of popularity and display them
     my @tag_loop;
 	my $base_path = $tmpl->param('mycgi_path');
 
-    for (sort {$tags{$b} <=> $tags{$a}} keys %tags) {
+    for (sort {$tags->{$b} <=> $tags->{$a}} keys %{ $tags }) {
         push @tag_loop, {
             tag => $_,
-            occurrencies => $tags{$_},
+            occurrencies => $tags->{$_},
 			display => int(rand(2)) - 1,
 			# No-globals policy require this
 			mycgi_path => $base_path,
@@ -201,6 +211,7 @@ sub tags
 
     return $tmpl->output();
 }
+
 
 1;
 
