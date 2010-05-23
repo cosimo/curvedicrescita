@@ -12,6 +12,7 @@ use warnings;
 use CGI;
 use Config::Auto;
 
+use BabyDiary::Application::Search;
 use BabyDiary::File::Articles;
 use BabyDiary::File::Questions;
 use BabyDiary::File::Slugs;
@@ -31,7 +32,6 @@ sub generate {
 		where => { published => {'<>', 0} },
 		order => 'id DESC'
 	});
-	my %tags = $art->tags_frequency();
 
 	print
 		"#\n",
@@ -109,10 +109,12 @@ sub generate {
 	print "# Tag-based searches\n";
 	print "#\n";
 
-	for (sort keys %tags) {
+	my $tags = BabyDiary::Application::Search::all_tags_frequency();
+
+	for (sort keys %{ $tags }) {
 		my $tag_url  = $base_url . 'exec/home/search/?keyword=' . CGI::escape($_);
 		my $priority = 0.5;
-		my $hits = $tags{$_};
+		my $hits = $tags->{$_};
 
 		if ($hits > 25) {
 			$priority = 0.9;
