@@ -24,10 +24,12 @@ sub search_all
 
     if(defined($term = $query->param('q')))
     {
+        $term = Opera::Util::sanitize_html($term);
         $self->log('notice', 'Searching articles by term `', $term, '\'');
     }
     elsif(defined($keyword = $query->param('keyword')))
     {
+        $keyword = Opera::Util::sanitize_html($keyword);
         # XXX HACK Highlighted tags contain <span> elements when clicked
         if ($keyword =~ m{<span}) {
             ($keyword) = $keyword =~ m{<span[^>]*> (.+) </span>$}mx;
