@@ -9,6 +9,7 @@ use Time::Piece;
 use DateTime;
 
 our $HAVE_UNACCENT = eval 'use Text::Unaccent (); return 1';
+our $HAVE_DEFANG   = eval 'use HTML::Defang   (); return 1';
 
 {
     my $time_obj;
@@ -187,6 +188,21 @@ sub format_date_natural {
 
 	return $text;
 }
+
+sub sanitize_html {
+    my ($html) = @_;
+
+    # XSS by Lu1gi, take this! :)
+    $html =~ s{</title>}{}gi;
+
+    if ($HAVE_DEFANG) {
+        my $def_obj = HTML::Defang->new();
+        $html = $def_obj->defang($html);
+    }
+
+    return $html;
+}
+
 
 1;
 
