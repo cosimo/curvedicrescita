@@ -1,3 +1,4 @@
 logs
-database/data/babydiary.sqlite
+database/data/babydiary*.sqlite
+database/data/backup
 .*.sw[po]
