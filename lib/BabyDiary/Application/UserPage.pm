@@ -16,7 +16,10 @@ sub main {
 	my $tmpl = $self->render_view($template);
 
     # Enable main section of the submenu
-    $tmpl->param( submenu_main => 1 );
+    $tmpl->param(
+        menu_diary   => 1,
+        submenu_main => 1
+    );
 
     # Load list of babies
     if (my $babies = $self->user_babies()) {
@@ -29,7 +32,10 @@ sub main {
 sub section {
     my ($self, $section) = @_;
 	my $tmpl = $self->render_view(qq(user/$section.html));
-    $tmpl->param( "submenu_$section" => 1);
+    $tmpl->param(
+        menu_diary => 1,
+        "submenu_$section" => 1
+    );
 	return $tmpl->output();
 }
 
