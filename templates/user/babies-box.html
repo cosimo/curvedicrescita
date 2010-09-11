@@ -1,28 +1,35 @@
-<tmpl_if name="babies">
+<tmpl_if logged>
 
-<table cellspacing="10" cellpadding="5" border="0">
+    <tmpl_if babies>
 
-<tmpl_loop name="babies">
-<tr valign="top">
+    <table cellspacing="10" cellpadding="5" border="0">
 
-<td>
-    <img src="/pics/baby/<tmpl_var id>" width="50" height="50" border="1" align="left">
-</td>
+    <tmpl_loop name="babies">
+    <tr valign="top">
 
-<td>
+    <td>
+        <img src="/pics/baby/<tmpl_var id>" width="50" height="50" border="1" align="left">
+    </td>
 
-<b><tmpl_var name></b>, <tmpl_var birthdate_d>/<tmpl_var birthdate_m>/<tmpl_var birthdate_y><br/>
-<tmpl_var age> <tmpl_var city><br/>
-<tmpl_if last_height><tmpl_var last_height> cm<br/></tmpl_if>
-<tmpl_if last_weight><tmpl_var last_weight> kg<br/></tmpl_if>
-</td>
+    <td>
 
-</tr>
-</tmpl_loop>
+    <b><tmpl_var name></b>, <tmpl_var birthdate_d>/<tmpl_var birthdate_m>/<tmpl_var birthdate_y><br/>
+    <tmpl_var age> <tmpl_var city><br/>
+    <tmpl_if last_height><tmpl_var last_height> cm<br/></tmpl_if>
+    <tmpl_if last_weight><tmpl_var last_weight> kg<br/></tmpl_if>
+    </td>
 
-</table>
+    </tr>
+    </tmpl_loop>
+
+    </table>
+    </tmpl_if>
+
+    <h3>&nbsp; &nbsp; <a href="<tmpl_var cgi_root>/user/baby/new"> + Aggiungi nuovo bimbo (o gravidanza :)</a></h3>
+
+<tmpl_else>
+
+Per vedere o modificare i dati dei tuoi bimbi, devi accedere.
+
 </tmpl_if>
-
-
-<h3>&nbsp; &nbsp; <a href="<tmpl_var cgi_root>/user/baby/new"> + Aggiungi nuovo bimbo (o gravidanza :)</h3></a>
 
