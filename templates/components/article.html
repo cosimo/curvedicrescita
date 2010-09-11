@@ -1,6 +1,7 @@
 <div id="article">
 
     <tmpl_if name="article_title">
+
     <h1>
         <tmpl_var name="article_title">
         <tmpl_include name="article/buttons.html">
@@ -17,11 +18,17 @@
         <br clear="both"/>
     </div>
 
+    <tmpl_if show_translate_button>
+    <div id="autotranslate">
+        <img src="/img/translate.png" align="absmiddle" width="32" height="32">
+        <a href="#" onclick="window.open('http://translate.google.com/translate?prev=_t&ie=UTF-8&sl=auto&tl=en&history_state0=&u='+escape(document.location.href), 'tn_art', '')">Translate!</a>
+    </div>
+    </tmpl_if>
+
     <div id="tags">
     <tmpl_var name="article_keywords">
     </div>
 
-    <br/>
     <br/>
 
     </tmpl_if>

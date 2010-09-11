@@ -390,6 +390,7 @@ sub render_session {
     $param{cgi_root} = $self->config('cgi_root');
 
 	$param{show_ads} = $self->config('show_ads');
+	$param{show_translate_button} = $self->config('show_translate_button');
 	$param{show_custom_search} = $self->config('show_custom_search');
     $param{www_path} = '/';
 

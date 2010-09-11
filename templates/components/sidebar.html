@@ -24,14 +24,13 @@
 	</tmpl_if>
 
 <tmpl_else>
+	
+    <h2><tmpl_var name="msg:ultime domande"></h2>
 
-	<!-- Most popular articles -->
-	<h2><tmpl_var name="msg:i piu' letti"></h2>
-
-	<tmpl_if name="articles_popular">
-	<tmpl_var name="articles_popular">
+	<tmpl_if name="questions_latest_html">
+	<tmpl_var name="questions_latest_html">
 	<tmpl_else>
-	<p><tmpl_var name="msg:Ancora nessun articolo..."></p>
+	<p><tmpl_var name="msg:Ancora nessuna domanda..."></p>
 	</tmpl_if>
 
 </tmpl_if>
@@ -42,7 +41,9 @@
 </tmpl_if>
 </tmpl_unless>
 
+<tmpl_include name="shared/latest.html">
+
 <tmpl_include name="shared/cumulus_cloud.html">
 
-<tmpl_include name="shared/latest.html">
 </div>
+

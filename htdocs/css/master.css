@@ -131,6 +131,11 @@ body hr {
     padding: 1px 5px 1px 5px;
 }
 
+#autotranslate {
+    float: right;
+    font-weight: bold;
+}
+
 #article p {
     font-family: 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica, sans-serif;
     font-size: 14px;

@@ -24,6 +24,9 @@ application_log_file = /home/cosimo/src/curvedicrescita/logs/application.log
 # Show Google Adsense ads? (1=yes, 0=no)
 show_ads = 0
 
+# Show Google Translate button (1=yes, 0=no)
+show_translate_button = 0
+
 # Google custom search? (1=yes, 0=no)
 show_custom_search = 0
 
