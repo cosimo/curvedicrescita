@@ -151,6 +151,7 @@ sub modify
             keywords => scalar $query->param('keywords'),
             content  => scalar $query->param('content'),
             published=> scalar $query->param('published'),
+            private  => scalar $query->param('private'),
 		);
 
 		# If question *wasn't* published yet, don't update last modify by and timestamp.
@@ -227,6 +228,7 @@ sub post
         createdby => $self->session->param('user'),
         content   => $prm{content},
 		published => $prm{published},
+        private   => $prm{private},
     });
 
     $self->log('notice', 'Posted question with title `', $prm{title}, '\' => ', ($posted?'OK':'*FAILED*'));
@@ -368,6 +370,7 @@ sub latest
             $question->{question_author}   = BabyDiary::View::Questions::format_author($question);
             $question->{question_keywords} = BabyDiary::View::Questions::format_keywords($question);
             $question->{question_excerpt}  = BabyDiary::View::Questions::format_question_excerpt($question);
+            $question->{question_private}  = $question->{private};
 
 			# Necessary for the vote/favorite part to work
             $question->{question_reputation} = $question->{reputation};
@@ -620,6 +623,7 @@ sub search
             $question->{question_author}   = BabyDiary::View::Questions::format_author($question);
             $question->{question_keywords} = BabyDiary::View::Questions::format_keywords($question);
             $question->{question_excerpt}  = BabyDiary::View::Questions::format_question_excerpt($question);
+            $question->{question_private}  = $question->{private};
 
 			# We have to repeat this, because format_question_excerpt() strips html
 			Opera::Util::highlight_term($keyword_or_term, \$question->{question_excerpt});
@@ -726,6 +730,7 @@ sub render {
         	question_createdon => Opera::Util::format_date_natural($rec->{createdon}),
         	question_lastupdateby => BabyDiary::View::Questions::format_author($rec, 'lastupdateby'),
         	question_lastupdateon => $rec->{lastupdateon},
+            question_private   => $rec->{private},
 		);
 
         # Replicate question title for document/page title

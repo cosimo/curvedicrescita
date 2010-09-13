@@ -30,6 +30,14 @@
 
 	<br/>
 
+    <p>
+    <label for="private">Domanda privata?</label><br/>
+    <input type="radio" name="private" value="0" <tmpl_unless question_private>checked</tmpl_unless>> No, pubblica il nome dell'utente<br/>
+    <input type="radio" name="private" value="1" <tmpl_if question_private>checked</tmpl_if>> S&igrave;, in forma privata anonima</br>
+    </p>
+
+    <br/>
+
 	<p>
 	<label for="content">Contenuto</label><br/>
 

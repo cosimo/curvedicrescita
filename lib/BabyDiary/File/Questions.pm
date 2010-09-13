@@ -30,6 +30,7 @@ use constant FIELDS => [ qw(
 	reputation
 	answers
 	modified
+    private
 ) ];
 
 our $ANSWERS;
@@ -117,7 +118,10 @@ sub post
 	# Questions are published directly
 	$question->{published} = 1;
 
-	$question->{slug}      = Opera::Util::slug($question->{title}, $question->{createdon});
+    # Default is public questions
+    $question->{private} = 0 unless exists $question->{private};
+
+	$question->{slug} = Opera::Util::slug($question->{title}, $question->{createdon});
 
     # Insert record and retrieve the primary key id
     eval { $ok = $self->insert($question); };

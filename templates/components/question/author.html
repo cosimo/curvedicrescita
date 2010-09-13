@@ -1,6 +1,6 @@
 <div id="author">
 	<tmpl_var question_createdby_avatar>
-	&nbsp; <b><tmpl_var name="question_createdby"></b>
+	&nbsp; <b><tmpl_if question_private>Anonimo<tmpl_else><tmpl_var name="question_createdby"></tmpl_if></b>
 
 	<p>
 	Pubblicata <b><tmpl_var name="question_createdon"></b><br/>
