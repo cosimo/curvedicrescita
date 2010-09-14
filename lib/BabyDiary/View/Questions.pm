@@ -41,9 +41,18 @@ sub format_question_excerpt
     return($content);
 }
 
-
 sub format_author {
-	return BabyDiary::View::Articles::format_author(@_);
+	my ($question) = @_;
+
+    my $author = BabyDiary::View::Articles::format_author($question);
+
+    # Users might want avoid publishing their real name
+    # for sensitive questions
+    if ($question->{private}) {
+        $author =~ s{\b (\S)(\S+) \b}{$1.}gx;
+    }
+
+    return $author;
 }
 
 sub format_author_avatar {

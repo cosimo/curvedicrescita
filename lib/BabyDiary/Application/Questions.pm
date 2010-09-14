@@ -673,7 +673,7 @@ sub render {
  	# Check if current visitor is an admin
 	my $users = BabyDiary::File::Users->new();
 	my $current_user = $self->session->param('user');
-	my $is_admin = $users->is_admin($current_user);
+	my $is_admin = $self->session->param('admin');
 
 	# Make sure that only admins (and authors) can see unpublished questions
 	my @question_filter = $is_admin
