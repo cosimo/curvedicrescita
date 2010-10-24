@@ -1,0 +1,21 @@
+<tmpl_if menu_questions>
+	
+	<h2><tmpl_var name="msg:le piu' lette"></h2>
+
+	<tmpl_if name="questions_best_html">
+	<tmpl_var name="questions_best_html">
+	<tmpl_else>
+	<p><tmpl_var name="msg:Ancora nessuna domanda..."></p>
+	</tmpl_if>
+
+<tmpl_else><!-- Best articles -->
+
+	<h2><tmpl_var name="msg:i piu' letti"></h2>
+
+	<tmpl_if name="articles_popular">
+	<tmpl_var name="articles_popular">
+	<tmpl_else>
+	<p><tmpl_var name="msg:Ancora nessun articolo..."></p>
+	</tmpl_if>
+
+</tmpl_if>
