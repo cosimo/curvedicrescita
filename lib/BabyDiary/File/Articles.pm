@@ -111,6 +111,20 @@ sub post
     return $id;
 }
 
+sub frontpage {
+    my ($self, $where) = @_;
+
+    my $n = 10;
+    my $art_list = $self->list({
+        fields => ['id', 'title', 'keywords', 'content', 'createdby', 'createdon', 'views', 'published', 'lastupdateby', 'lastupdateon'],
+		where  => $where,
+        limit  => $n,
+        order  => [ 'id DESC' ],
+    });
+
+    return $art_list;
+}
+
 sub type {
 	return 'article'
 }

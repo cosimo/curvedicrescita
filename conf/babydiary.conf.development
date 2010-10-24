@@ -3,13 +3,16 @@
 # $Id$
 
 # Site root URL
-root_uri = http://localhost:8080/
+root_uri = http://localhost/
 
 # Root directories of server
 root_dir = /home/cosimo/src/curvedicrescita/htdocs
 
 # Where are templates stored
 tmpl_path = /home/cosimo/src/curvedicrescita/templates
+
+# Enable templates caching
+tmpl_cache = 0
 
 # Root path of CGIs
 cgi_root = /exec

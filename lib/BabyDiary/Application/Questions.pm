@@ -345,10 +345,13 @@ sub latest
     my $tmpl = $self->fill_params();
 
 	my $title = $self->msg(q(Domande piu' recenti));
-    $tmpl->param(page_title => $title);
 
-	# Highlight menu section
-	$tmpl->param(questions_latest => 1);
+    $tmpl->param(
+        page_title => $title,
+        page_description => $self->msg(q(Queste sono le ultime domande poste in ordine di tempo.)),
+        # Highlight menu section
+        questions_latest => 1,
+    );
 
     # If some questions found, display them in a TMPL_LOOP
     if ($list) {

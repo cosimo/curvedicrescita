@@ -4,10 +4,10 @@
     </div>
     <div id="menu">
         <ul id="nav">
-            <li id="domande"<tmpl_if menu_questions> class="activelink"</tmpl_if>><a href="<tmpl_var cgi_root>/question/latest/"><tmpl_var name="msg:domande"></a></li>
             <li id="articoli"<tmpl_if menu_articles> class="activelink"</tmpl_if>><a href="<tmpl_var cgi_root>/home/"><tmpl_var name="msg:articoli"></a></li>
-            <li id="curve"<tmpl_if menu_diary> class="activelink"</tmpl_if>><a href="<tmpl_var cgi_root>/user/charts/"><tmpl_var name="msg:curve"></a></li>
+            <li id="domande"<tmpl_if menu_questions> class="activelink"</tmpl_if>><a href="<tmpl_var cgi_root>/question/latest/"><tmpl_var name="msg:domande"></a></li>
             <li id="tags"<tmpl_if menu_tags> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/tags"><tmpl_var name="msg:tags"></a></li>
+            <li id="curve"<tmpl_if menu_diary> class="activelink"</tmpl_if>><a href="<tmpl_var cgi_root>/user/charts/"><tmpl_var name="msg:curve"></a></li>
 			<!--
             <li id="ostetrica"<tmpl_if menu_ostetrica> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/article_search?keyword=ostetrica"><tmpl_var name="msg:ostetrica"></a></li>
             <li id="pediatra"<tmpl_if menu_pediatra> class="activelink"</tmpl_if>><a href="<tmpl_var mycgi_path>/article_search?keyword=pediatra"><tmpl_var name="msg:pediatra"></a></li>
@@ -32,10 +32,8 @@
 </div>
 </tmpl_if>
 
-<tmpl_if questions_latest>
+<tmpl_if page_description>
 <div id="tab">
-<span>
-Queste sono le ultime domande poste in ordine di tempo.
-</span>
+<span><tmpl_var page_description></span>
 </div>
 </tmpl_if>

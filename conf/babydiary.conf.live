@@ -11,6 +11,9 @@ root_dir = /var/www2/www.curvedicrescita.com/htdocs
 # Where are templates stored
 tmpl_path = /var/www2/www.curvedicrescita.com/templates
 
+# Enable templates caching
+tmpl_cache = 1
+
 # Root path of CGIs
 cgi_root = /exec
 cgi_home = /exec/home

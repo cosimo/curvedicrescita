@@ -7,6 +7,7 @@ use strict;
 use CGI ();
 use Digest::MD5 ();
 use HTML::BBCode;
+use HTML::LinkExtor;
 use HTML::Strip;
 use BabyDiary::File::Articles;
 use BabyDiary::File::Users;
@@ -57,7 +58,7 @@ sub format_article_excerpt
     for (@lines) {
         push @excerpt, $_;
         $chars += length;
-        last if $chars > 80;
+        last if $chars > 160;
     }
 
     # Add dots `...' to denote continued content
@@ -208,6 +209,55 @@ sub format_title
 
 }
 
+#sub get_first_image {
+#    my ($article_content) = @_;
+#    my $lx = HTML::LinkExtor->new();
+#    $lx->parse($article_content);
+#    my @links = $lx->links();
+#    my $pic;
+#    for (@links) {
+#        my ($tag, %attr) = @{ $_ };
+#        if ($tag eq 'img' || $tag eq 'IMG') {
+#            $pic = \%attr;
+#            last;
+#        }
+#    }
+#    return $pic;
+#}
+
+sub get_first_image {
+    my ($article_content) = @_;
+    if ($article_content !~ m{^<[iI][mM][gG] ([^>]+) >}x) {
+        return;
+    }
+
+    my $img_attr = $1;
+    my $width;
+    my $height;
+    my $src;
+
+    if ($img_attr !~ m{ src = " ([^"]+) " }xi) {
+        return;
+    }
+    
+    $src = $1;
+
+    if ($img_attr =~ m{ width = "? (\d+) \D }xi) {
+        $width = $1;
+    }
+    
+    if ($img_attr =~ m{ height = "? (\d+) \D }xi) {
+        $height = $1;
+    }
+
+    return {
+        src => $src,
+        width => $width,
+        height => $height,
+    };
+
+}
+
 1;
 
 #
@@ -241,3 +291,4 @@ author or title, to final user.
 Cosimo Streppone L<cosimo@streppone.it>
 
 =cut
+

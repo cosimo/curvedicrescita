@@ -1,6 +1,6 @@
 package BabyDiary::Application;
 
-$VERSION = '0.04';
+$VERSION = '0.05';
 
 use strict;
 use warnings;
@@ -92,7 +92,7 @@ sub setup
 
         admin           => \&BabyDiary::Application::Admin::front_page,
 
-        homepage        => \&BabyDiary::Application::default,
+        homepage        => \&BabyDiary::Application::homepage,
         articles        => \&BabyDiary::Application::default,
 
         article         => \&BabyDiary::Application::Articles::view,
@@ -157,12 +157,7 @@ sub cgiapp_init
 sub default
 {
     my $self = $_[0];
-    
-    # Load state params (n. of registered users, ...) to appear in application title.
-    # Instance HTML::Template object and fills its parameters.
-    my $tmpl = $self->fill_params();
-
-    # Generate and return output from template
+    my $tmpl = $self->render_view();
     return $tmpl->output();
 }
 
@@ -221,6 +216,89 @@ sub fill_messages
     return;
 }
 
+#
+# Display a list of the latest articles with links
+#
+sub homepage
+{
+    my ($self) = @_;
+
+    my $tmpl = $self->fill_params();
+
+    $tmpl->param(
+        page_title => $self->msg(q(Ultimi articoli pubblicati)),
+        page_description => $self->msg(q(Questi sono gli ultimi articoli pubblicati su CurveDiCrescita)),
+        menu_articles => 1
+    );
+
+    my $art = BabyDiary::File::Articles->new();
+	
+    # Make sure that only admins can see unpublished articles
+    my $is_admin = $self->session->param('admin');
+	my $admin_filter = $is_admin
+		? {}
+		: { published => {'<>', 0} }
+		;
+
+    my $art_list = $art->frontpage($admin_filter);
+
+    if (! $art_list || ref $art_list ne 'ARRAY') {
+        return $tmpl->output;
+    }
+
+    my $show_ads = $tmpl->param('show_ads');
+
+    # Process article data to be displayed
+    for my $art (@{ $art_list }) {
+        $art->{keywords} = BabyDiary::View::Articles::format_keywords($art);
+        $art->{author} = BabyDiary::View::Articles::format_author($art);
+        $art->{link} = BabyDiary::View::Articles::format_title_link($art);
+        # Prepare stripped down content for article summary
+        $art->{excerpt} = BabyDiary::View::Articles::format_article_excerpt($art);
+        $art->{avatar} = BabyDiary::View::Articles::format_author_avatar($art);
+        $art->{createdon} = Opera::Util::format_date($art->{createdon});
+        $art->{lastupdateon} = Opera::Util::format_date($art->{lastupdateon});
+
+        my $coverpic = BabyDiary::View::Articles::get_first_image($art->{content});
+        if ($coverpic) {
+            handle_coverpic_attributes($art, $coverpic);
+        }
+
+        # Global vars aren't replicated in TMPL_LOOPs
+        $art->{show_ads} = $show_ads;
+    }
+
+    $tmpl->param(articles => $art_list);
+
+    return $tmpl->output();
+}
+
+sub handle_coverpic_attributes {
+    my ($art, $coverpic) = @_;
+
+    $art->{coverpic} = $coverpic->{src};
+
+    my $max_size = 150;
+    my $width = $coverpic->{width};
+    my $height = $coverpic->{height};
+
+    $art->{coverpic_w} = $max_size;
+    $art->{coverpic_h} = $max_size;
+
+    if ($width && $height) {
+        my $aspect_ratio = $width / $height;
+        my $portrait_pic = ($aspect_ratio < 1.0);
+        if ($portrait_pic) {
+            $art->{coverpic_w} = $max_size * $aspect_ratio;
+        }
+        else {
+            $art->{coverpic_h} = $max_size / $aspect_ratio;
+        }
+    }
+
+    return;
+}
+
 sub go_back_or_forward {
 	my ($self, $runmode) = @_;
 
@@ -252,7 +330,11 @@ sub render_view
     # Load template object
     my $tmpl;
     eval {
-        $tmpl = $self->load_tmpl($tmpl_file, die_on_bad_params => 0);
+        $tmpl = $self->load_tmpl($tmpl_file,
+            die_on_bad_params => 0,
+            loop_context_vars => 1,
+            cache => $self->config('tmpl_cache'),
+        );
     };
     if ($@) {
         $self->log('error', 'Template [' . $tmpl_file . '] loading failed: ' . $@);

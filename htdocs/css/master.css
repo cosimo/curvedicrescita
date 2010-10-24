@@ -262,8 +262,12 @@ div#content {
     display:block;
 }
 
-#questions h1 {
-	border-bottom: 1px solid;
+#article2col h1, #questions h1 {
+	border-bottom: 1px solid #888;
+}
+
+#article2col h2 {
+    padding-top: 20px;
 }
 
 #questions h3 {
@@ -588,5 +592,9 @@ div#notice_box_info h3, div#notice_box_info p {
     font-weight: bold;
     font-size: 1em;
     color: #888;
+}
+
+#cover_pic {
+    padding: 0px 10px 10px 10px;
 }
 
