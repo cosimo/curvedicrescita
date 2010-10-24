@@ -1,0 +1,39 @@
+<div id="article2col">
+
+<h1>Ultimi articoli pubblicati</h1>
+
+<tmpl_loop articles>
+
+    <tmpl_if title>
+
+        <div id="article" style="width: 90%">
+
+            <h2>&#x274F; <tmpl_var link></h2>
+            
+            <tmpl_if coverpic><img id="cover_pic" align="right" src="<tmpl_var coverpic>" width="<tmpl_var coverpic_w>" height="<tmpl_var coverpic_h>"></tmpl_if>
+
+            <div id="author">
+                <tmpl_var avatar>
+                Pubblicato da <strong><tmpl_var author></strong>, <tmpl_var createdon>
+                <tmpl_if lastupdateon><br/>Ultima modifica: <tmpl_var lastupdateon></tmpl_if>
+                <br>
+            </div>
+
+            <div id="tags"><tmpl_var keywords></div>
+            <tmpl_var excerpt>
+            <br/>
+        </div>
+
+    </tmpl_if>
+
+    <tmpl_if __first__>
+        <tmpl_if show_ads>
+        <br clear="both">
+        <br/><p>
+        <tmpl_include name="components/shared/google_adsense_leaderboard.html">
+        </p></tmpl_if>
+    </tmpl_if>
+
+</tmpl_loop>
+
+</div>
