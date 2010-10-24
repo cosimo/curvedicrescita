@@ -1,5 +1,3 @@
-# $Id: Articles.pm 357 2009-12-25 17:48:12Z cosimo_2 $
-
 # Controller methods related to Articles section
 package BabyDiary::Application::Articles;
 
@@ -592,7 +590,10 @@ sub render {
         $tmpl->param( article_published => $rec->{published} );
         $tmpl->param( article_book_index=> $rec->{book_index} );
 
-		# Artificial published states for the drop-down list
+        # To decide whether to show the translate button
+        $tmpl->param( english_article => ($rec->{keywords} =~ m{\bEnglish\b}) ? 1 : 0 );
+
+        # Artificial published states for the drop-down list
         $tmpl->param( 'article_published_' . ($rec->{published} || '0') => 1 );
 
         # User avatar    

@@ -18,12 +18,12 @@
         <br clear="both"/>
     </div>
 
-    <tmpl_if show_translate_button>
+    <tmpl_if show_translate_button><tmpl_unless english_article>
     <div id="autotranslate">
         <img src="/img/translate.png" align="absmiddle" width="32" height="32">
         <a href="#" onclick="window.open('http://translate.google.com/translate?prev=_t&ie=UTF-8&sl=auto&tl=en&history_state0=&u='+escape(document.location.href), 'tn_art', '')">Translate!</a>
     </div>
-    </tmpl_if>
+    </tmpl_unless></tmpl_if>
 
     <div id="tags">
     <tmpl_var name="article_keywords">
