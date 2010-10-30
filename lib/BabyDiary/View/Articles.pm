@@ -11,6 +11,7 @@ use HTML::LinkExtor;
 use HTML::Strip;
 use BabyDiary::File::Articles;
 use BabyDiary::File::Users;
+use Opera::Util;
 
 #
 # Format and display article content
@@ -62,7 +63,7 @@ sub format_article_excerpt
     }
 
     # Add dots `...' to denote continued content
-    $excerpt[$#excerpt] .= ' ...';
+    $excerpt[$#excerpt] .= ' <a href="' . $art->{href} . '"><strong>Leggi</strong></a>';
 
     # Return the first two lines as excerpt
     $content = join("\r\n", @excerpt);
@@ -197,13 +198,18 @@ sub format_title
 			$style = 'offline';
 		}
 
+        my $href;
         if ($slug) {
-            $title = CGI->a({class=>$style, href=>'/exec/article/' . $slug}, $title);
+            $href = "/exec/article/$slug";
         }
         else {
-            $title = CGI->a({class=>$style, href=>'/exec/home/article/?id=' . CGI::escape($art->{id})}, $title);
+            $href = "/exec/home/article/?id=" . CGI::escape($art->{id});
         }
 
+        # ARGGHH Really bad to do this from here...
+        $art->{href} = $href;
+
+        $title = CGI->a({class=>$style, href=>$href}, $title);
         return($title);
     }
 
@@ -258,37 +264,59 @@ sub get_first_image {
 
 }
 
+sub handle_coverpic_attributes {
+    my ($art, $coverpic) = @_;
+
+    $art->{coverpic} = $coverpic->{src};
+
+    my $max_size = 150;
+    my $width = $coverpic->{width};
+    my $height = $coverpic->{height};
+
+    $art->{coverpic_w} = $max_size;
+    $art->{coverpic_h} = $max_size;
+
+    if ($width && $height) {
+        my $aspect_ratio = $width / $height;
+        my $portrait_pic = ($aspect_ratio < 1.0);
+        if ($portrait_pic) {
+            $art->{coverpic_w} = $max_size * $aspect_ratio;
+        }
+        else {
+            $art->{coverpic_h} = $max_size / $aspect_ratio;
+        }
+    }
+
+    return;
+}
+
+sub process {
+    my ($art, $additional_loop_vars) = @_;
+
+    $art->{keywords} = format_keywords($art);
+    $art->{author} = format_author($art);
+    $art->{link} = format_title_link($art);
+
+    # Prepare stripped down content for article summary
+    $art->{excerpt} = format_article_excerpt($art);
+    $art->{avatar} = format_author_avatar($art);
+    $art->{createdon} = Opera::Util::format_date($art->{createdon});
+    $art->{lastupdateon} = Opera::Util::format_date($art->{lastupdateon});
+
+    my $coverpic = get_first_image($art->{content});
+    if ($coverpic) {
+        handle_coverpic_attributes($art, $coverpic);
+    }
+
+    # Global vars aren't replicated in TMPL_LOOPs
+    if ($additional_loop_vars) {
+        for (keys %{ $additional_loop_vars }) {
+            $art->{$_} = $additional_loop_vars->{$_};
+        }
+    }
+
+    return $art;
+}
+
 1;
-
-#
-# End of class
-
-=head1 NAME
-
-Opera::View::Articles - Visually present information about articles to user.
-
-=head1 SYNOPSIS
-
-    my %article = (
-        title     => 'My totally new article',
-        content   => 'Bla bla bla',
-        createdby => 'cosimo',
-        # ...
-    );
-
-    print Opera::View::Articles::format_author(\%article);
-    print Opera::View::Articles::format_title(\%article);
-    # ...
-
-=head1 FUNCTIONS
-
-Each "format_*" function accepts a full articles record (as hashref)
-and outputs (x)html code visually present information, such as article
-author or title, to final user.
-
-=head1 AUTHOR
-
-Cosimo Streppone L<cosimo@streppone.it>
-
-=cut
 
