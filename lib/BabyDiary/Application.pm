@@ -41,6 +41,9 @@ use BabyDiary::File::Articles;
 use BabyDiary::File::Sessions;
 use BabyDiary::File::Users;
 
+# Presentation classes
+use BabyDiary::View::Articles;
+
 # Default expire time for sessions
 use constant SESSION_EXPIRE_TIME => '+72h';
 
@@ -240,63 +243,34 @@ sub homepage
 		: { published => {'<>', 0} }
 		;
 
-    my $art_list = $art->frontpage($admin_filter);
-
-    if (! $art_list || ref $art_list ne 'ARRAY') {
+    # Front page article(s)
+    my $main_art_list = $art->frontpage($admin_filter);
+    if (! $main_art_list || ref $main_art_list ne 'ARRAY') {
         return $tmpl->output;
     }
 
+    my $main_article = shift @{ $main_art_list };
+
+    # Most read, random, latest articles
+    my $best = $art->best($admin_filter);
+    my $latest = $art->latest($admin_filter);
+    my $random = $art->pick_randomly($admin_filter);
+
     my $show_ads = $tmpl->param('show_ads');
+    
+    for my $art ($main_article, @{$best}, @{$latest}, @{$random} ) {
+        $art = BabyDiary::View::Articles::process($art, { show_ads => $show_ads });
+    }
 
     # Process article data to be displayed
-    for my $art (@{ $art_list }) {
-        $art->{keywords} = BabyDiary::View::Articles::format_keywords($art);
-        $art->{author} = BabyDiary::View::Articles::format_author($art);
-        $art->{link} = BabyDiary::View::Articles::format_title_link($art);
-        # Prepare stripped down content for article summary
-        $art->{excerpt} = BabyDiary::View::Articles::format_article_excerpt($art);
-        $art->{avatar} = BabyDiary::View::Articles::format_author_avatar($art);
-        $art->{createdon} = Opera::Util::format_date($art->{createdon});
-        $art->{lastupdateon} = Opera::Util::format_date($art->{lastupdateon});
-
-        my $coverpic = BabyDiary::View::Articles::get_first_image($art->{content});
-        if ($coverpic) {
-            handle_coverpic_attributes($art, $coverpic);
-        }
-
-        # Global vars aren't replicated in TMPL_LOOPs
-        $art->{show_ads} = $show_ads;
-    }
-
-    $tmpl->param(articles => $art_list);
+    $tmpl->param(
+        main_articles_list => [ $main_article ],
+        best_articles_list => $best,
+        latest_articles_list => $latest,
+        random_articles_list => $random,
+    );
 
     return $tmpl->output();
-}
-
-sub handle_coverpic_attributes {
-    my ($art, $coverpic) = @_;
-
-    $art->{coverpic} = $coverpic->{src};
-
-    my $max_size = 150;
-    my $width = $coverpic->{width};
-    my $height = $coverpic->{height};
-
-    $art->{coverpic_w} = $max_size;
-    $art->{coverpic_h} = $max_size;
-
-    if ($width && $height) {
-        my $aspect_ratio = $width / $height;
-        my $portrait_pic = ($aspect_ratio < 1.0);
-        if ($portrait_pic) {
-            $art->{coverpic_w} = $max_size * $aspect_ratio;
-        }
-        else {
-            $art->{coverpic_h} = $max_size / $aspect_ratio;
-        }
-    }
-
-    return;
 }
 
 sub go_back_or_forward {
