@@ -1,0 +1,20 @@
+<tmpl_if title>
+
+    <tmpl_if coverpic><img class="cover_pic" align="right" src="<tmpl_var coverpic>" width="<tmpl_var coverpic_w>" height="<tmpl_var coverpic_h>"></tmpl_if>
+
+    <h2 id="title"><tmpl_var link></h2>
+
+    <!-- div id="author">
+        <tmpl_var avatar>
+        Pubblicato da <strong><tmpl_var author></strong>, <tmpl_var createdon>
+        <tmpl_if lastupdateon><br/>Ultima modifica: <tmpl_var lastupdateon></tmpl_if><br>
+    </div> -->
+
+    <div id="tags"><tmpl_var keywords></div>
+
+    <div id="excerpt"><tmpl_var excerpt></div>
+
+    <br clear="both"/>
+
+</tmpl_if>
+

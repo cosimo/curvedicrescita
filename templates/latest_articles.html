@@ -1,39 +1,25 @@
 <div id="article2col">
 
-<h1>Ultimi articoli pubblicati</h1>
+    <div id="main-article"><tmpl_loop main_articles_list>
+        <tmpl_include "components/shared/article-in-list.html"></tmpl_loop>
+    </div>
 
-<tmpl_loop articles>
-
-    <tmpl_if title>
-
-        <div id="article" style="width: 90%">
-
-            <h2>&#x274F; <tmpl_var link></h2>
-            
-            <tmpl_if coverpic><img id="cover_pic" align="right" src="<tmpl_var coverpic>" width="<tmpl_var coverpic_w>" height="<tmpl_var coverpic_h>"></tmpl_if>
-
-            <div id="author">
-                <tmpl_var avatar>
-                Pubblicato da <strong><tmpl_var author></strong>, <tmpl_var createdon>
-                <tmpl_if lastupdateon><br/>Ultima modifica: <tmpl_var lastupdateon></tmpl_if>
-                <br>
-            </div>
-
-            <div id="tags"><tmpl_var keywords></div>
-            <tmpl_var excerpt>
-            <br/>
+    <div id="mid-level">
+        <div id="random-articles" class="box">
+            <h3 class="box-heading">Altri articoli</h3>
+            <tmpl_loop random_articles_list><tmpl_include "components/shared/article-in-list.html"></tmpl_loop>
         </div>
 
-    </tmpl_if>
+        <div id="best-articles" class="box">
+            <h3 class="box-heading">Articoli pi&ugrave; letti</h3>
+            <tmpl_loop best_articles_list><tmpl_include "components/shared/article-in-list.html"></tmpl_loop>
+        </div>
+    </div>
 
-    <tmpl_if __first__>
-        <tmpl_if show_ads>
-        <br clear="both">
-        <br/><p>
-        <tmpl_include name="components/shared/google_adsense_leaderboard.html">
-        </p></tmpl_if>
-    </tmpl_if>
-
-</tmpl_loop>
+    <div id="latest-articles">
+        <h3 class="heading">Ultimi articoli</h3>
+        <tmpl_loop latest_articles_list><tmpl_include "components/shared/article-in-list.html"></tmpl_loop>
+    </div>
 
 </div>
+
