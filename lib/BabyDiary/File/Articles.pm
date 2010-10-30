@@ -111,14 +111,74 @@ sub post
     return $id;
 }
 
+sub best {
+    my ($self, $where) = @_;
+
+    # How many to get
+    my $n = 5;
+
+    $where ||= {};
+    $where->{published} = {'<>', 0};
+
+    my $art_list = $self->list({
+		where  => $where,
+        limit  => $n,
+        # If there's more than one, give me the most recent(s)
+        order  => [ 'views DESC, id DESC' ],
+    });
+
+    return $art_list;
+}
+
+sub latest {
+    my ($self, $where) = @_;
+
+    # How many to get
+    my $n = 5;
+
+    $where ||= {};
+    $where->{published} = {'<>', 0};
+
+    my $art_list = $self->list({
+		where  => $where,
+        limit  => $n,
+        # If there's more than one, give me the most recent(s)
+        order  => [ 'id DESC' ],
+    });
+
+    return $art_list;
+}
+
+sub pick_randomly {
+    my ($self, $where) = @_;
+
+    $where ||= {};
+    $where->{published} = {'<>', 0};
+
+    my $art_list = $self->list({
+		where  => $where,
+        limit  => 5,
+        # If there's more than one, give me the most recent(s)
+        order  => [ 'RANDOM()' ],
+    });
+
+    return $art_list;
+}
+
 sub frontpage {
     my ($self, $where) = @_;
 
-    my $n = 10;
+    # How many to get
+    my $n = 1;
+
+    # Show only the frontpage article (published = 3)
+    $where ||= {};
+    $where->{published} = 3;
+
     my $art_list = $self->list({
-        fields => ['id', 'title', 'keywords', 'content', 'createdby', 'createdon', 'views', 'published', 'lastupdateby', 'lastupdateon'],
 		where  => $where,
         limit  => $n,
+        # If there's more than one, give me the most recent(s)
         order  => [ 'id DESC' ],
     });
 
