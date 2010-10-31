@@ -1,7 +1,9 @@
 <div id="header">
+
     <div id="logo">
         <a href="/" title="Ritorna alla pagina principale"><img border="0" id="logoimg" src="/img/logo_66_50.gif"><img border="0" id="logotitle" src="/img/title_306_31_pink.gif"></a>
     </div>
+
     <div id="menu">
         <ul id="nav">
             <li id="articoli"<tmpl_if menu_articles> class="activelink"</tmpl_if>><a href="<tmpl_var cgi_root>/home/"><tmpl_var name="msg:articoli"></a></li>
@@ -24,16 +26,13 @@
 
 <tmpl_include name="components/notice.html">
 
-<tmpl_if question_id>
-<div id="tab">
+<tmpl_if question_id><div id="tab">
 <span>Puoi rispondere alla domanda o
 <a href="<tmpl_var cgi_root>/question/latest">tornare alle più recenti</a>.
 </span>
-</div>
-</tmpl_if>
+</div></tmpl_if>
 
-<tmpl_if page_description>
-<div id="tab">
+<tmpl_if page_description><div id="tab">
 <span><tmpl_var page_description></span>
-</div>
-</tmpl_if>
+</div></tmpl_if>
+
