@@ -802,6 +802,14 @@ sub render_answers {
 	$tmpl->param( answers_allowed => $answers_allowed );
 
 	my $ans = BabyDiary::File::Answers->new();
+	my $que = BabyDiary::File::Questions->new();
+
+	# Get the private flag of this question
+	my $question = $que->get({ where => { id => $question_id }});
+	if (! $question) {
+		return;
+	}
+
 	my $answers_list = $ans->answers_by_question($question_id);
 	if ($answers_list) {
 
@@ -814,9 +822,13 @@ sub render_answers {
 
 		for my $a (@{ $answers_list }) {
 
-			#
+ 			# If question is private, make the answer also private,
+			# and don't show the username
+			if ($a->{createdby} eq $question->{createdby}) {
+				$a->{private} = $question->{private};
+ 			}
+
 			# Format username
-			#
 			my $username = $a->{createdby};
 
             # Special users are flagged so that comment is highlighted
