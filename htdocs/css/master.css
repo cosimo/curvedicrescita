@@ -116,7 +116,7 @@ body hr {
     font-weight: bold;
 }
 
-#article #tags a, #question #tags a, #questions #tags a, #main-article #tags a, .box #tags a {
+#article #tags a, #question #tags a, #questions #tags a, #main-article #tags a, .box #tags a, #latest-articles #tags a {
     background-color: #eef;
     color: #33d;
     border-bottom: 1px solid #88f;
@@ -598,11 +598,11 @@ div#notice_box_info h3, div#notice_box_info p {
     font-size: 2em;
 }
 
-#main-article #tags, #main-article #excerpt, .box #tags, .box #excerpt {
+#main-article #tags, #main-article #excerpt, .box #tags, .box #excerpt, #latest-articles #tags, #latest-articles #excerpt {
     padding-left: 0.8em;
 }
 
-#mid-level {
+#mid-level, #latest-articles {
     display: block;
     width: 100%;
     float: left;
@@ -617,7 +617,7 @@ div#notice_box_info h3, div#notice_box_info p {
     font-weight: normal;
 }
 
-#main-article #excerpt {
+#main-article #excerpt, #latest-articles #excerpt {
     padding-top: 1em;
     line-height: 1.1em;
     text-align: justify;
@@ -632,22 +632,22 @@ div#notice_box_info h3, div#notice_box_info p {
     border: 0px dashed red;
 }
 
-.box #title {
+.box #title, #latest-articles #title {
     font-size: 1.4em;
     text-decoration: none;
 }
 
-.box #title a {
+.box #title a, #latest-articles #title a {
     text-decoration: none;
 }
 
-.box #tags a {
+.box #tags a, #latest-articles #tags a {
     font-weight: normal;
     font-size: 0.8em;
     background-color: #eef;
 }
 
-.box-heading {
+.box-heading, #latest-articles .heading {
     font-size: 1.6em;
     color: black;
     line-height: 0.8em;
@@ -665,7 +665,7 @@ div#notice_box_info h3, div#notice_box_info p {
 
 /* Don't display author pic, name, last modify etc
    to not take too much space */
-.box #author, #main-article #author {
+.box #author, #main-article #author, #latest-articles #author {
     display: none;
 }
 
@@ -677,5 +677,10 @@ div#notice_box_info h3, div#notice_box_info p {
 .read-more {
     font-weight: bold;
     color: #484;
+}
+
+.read-more :visited {
+    font-weight: normal;
+    color: #003;
 }
 
