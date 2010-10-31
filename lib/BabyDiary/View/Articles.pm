@@ -52,21 +52,37 @@ sub format_article_excerpt
     my $html_stripper = HTML::Strip->new();
     $content = $html_stripper->parse($content);
 
+    # Quick hack for the "this article is also available..."
+    $content =~ s/This article is also available in [^\.]*?\.//i;
+
     my @lines = split /\r?\n/, $content;
     my @excerpt;
+    my $max_words = 50;
 
-    my $chars = 0;
     for (@lines) {
-        push @excerpt, $_;
-        $chars += length;
-        last if $chars > 160;
+
+        next if m{^ \s* $}x;   # Empty lines
+        my @words = split /\s+/;
+
+        while ($max_words-- > 0) {
+            push @excerpt, shift @words;
+        }
+
+        last if $max_words == 0;
     }
 
+    #    push @excerpt, $_;
+    #    $words += ($_ =~ s/\s+/\s/);
+    #    last if $words > 40;
+    #    #$chars += length;
+    #    #last if $chars > 160;
+    #}
+
     # Add dots `...' to denote continued content
-    $excerpt[$#excerpt] .= ' <a href="' . $art->{href} . '"><strong>Leggi</strong></a>';
+    $excerpt[$#excerpt] .= ' ... <a class="read-more" href="' . $art->{href} . '">Leggi</a>';
 
     # Return the first two lines as excerpt
-    $content = join("\r\n", @excerpt);
+    $content = join(' ', @excerpt);
 
 	# Highlight html links?
 	#$content =~ s{(http://\S+\b)}{<a href="$1">$1</a>}g;
@@ -214,22 +230,6 @@ sub format_title
     }
 
 }
-
-#sub get_first_image {
-#    my ($article_content) = @_;
-#    my $lx = HTML::LinkExtor->new();
-#    $lx->parse($article_content);
-#    my @links = $lx->links();
-#    my $pic;
-#    for (@links) {
-#        my ($tag, %attr) = @{ $_ };
-#        if ($tag eq 'img' || $tag eq 'IMG') {
-#            $pic = \%attr;
-#            last;
-#        }
-#    }
-#    return $pic;
-#}
 
 sub get_first_image {
     my ($article_content) = @_;
