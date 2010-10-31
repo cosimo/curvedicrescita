@@ -1,49 +1,26 @@
 <div id="sidebar">
 
-<tmpl_if menu_questions>
-
 	<div align="center">
 		<form method="post" action="<tmpl_var cgi_root>/question/new">
 		<input type="submit" value="<tmpl_var name="msg:fai una domanda">" style="font-size: 1.5em">
 		</form>
 	</div>
 
-	<br/>
+    <br/>
 
-    <tmpl_if name="show_ads">
-    <tmpl_include name="shared/google_adsense.html">
-    </tmpl_if>
+    <tmpl_include name="shared/google_adsense_square.html">
 
-	<!-- Most popular questions -->
-	<h2><tmpl_var name="msg:le piu' lette"></h2>
+    <tmpl_include name="shared/latest.html">
 
-	<tmpl_if name="questions_popular">
-	<tmpl_var name="questions_popular">
+    <h2>Domande pi&ugrave; lette</h2>
+
+	<tmpl_if questions_popular>
+	<tmpl_var questions_popular>
 	<tmpl_else>
 	<p><tmpl_var name="msg:Ancora nessuna domanda..."></p>
 	</tmpl_if>
 
-<tmpl_else>
-	
-    <h2><tmpl_var name="msg:ultime domande"></h2>
-
-	<tmpl_if name="questions_latest_html">
-	<tmpl_var name="questions_latest_html">
-	<tmpl_else>
-	<p><tmpl_var name="msg:Ancora nessuna domanda..."></p>
-	</tmpl_if>
-
-</tmpl_if>
-
-<tmpl_unless menu_questions>
-<tmpl_if name="show_ads">
-<tmpl_include name="shared/google_adsense.html">
-</tmpl_if>
-</tmpl_unless>
-
-<tmpl_include name="shared/most_popular.html">
-
-<tmpl_include name="shared/cumulus_cloud.html">
+    <tmpl_include name="shared/cumulus_cloud.html">
 
 </div>
 
