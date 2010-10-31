@@ -5,7 +5,7 @@ html, body {
 
 body {
     background-color: #fff;
-    font-family: 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica, sans-serif;
+    font-family: 'Lucida Sans Unicode', 'Trebuchet MS', Helvetica, Arial ,sans-serif;
     font-size: 13px;
     color: #003;
 }
@@ -38,22 +38,25 @@ div#header {
     display:block;
     margin:0;
     padding:0;
+    height: 38px;
+    border-bottom: 1px solid #aaf;
 }
 
 div#logo {
-    float:left;
+    position: absolute;
+    left: 0px;
+    top: 10px;
     display:block;
-    width:380px;
-	height:35px;
-    margin:0;
+    width:49%;
     padding:0;
-    border-bottom: 1px solid #ccf;
+    height: 38px;
 }
 
 div#menu {
     float:right;
+    width: 50%;
     display:block;
-	margin-top:8px;
+    margin-top:-5px;
 }
 
 div#header div#balloon {
@@ -61,7 +64,7 @@ div#header div#balloon {
     left:-2000px;
     top:-2000px;
     width:330px;
-    height:150px;
+    height:130px;
     background:url(../img/balloon/rect_sx.png) no-repeat;
     display:block;
 }
@@ -80,14 +83,13 @@ div#balloon #balloon_content {
 	top:14px;
 }
 
-div#logo #logotitle {
+#logotitle {
 	position:absolute;
 	left:80px;
 	top:22px;
 }
 
 h1 {
-    font-family: 'Lucida Sans Unicode', 'Trebuchet MS', 'Times New Roman', serif;
     font-weight: 800;
     font-size: 2em;
     line-height: 1em;
@@ -98,19 +100,16 @@ h1 {
 body hr {
     margin-bottom: 20px;
     text-align: center;
-    opacity:0.4;
+    opacity: 0.4;
     width:75%;
 }
 
 #article #author {
-    font-family: 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica, sans-serif;
     font-size: 12px;
     padding: 3px 0 0 40px;
 }
 
 #article #tags {
-    /*background: url(../img/icon-tags.png) no-repeat;*/
-    font-family: 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica, sans-serif;
     padding: 4px 0 0 10px;
     height: 40px;
     font-size: 1.4em;
@@ -118,14 +117,13 @@ body hr {
 }
 
 #article #tags a, #question #tags a, #questions #tags a, #main-article #tags a, .box #tags a {
-    background-color: #ddf;
+    background-color: #eef;
     color: #33d;
     border-bottom: 1px solid #88f;
     border-right: 1px solid #88f;
     text-decoration: none;
 	font-weight: bold;
 	font-size: 12px;
-    font-family: 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica, sans-serif;
     line-height: 21px;
     padding: 1px 5px 1px 5px;
 }
@@ -133,11 +131,6 @@ body hr {
 #autotranslate {
     float: right;
     font-weight: bold;
-}
-
-#article p {
-    font-family: 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica, sans-serif;
-    font-size: 14px;
 }
 
 #article blockquote {
@@ -188,7 +181,6 @@ ul#nav, ul#nav li {
 
 ul#nav {
     width: 100%;
-    font-family: 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica, sans-serif;
     font-size: 1.4em;
     font-weight: 400;
 }
@@ -202,7 +194,8 @@ ul#nav li {
 ul#nav a{
     float:left;
     width:4.5em;
-    background:url(../img/button_bg_10_25.jpg);
+    /*background:url(../img/button_bg_10_25.jpg);*/
+    background: #eef;
     text-decoration:none;
 	padding-left: 5px;
 	padding-right: 5px;
@@ -231,12 +224,21 @@ div#content {
 }
 
 #content #topics { 
-    float:left;
-    width:20%;
-    background-color:#eef;
-    display:block;
-    padding:4px;
-    margin:0;
+    float: left;
+    width: 20%;
+    /*background-color:#eef;*/
+    display: block;
+    padding: 2px;
+    margin: 0;
+}
+
+#content #sidebar {
+    float: right;
+    /*background:#eef;*/
+    width: 20%;
+    display: block;
+    padding: 2px;
+    margin: 0;
 }
 
 #content #article {
@@ -273,15 +275,6 @@ div#content {
 #questions h3 {
 	font-size: 1.2em;
 	font-weight: 800;
-}
-
-#content #sidebar {
-    float:right;
-    background:#eef;
-    width:20%;
-    display:block;
-    padding:4px;
-    margin:0;
 }
 
 #content #taglist { 
@@ -330,16 +323,14 @@ div#content {
     font-size: 17px;
 }
 
-
 #topics h2, #sidebar h2 {
-    font-family: 'Lucida Sans Unicode', 'Trebuchet MS', 'Times New Roman', serif;
-    font-variant: small-caps;
     font-size: 1.4em;
     height: 22px;
-    background: url(../img/button_bg_10_25.jpg) repeat;
+    /*background: url(../img/button_bg_10_25.jpg) repeat;*/
+    background-color: #eef; 
+    border-top: 1px solid #99f;
     padding: 3px 0 0 5px;
-    margin:0;
-    border: 1px solid #aaf;
+    margin: 0;
 }
 
 /* Sidebar lists */
@@ -603,7 +594,12 @@ div#notice_box_info h3, div#notice_box_info p {
 }
 
 #main-article #title {
+    padding-top: 0.5em;
     font-size: 2em;
+}
+
+#main-article #tags, #main-article #excerpt, .box #tags, .box #excerpt {
+    padding-left: 0.8em;
 }
 
 #mid-level {
@@ -651,22 +647,35 @@ div#notice_box_info h3, div#notice_box_info p {
     background-color: #eef;
 }
 
-/* Don't display author pic, name, last modify etc
-   to not take too much space */
-.box #author, #main-article #author {
-    display: none;
-}
-
 .box-heading {
     font-size: 1.6em;
     color: black;
     line-height: 0.8em;
-    border-bottom: 1px solid #999;
+    /*border-bottom: 1px solid #999;*/
+    border-top: 1px solid #99f;
+    background-color: #eef;
+    padding: 5px;
     margin-bottom: 1em;
 }
 
 .box .cover_pic {
     width: 50px;
     height: 50px;
+}
+
+/* Don't display author pic, name, last modify etc
+   to not take too much space */
+.box #author, #main-article #author {
+    display: none;
+}
+
+.box #tags {
+    overflow: hidden;
+    height: 1.7em;
+}
+
+.read-more {
+    font-weight: bold;
+    color: #484;
 }
 
