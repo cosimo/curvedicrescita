@@ -251,13 +251,19 @@ sub homepage
 
     my $main_article = shift @{ $main_art_list };
 
+    # Avoid duplicates of main article in other sections
+    $admin_filter->{id} = { '<>', $main_article->{id} };
+
     # Most read, random, latest articles
     my $best = $art->best($admin_filter);
+
+    $admin_filter->{id} = { 'NOT IN', [ map { $_->{id} } $main_article, @{ $best } ] };
+
     my $latest = $art->latest($admin_filter);
     my $random = $art->pick_randomly($admin_filter);
 
     my $show_ads = $tmpl->param('show_ads');
-    
+
     for my $art ($main_article, @{$best}, @{$latest}, @{$random} ) {
         $art = BabyDiary::View::Articles::process($art, { show_ads => $show_ads });
     }
