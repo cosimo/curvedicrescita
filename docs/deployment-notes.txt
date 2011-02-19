@@ -1,20 +1,24 @@
-- modificato httpd.conf htdocs/exec
-- dbd::sqlite
-- cgi::app::plugin::configauto
-- cgi::app::plugin::forward
-- cgi::app::plugin::redirect
-- cgi::app::plugin::session
-- html::template
-- html::bbcode
-- html::strip
+- CGI::Application::Plugin::ConfigAuto
+- CGI::Application::Plugin::Forward
+- CGI::Application::Plugin::Redirect
+- CGI::Application::Plugin::Session
+- HTML::Template
+- HTML::BBCode
+- HTML::Strip
 - Time::Piece
 - CGI::Application
 - CGI::Application::Dispatch
 - XML::RSS
-- Mime::Lite (era gia' installato)
+- MIME::Lite
 - App::pod2pdf
 - Cache::FileCache
 - Date::Pregnancy
 - Data::ICal
 - Date::ICal
 - HTML::Defang
+- SQL::Abstract
+- SQL::Abstract::Limit
+- DBI
+- HTML::FillInForm
+- DBD::SQLite (libdbd-sqlite3-perl)
+
