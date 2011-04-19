@@ -11,6 +11,7 @@ use HTML::LinkExtor;
 use HTML::Strip;
 use BabyDiary::File::Articles;
 use BabyDiary::File::Users;
+use BabyDiary::View::Users;
 use Opera::Util;
 
 #
@@ -105,6 +106,7 @@ sub format_author
 		my $rec = $users->get_by_id($art->{$key});
 		$name = $rec->{realname} || 'anonimo?';
 		$name = ucfirst $name;
+        $name = BabyDiary::View::Users::firstname_from_realname($name);
     }
 
     return $name;

@@ -680,7 +680,7 @@ sub render_comments {
 				$userdata = $users->get({ where => {username => $c->{createdby}} });
 				$user_cache{$username} = $userdata;
 			}
-			$c->{createdby} = $userdata->{realname};
+			$c->{createdby} = BabyDiary::View::Articles::format_author($c);
 
 			#
 			# Format comment date

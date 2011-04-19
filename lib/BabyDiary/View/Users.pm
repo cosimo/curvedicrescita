@@ -35,17 +35,33 @@ sub format_username
     my $name = '';
     $key ||= 'username';
 
-    if(exists $usr->{$key} && $usr->{$key} ne '')
+    if (exists $usr->{$key} && $usr->{$key} ne '')
     {
         my $img = '/img/avatar2.gif';
+        my $realname = firstname_from_realname($usr->{realname});
         $name =
               CGI->img({src=>'/img/avatar2.gif'}) . ' '
-            . CGI->a({href=>'/exec/home/user/' . CGI->escape($usr->{$key})}, $usr->{realname});
+            . CGI->a({href=>'/exec/home/user/' . CGI->escape($usr->{$key})}, $realname);
     }
 
     return($name);
 }
 
+sub firstname_from_realname
+{
+    my $realname = $_[0];
+
+    $realname =~ s/^\s*//;
+    $realname =~ s/\s*$//;
+    my $firstname = $realname;
+
+    if ($realname =~ m{^ (\S+) \s+ (.*) }x)
+    {
+        $firstname = $1;
+    }
+
+    return $firstname;
+}
 
 1;
 
