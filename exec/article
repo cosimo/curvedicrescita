@@ -68,7 +68,7 @@ else {
 
 	# Redirect to home page if nothing found
 	if (! $item_id) {
-		print "Location: /\n";
+		print "Location: /\r\n\r\n";
 		exit;
 	}
 
