@@ -5,14 +5,19 @@ use Mojo::Base 'Mojolicious';
 sub startup {
   my $self = shift;
 
-  # Documentation browser under "/perldoc" (this plugin requires Perl 5.10)
-  $self->plugin('pod_renderer');
+  $self->plugin(tt_renderer => {
+    template_options => {
+      INCLUDE_PATH => '../templates'
+    }
+  });
 
   # Routes
   my $r = $self->routes;
 
+  $r->route('/')->to('frontpage#index');
+
   # Normal route to controller
-  $r->route('/welcome')->to('example#welcome');
+  #$r->route('/welcome')->to('example#welcome');
 }
 
 1;

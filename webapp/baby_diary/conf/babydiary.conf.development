@@ -1,0 +1,49 @@
+# Babydiary Configuration file
+#
+# $Id$
+
+# Site root URL
+root_uri = http://localhost/
+
+# Root directories of server
+root_dir = /home/cosimo/src/curvedicrescita/htdocs
+
+# Where are templates stored
+tmpl_path = /home/cosimo/src/curvedicrescita/templates
+
+# Enable templates caching
+tmpl_cache = 0
+
+# Root path of CGIs
+cgi_root = /exec
+cgi_home = /exec/home
+
+# Main site SQLite database
+database_name = /home/cosimo/src/curvedicrescita/database/data/babydiary.sqlite
+
+# Application stack traces dumped here
+application_log_file = /home/cosimo/src/curvedicrescita/logs/application.log
+
+# Show Google Adsense ads? (1=yes, 0=no)
+show_ads = 0
+
+# Show Google Translate button (1=yes, 0=no)
+show_translate_button = 0
+
+# Google custom search? (1=yes, 0=no)
+show_custom_search = 0
+
+# Use this SMTP to send mail
+smtp_host = smtp.getmail.no
+
+# Send notification mail for every comment published
+send_comments_notification = 0
+
+# for every answer
+send_questions_notification = 1
+send_answers_notification = 1
+
+# Email address to which send all mail messages
+send_admin_mail_from = Curve di crescita <info@curvedicrescita.com>,
+send_admin_mail_to = Tamara De Zotti <info@curvedicrescita.com>,
+

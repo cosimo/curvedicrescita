@@ -1,0 +1,42 @@
+# Babydiary Configuration file
+#
+# $Id$
+
+# Site root URL
+root_uri = http://www.curvedicrescita.com/
+
+# Root directories of server
+root_dir = /var/www2/www.curvedicrescita.com/htdocs
+
+# Where are templates stored
+tmpl_path = /var/www2/www.curvedicrescita.com/templates
+
+# Enable templates caching
+tmpl_cache = 1
+
+# Root path of CGIs
+cgi_root = /exec
+cgi_home = /exec/home
+
+# Show Google Adsense ads? (1=yes, 0=no)
+show_ads = 1
+
+# Show Google Translate button (1=yes, 0=no)
+show_translate_button = 1
+
+# Google custom search? (1=yes, 0=no)
+show_custom_search = 1
+
+# Use this SMTP to send mail
+smtp_host = localhost
+
+# Send notification mail for every comment published
+send_comments_notification = 1
+
+# for every question/answer
+send_questions_notification = 1
+send_answers_notification = 1
+
+# Email address to which send all mail messages
+send_admin_mail_from = info@curvedicrescita.com,
+send_admin_mail_to = Tamara De Zotti <info@curvedicrescita.com>,
