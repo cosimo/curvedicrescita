@@ -20,6 +20,8 @@
 
     <tmpl_if show_translate_button><tmpl_unless english_article>
     <div id="autotranslate">
+	<g:plusone size="medium"></g:plusone>
+	<br/>
         <img src="/img/translate.png" align="absmiddle" width="32" height="32">
         <a href="#" onclick="window.open('http://translate.google.com/translate?prev=_t&ie=UTF-8&sl=auto&tl=en&history_state0=&u='+escape(document.location.href), 'tn_art', '')">Translate!</a>
     </div>
@@ -69,3 +71,7 @@
 	<tmpl_include name="article/comments.html">
 
 </div>
+
+<script type="text/javascript" src="http://apis.google.com/js/plusone.js">
+  {lang: 'it'}
+</script>
