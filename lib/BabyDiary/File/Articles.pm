@@ -4,12 +4,12 @@
 package BabyDiary::File::Articles;
 
 use strict;
-
+use List::Util ();
 use base qw(
-	BabyDiary::File::SQLite
-	BabyDiary::File::Role::HasTags
-	BabyDiary::File::Role::HasSlug
-	BabyDiary::File::Role::HasViews
+    BabyDiary::File::SQLite
+    BabyDiary::File::Role::HasTags
+    BabyDiary::File::Role::HasSlug
+    BabyDiary::File::Role::HasViews
 );
 
 use constant TABLE  => 'articles';
@@ -73,7 +73,7 @@ sub post
     $art->{createdon} = Opera::Util::current_timestamp();
     $art->{views}     = 0;
     $art->{id}        = undef;
-	$art->{published} = 0;
+    $art->{published} = 0;
 
     # Remove slug before inserting record, or else it will fail
     my $slug = exists $art->{slug} ? delete $art->{slug} : undef;
@@ -96,17 +96,17 @@ sub post
     my $id = $self->last_insert_id();
     $self->log('notice', 'New article id = ' . $id);
 
-	# Necessary for the slug to be linked to the article
-	$art->{id} = $id;
+    # Necessary for the slug to be linked to the article
+    $art->{id} = $id;
 
-	# Write the slug now
+    # Write the slug now
     if (defined $slug) {
         $art->{slug} = $slug;
     }
 
-	$ok = $self->add_slug($art);
+    $ok = $self->add_slug($art);
 
-	$self->log('notice', "Slug $id add " . ($ok ? " ok ($ok)" : "*FAILED*"));
+    $self->log('notice', "Slug $id add " . ($ok ? " ok ($ok)" : "*FAILED*"));
 
     return $id;
 }
@@ -114,20 +114,25 @@ sub post
 sub best {
     my ($self, $where) = @_;
 
-    # How many to get
+    # How many to get in the end
     my $n = 5;
 
     $where ||= {};
     $where->{published} = {'<>', 0};
 
     my $art_list = $self->list({
-		where  => $where,
-        limit  => $n,
+        where  => $where,
+        # Avoid showing always the best n. That's boring.
+        limit  => $n * 4,
         # If there's more than one, give me the most recent(s)
         order  => [ 'views DESC, id DESC' ],
     });
 
-    return $art_list;
+    # Select a random 5 articles from the n
+    my @shuffled = List::Util::shuffle(@{ $art_list });
+    my @random_5 = splice(@shuffled, 0, $n);
+
+    return \@random_5;
 }
 
 sub latest {
@@ -140,7 +145,7 @@ sub latest {
     $where->{published} = {'<>', 0};
 
     my $art_list = $self->list({
-		where  => $where,
+        where  => $where,
         limit  => $n,
         # If there's more than one, give me the most recent(s)
         order  => [ 'id DESC' ],
@@ -156,7 +161,7 @@ sub pick_randomly {
     $where->{published} = {'<>', 0};
 
     my $art_list = $self->list({
-		where  => $where,
+        where  => $where,
         limit  => 5,
         # If there's more than one, give me the most recent(s)
         order  => [ 'RANDOM()' ],
@@ -176,7 +181,7 @@ sub frontpage {
     $where->{published} = 3;
 
     my $art_list = $self->list({
-		where  => $where,
+        where  => $where,
         limit  => $n,
         # If there's more than one, give me the most recent(s)
         order  => [ 'id DESC' ],
@@ -186,22 +191,22 @@ sub frontpage {
 }
 
 sub type {
-	return 'article'
+    return 'article'
 }
 
 sub url {
-	my ($self, $id) = @_;
-	my $url;
+    my ($self, $id) = @_;
+    my $url;
 
-	my $slug = $self->slug($id);
-	if (! defined $slug) {
-		$url = '/exec/home/article/?id=' . $id;
-	}
-	else {
-		$url = '/exec/article/' . $slug;
-	}
+    my $slug = $self->slug($id);
+    if (! defined $slug) {
+        $url = '/exec/home/article/?id=' . $id;
+    }
+    else {
+        $url = '/exec/article/' . $slug;
+    }
 
-	return $url;
+    return $url;
 }
 
 1;
