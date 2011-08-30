@@ -31,7 +31,7 @@ sub draw_weight_chart {
     my $birthdate = [ $kid->birthdate() ];
     
     # Setup a simple font
-    $txt->font($self->pdf->corefont('Helvetica', -encoding=>'latin1'), 4);
+    $txt->font($self->pdf->corefont('Helvetica', -encoding=>'utf8'), 4);
     $txt->fillcolor('black');
 
     # Trace first point
@@ -57,22 +57,36 @@ sub draw_weight_chart {
     }
 
     # Draw text: name and dates
-    $txt->font($self->pdf->corefont('Helvetica-Bold', -encoding=>'latin1'), 14);
+    $txt->font($self->pdf->corefont('Helvetica-Bold', -encoding=>'utf8'), 14);
     $txt->fillcolor('black');
-    $txt->translate(250, 190);
+    my $text_x = 354;
+    my $text_y = 150;
+    $txt->translate($text_x, $text_y + 45);
     $txt->text($kid->name);
-    $txt->font($self->pdf->corefont('Helvetica', -encoding=>'latin1'), 9);
-    $txt->translate(250, 170);
+    $txt->font($self->pdf->corefont('Helvetica', -encoding=>'utf8'), 9);
+    $txt->translate($text_x, $text_y + 25);
     $txt->text('Data di nascita: ' . $kid->birthdate);
-    $txt->translate(250, 162);
+    $txt->translate($text_x, $text_y + 15);
     my @today = localtime();
     $txt->text('Crescita al: ' . $today[3] . '/' . ($today[4] + 1) . '/' . (1900+$today[5]));
+    $txt->translate($text_x, $text_y);
+    $txt->text('www.curvedicrescita.com');
 
     # Draw reference points
+    my $range = $self->range;
+    my @chart_limits;
+
+    if ($range eq '0_2') {
+        @chart_limits = (24, 15);
+    }
+    elsif ($range eq '0_5') {
+        @chart_limits = (60, 24);
+    }
+
     my $x1 = $self->age_x(0);
-    my $x2 = $self->age_x(36);
+    my $x2 = $self->age_x($chart_limits[0]);
     my $y1 = $self->weight_y(0);
-    my $y2 = $self->weight_y(20);
+    my $y2 = $self->weight_y($chart_limits[1]);
 
     $self->draw_weight_point($x1, $y1);
     $self->draw_weight_point($x2, $y1);
@@ -86,7 +100,7 @@ sub calc_point_xy {
     my ($self, $kid, $point) = @_;
     my ($day, $month, $year, $weight) = @$point;
     my $age = $self->date_diff($kid->birthdate, $day, $month, $year);
-    $age /= 30;
+    $age /= 30.4375;  # from WHO charts documentation
     my $x = $self->age_x($age);
     my $y = $self->weight_y($weight);
     return ($x, $y);
@@ -200,6 +214,20 @@ sub save {
     my ($self, $name) = @_;
     $name ||= $self->filename() . '.new.pdf';
     return $self->pdf->saveas($name);
+}
+
+sub range {
+    my ($self) = @_;
+
+    # Custom range was specified at construction time
+    if (exists $self->{range}) {
+        return $self->{range};
+    }
+
+    my $age = $self->kid->age();
+    my $range = $age > 2 * 365 ? '0_5' : '0_2';
+
+    return $range;
 }
 
 1;

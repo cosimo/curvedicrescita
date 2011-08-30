@@ -14,13 +14,32 @@ use base q(BabyDiary::Chart);
 sub age_x {
     my ($self, $months) = @_;
 
-    my $base = 111;
-    my $max  = 715.5;
+    my $base;
+    my $max;
+    my $points_per_month;
 
-    my $points_per_month = ($max - $base) / 24;
+    my $range = $self->range;
 
-    if    ($months < 0)  { $months = 0 }
-    elsif ($months > 24) { $months = 24 }
+    if ($range eq '0_2') {
+        $base = 111;
+        $max  = 715.5;
+
+        $points_per_month = ($max - $base) / 24;
+
+        if    ($months < 0)  { $months = 0 }
+        elsif ($months > 24) { $months = 24 }
+    }
+
+    elsif ($range eq '0_5') {
+
+        $base = 111;
+        $max  = 715.5;
+
+        $points_per_month = ($max - $base) / 60;
+
+        if    ($months < 0)  { $months = 0 }
+        elsif ($months > 60) { $months = 60 }
+    }
 
     return $base + $points_per_month * $months;
 }
@@ -42,36 +61,43 @@ sub filename {
     my $type  = $self->type() || 'wfa';
 
     # Age in days
-    my $age   = $self->kid->age();
-
-    if ($age <= 2 * 365) {
-        $age = '0_2';
-    }
-    else {
-        $age = '0_5';
-    }
-
+    my $range = $self->range();
     my $gender = $self->kid->gender() eq 'M' ? 'boys' : 'girls';
-    my $file  = sprintf 'charts/who/cht_%s_%s_p_%s.pdf', $type, $gender, $age;
+    my $file  = sprintf 'charts/who/cht_%s_%s_p_%s.pdf', $type, $gender, $range;
 
     return $self->{filename} = $file;
 }
 
 sub mediabox {
     my ($self) = @_;
+    # Landscape A4
     return (0, 0, 842, 595);
 }
 
 sub weight_y_girls {
     my ($self, $kgs) = @_;
 
-    my $base = 50;
-    my $max  = 404.5;
+    my $base;
+    my $max;
+    my $points_per_kg;
 
-    my $points_per_kg = ($max - $base) / 13;
+    my $range = $self->range;
 
-    if    ($kgs < 2)  { $kgs = 2 }
-    elsif ($kgs > 15) { $kgs = 15 }
+    if ($range eq '0_2') {
+        $base = 50;
+        $max  = 404.5;
+        $points_per_kg = ($max - $base) / 13;
+        if    ($kgs < 2)  { $kgs = 2 }
+        elsif ($kgs > 15) { $kgs = 15 }
+    }
+    
+    elsif ($range eq '0_5') {
+        $base = 72;
+        $max  = 426.5;
+        $points_per_kg = ($max - $base) / 22;
+        if    ($kgs < 2)  { $kgs = 2 }
+        elsif ($kgs > 24) { $kgs = 24 }
+    }
 
     return ($base + $points_per_kg * $kgs);
 }
@@ -93,13 +119,27 @@ sub weight_y {
 sub weight_y_boys {
     my ($self, $kgs) = @_;
 
-    my $base = 54;
-    my $max  = 408.5;
+    my $base;
+    my $max;
+    my $points_per_kg;
 
-    my $points_per_kg = ($max - $base) / 14;
+    my $range = $self->range;
 
-    if    ($kgs < 2)  { $kgs = 2 }
-    elsif ($kgs > 16) { $kgs = 16 }
+    if ($range eq '0_2') {
+        $base = 54;
+        $max  = 408.5;
+        $points_per_kg = ($max - $base) / 14;
+        if    ($kgs < 2)  { $kgs = 2 }
+        elsif ($kgs > 16) { $kgs = 16 }
+    }
+
+    elsif ($range eq '0_5') {
+        $base = 72;
+        $max  = 426.5;
+        $points_per_kg = ($max - $base) / 22;
+        if    ($kgs < 2)  { $kgs = 2 }
+        elsif ($kgs > 24) { $kgs = 24 }
+    }
 
     return ($base + $points_per_kg * $kgs);
 }
