@@ -38,3 +38,6 @@ apt-get install libdbd-sqlite3-perl
 cpan HTML::BBCode
 cpan HTML::Strip
 cpan CGI::Application::Dispatch
+cpan Date::Pregnancy
+apt-get install libhtml-fillinform-perl
+
