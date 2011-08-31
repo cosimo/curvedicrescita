@@ -47,15 +47,15 @@ div#logo {
     left:0px;
     top:10px; /* 6px */
     display:block;
-    width:49%;
+    width:200px;
     padding:0;
     height:54px; /* 38px */
 }
 
 div#menu {
     float:right;
-    width: 50%;
     display:block;
+    margin-right:1em;
     margin-top:-4px;
 }
 
@@ -177,7 +177,7 @@ ul#nav, ul#nav li {
     margin:0;
     padding:0;
     margin-top:10px;
-    padding-left:5px;
+    padding-left:3px;
 }
 
 ul#nav {
@@ -198,21 +198,23 @@ ul#nav a{
     /*background:url(../img/button_bg_10_25.jpg);*/
     background: #eef;
     text-decoration:none;
-    padding-left: 5px;
-    padding-right: 5px;
-    color: #228; /*48f*/
-    border: 1px solid #aaf;
+    padding-left: 4px;
+    padding-right: 4px;
+    color: #228;
+    border: 1px solid #ddf;
 }
 
 ul#nav a:hover {
     background:#228;
-    color: #fff;
+    border-bottom:1px solid #228;
+    color:#fff;
 }
 
 ul#nav li.activelink a,ul#nav li.activelink a:hover {
     background: #228;
+    border:1px solid #88f;
 	border-bottom: 1px solid #228;
-    color: #fff;
+    color:#fff;
 }
 
 div#content {
