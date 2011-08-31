@@ -1,4 +1,4 @@
-html, body {
+html, body, form {
     margin:0;
     padding:0;
 }
@@ -38,25 +38,25 @@ div#header {
     display:block;
     margin:0;
     padding:0;
-    height: 38px;
-    border-bottom: 1px solid #aaf;
+    height: 54px;
+    /*border-bottom: 1px solid #aaf; XXX*/
 }
 
 div#logo {
     position: absolute;
-    left: 0px;
-    top: 6px;
+    left:0px;
+    top:10px; /* 6px */
     display:block;
     width:49%;
     padding:0;
-    height: 38px;
+    height:54px; /* 38px */
 }
 
 div#menu {
     float:right;
     width: 50%;
     display:block;
-    margin-top:-5px;
+    margin-top:-4px;
 }
 
 div#header div#balloon {
@@ -175,14 +175,15 @@ body hr {
 ul#nav, ul#nav li {
     list-style-type:none;
     margin:0;
-    margin-top: 10px;
     padding:0;
+    margin-top:10px;
+    padding-left:5px;
 }
 
 ul#nav {
     width: 100%;
-    font-size: 1.4em;
-    font-weight: 400;
+    font-size: 1.6em;
+    font-weight: 600;
 }
 
 ul#nav li {
@@ -323,10 +324,24 @@ div#content {
     font-size: 17px;
 }
 
-#topics h2, #sidebar h2 {
+#charts-container {
+    margin-top: 2em;
+    margin-left: 20%;
+    min-height: 300px;
+}
+
+#charts-container h1 {
+    font-size: 1.8em;
+    height: 30px;
+    background-color: #eef; 
+    border-top: 1px solid #99f;
+    padding: 6px 0 0 10px;
+    margin: 0;
+}
+
+#topics h2, #sidebar h2, #charts-container h2 {
     font-size: 1.4em;
     height: 22px;
-    /*background: url(../img/button_bg_10_25.jpg) repeat;*/
     background-color: #eef; 
     border-top: 1px solid #99f;
     padding: 3px 0 0 5px;
@@ -385,22 +400,6 @@ div#footer {
 	border-bottom: 1px solid orange;
 	text-decoration: none;
 }
-
-/* Form and controls */
-/*
-input {
-    border: 1px solid #48c;
-    background: #eee;
-    color: #000;
-    font-family: Geneva, Verdana, Times New Roman;
-    font-size: 12px;
-    font-weight: 800;
-}
-
-input#search {
-    color: #bbb; 
-}
-*/
 
 #article textarea {
 	width: 95%;
@@ -691,5 +690,43 @@ div#notice_box_info h3, div#notice_box_info p {
 .read-more :visited {
     font-weight: normal;
     color: #003;
+}
+
+#charts-container fieldset {
+    margin-top: 2em;
+    font-family: "Helvetica Neue", "Arial";
+    font-size: 18px;
+    border:0px;
+}
+
+#charts-container fieldset label {
+    margin-top:1em;
+}
+
+#charts-container input, #charts-container select {
+    margin-top:1em;
+    vertical-align:middle;
+    font-family: "Helvetica Neue", "Arial";
+    font-size: 18px;
+    height:26px;
+}
+
+#charts-container input[type=radio] {
+    margin-left:1em;
+    height:22px;
+}
+
+#charts-container select {
+    height:30px;
+}
+
+#charts-container label {
+    width:18%;
+    float:left;
+    clear:both;
+}
+
+.radio-caption {
+    vertical-align:bottom;
 }
 
