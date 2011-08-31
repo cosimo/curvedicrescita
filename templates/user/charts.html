@@ -4,19 +4,38 @@
 <body>
 <tmpl_include name="components/signin.html">
 <tmpl_include name="components/header.html">
-
 <tmpl_include name="user/submenu.html">
 
-<!-- Main content (chart) -->
-<div id="content">
+<div id="charts-container">
 
-	<div id="topics">
-		<tmpl_include name="components/userdata.html">
-	</div>
+    <tmpl_if show_ads><div id="lb-ad" style="text-align:center; margin-bottom:1.5em;">
+    <img src="" width="728" height="90" title="Leaderboard" border="1">
+    </div></tmpl_if>
 
-	<div id="article2col">
-		<tmpl_include name="components/chart.html">
-	</div>
+    <h1>Grafici di crescita per bambini da 0 a 5 anni</h1>
+
+    <form><fieldset>
+
+        <label for="name">Nome del bambino</label>
+        <input tabindex="1" type="text" name="name" maxlength="20" size="32">
+        <br/>
+
+        <label for="name">Sesso</label>
+        <input tabindex="2" type="radio" name="gender" value="m"> <span class="radio-caption">Maschio</span>
+        <input tabindex="2" type="radio" name="gender" value="f" checked="checked"> <span class="radio-caption">Femmina</span>
+        <br/>
+
+        <label for="chart_type">Tipo di curva</label>
+        <select tabindex="3" name="chart_type">
+            <option value="wfa">Peso</option>
+            <option value="hfa">Altezza</option>
+            <option value="chfa">Circonferenza cranica</option>
+        </select>
+        <br/>
+
+    </fieldset>
+
+    </form>
 
 </div>
 
