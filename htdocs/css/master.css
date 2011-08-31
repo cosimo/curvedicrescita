@@ -695,9 +695,9 @@ div#notice_box_info h3, div#notice_box_info p {
 }
 
 #charts-container fieldset {
-    margin-top: 2em;
-    font-family: "Helvetica Neue", "Arial";
-    font-size: 18px;
+    margin-top:0.5em;
+    font-family:"Helvetica Neue", "Arial";
+    font-size:18px;
     border:0px;
 }
 
@@ -708,8 +708,8 @@ div#notice_box_info h3, div#notice_box_info p {
 #charts-container input, #charts-container select {
     margin-top:1em;
     vertical-align:middle;
-    font-family: "Helvetica Neue", "Arial";
-    font-size: 18px;
+    font-family:"Helvetica Neue", "Arial";
+    font-size:18px;
     height:26px;
 }
 
@@ -723,7 +723,7 @@ div#notice_box_info h3, div#notice_box_info p {
 }
 
 #charts-container label {
-    width:18%;
+    width:25%;
     float:left;
     clear:both;
 }
