@@ -29,7 +29,10 @@ sub main {
 sub section {
     my ($self, $section) = @_;
 	my $tmpl = $self->render_view(qq(user/$section.html));
-    $tmpl->param( "submenu_$section" => 1);
+    $tmpl->param(
+        menu_charts => 1,
+        "submenu_$section" => 1
+    );
 	return $tmpl->output();
 }
 
