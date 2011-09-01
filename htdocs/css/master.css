@@ -549,7 +549,7 @@ div#notice_box_info h3, div#notice_box_info p {
 /* Blue tab under main header */
 #tab {
 	clear:both;
-	padding-left: 20px;
+	padding-left: 88px;
 	padding-top:6px; 
 	background-color: #228;
 	height:24px
@@ -730,5 +730,16 @@ div#notice_box_info h3, div#notice_box_info p {
 
 .radio-caption {
     vertical-align:bottom;
+}
+
+input[type=submit] {
+    padding:1px 14px 4px 14px;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    border:2px solid #22b;
+    background:#228;
+    color:white;
+    font-weight:800;
 }
 
