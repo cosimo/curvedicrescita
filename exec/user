@@ -22,7 +22,9 @@ CGI::Application::Dispatch->dispatch(
         '/'           => { app => 'UserPage', rm => 'userpage_main' },
         '/main/'      => { app => 'UserPage', rm => 'userpage_main' },
         '/baby/new/'  => { app => 'UserPage', rm => 'new_baby' },
-        '/charts/'    => { app => 'UserPage', rm => 'userpage_charts' },
+        '/charts/'    => { app => 'Charts',   rm => 'charts_basicdata' },
+        '/charts/measures/' => { app => 'Charts', rm => 'charts_measures' },
+        '/charts/generate/' => { app => 'Charts', rm => 'charts_generate' },
     ]
 );
 

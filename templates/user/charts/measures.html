@@ -1,0 +1,191 @@
+<tmpl_include name="document/open.html">
+<tmpl_include name="document/header.html">
+
+<body>
+<tmpl_include name="components/signin.html">
+<tmpl_include name="components/header.html">
+<tmpl_include name="user/submenu.html">
+
+<div id="charts-container">
+
+    <tmpl_if show_ads><div id="lb-ad" style="text-align:center; margin-bottom:1.5em;">
+    <img src="" width="728" height="90" title="Leaderboard" border="1">
+    </div></tmpl_if>
+
+    <h1>Grafico di <tmpl_var type_as_word> per <tmpl_var name escape=html> (<tmpl_var gender escape=html>., <tmpl_var day escape=html>/<tmpl_var month escape=html>/<tmpl_var year escape=html>)</h1>
+
+    <form action="/exec/user/charts/generate" method="POST"><fieldset>
+
+        <!-- Previous step values -->
+        <input type="hidden" name="name" value="<tmpl_var name escape=html>">
+        <input type="hidden" name="gender" value="<tmpl_var gender escape=html>">
+        <input type="hidden" name="day" value="<tmpl_var day escape=html>">
+        <input type="hidden" name="month" value="<tmpl_var month escape=html>">
+        <input type="hidden" name="year" value="<tmpl_var year escape=html>">
+
+        <table id="measures-table" cellspacing="5" cellpadding="0" border="0">
+        <thead>
+            <tr>
+                <th>Giorno</th>
+                <th>Mese</th>
+                <th>Anno</th>
+                <th>Misura</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                <select name="day">
+                    <option value="1" selected="selected">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                    <option value="31">31</option>
+                </select>
+                </td>
+
+                <td>
+                <select name="month">
+                    <option value="1" selected="selected">Gennaio</option>
+                    <option value="2">Febbraio</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Aprile</option>
+                    <option value="5">Maggio</option>
+                    <option value="6">Giugno</option>
+                    <option value="7">Luglio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Settembre</option>
+                    <option value="10">Ottobre</option>
+                    <option value="11">Novembre</option>
+                    <option value="12">Dicembre</option>
+                </select>
+                </td>
+
+                <td>
+                <select name="year">
+                    <option value="2011" selected="selected">2011</option>
+                    <option value="2010">2010</option>
+                    <option value="2009">2009</option>
+                    <option value="2008">2008</option>
+                    <option value="2007">2007</option>
+                    <option value="2006">2006</option>
+                </select>
+                </td>
+
+                <td>
+                <input type="text" name="measure" value="" size="10" maxlength="8">
+                <tmpl_var unit>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                <select name="day">
+                    <option value="1" selected="selected">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                    <option value="31">31</option>
+                </select>
+                </td>
+
+                <td>
+                <select name="month">
+                    <option value="1" selected="selected">Gennaio</option>
+                    <option value="2">Febbraio</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Aprile</option>
+                    <option value="5">Maggio</option>
+                    <option value="6">Giugno</option>
+                    <option value="7">Luglio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Settembre</option>
+                    <option value="10">Ottobre</option>
+                    <option value="11">Novembre</option>
+                    <option value="12">Dicembre</option>
+                </select>
+                </td>
+
+                <td>
+                <select name="year">
+                    <option value="2011" selected="selected">2011</option>
+                    <option value="2010">2010</option>
+                    <option value="2009">2009</option>
+                    <option value="2008">2008</option>
+                    <option value="2007">2007</option>
+                    <option value="2006">2006</option>
+                </select>
+                </td>
+
+                <td>
+                <input type="text" name="measure" value="" size="10" maxlength="8">
+                <tmpl_var unit>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+
+        <div style="margin-left:100px">
+        <a href="javascript:history.go(-1)"><input type="button" value="&larr; Indietro"></a>
+        <input style="margin-left:50px" type="submit" value="Continua">
+        </div>
+
+    </fieldset>
+
+    </form>
+
+</div>
+
+<tmpl_include name="document/footer.html">
+<tmpl_include name="document/close.html">

@@ -22,6 +22,7 @@ use File::Spec ();
 use BabyDiary::Application::Admin;
 use BabyDiary::Application::Articles;
 use BabyDiary::Application::Auth;
+use BabyDiary::Application::Charts;
 use BabyDiary::Application::Questions;
 use BabyDiary::Application::Pregnancy;
 use BabyDiary::Application::Search;
@@ -131,6 +132,10 @@ sub setup
         signup          => \&BabyDiary::Application::Signup::signup,
         signup_activation=>\&BabyDiary::Application::Signup::activation,
         signup_thanks   => \&BabyDiary::Application::Signup::thanks,
+
+        charts_basicdata => \&BabyDiary::Application::Charts::input_basicdata,
+        charts_measures  => \&BabyDiary::Application::Charts::input_measures,
+        charts_generate  => \&BabyDiary::Application::Charts::generate_chart,
 
     );
 
