@@ -40,4 +40,5 @@ cpan HTML::Strip
 cpan CGI::Application::Dispatch
 cpan Date::Pregnancy
 apt-get install libhtml-fillinform-perl
+apt-get install libmime-lite-perl
 
