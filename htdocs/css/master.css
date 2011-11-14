@@ -64,7 +64,7 @@ div#header div#balloon {
     left:-2000px;
     top:-2000px;
     width:330px;
-    height:130px;
+    height:200px;
     background:url(../img/balloon/rect_sx.png) no-repeat;
     display:block;
 }

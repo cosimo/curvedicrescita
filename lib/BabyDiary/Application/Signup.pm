@@ -131,6 +131,47 @@ sub form {
     return $tmpl->output();
 }
 
+sub password_reset {
+    my ($self) = @_;
+
+    my $tmpl = $self->render_view();
+
+    $tmpl->param(page_title => 'Recupero della password');
+
+    return $tmpl->output();
+}
+
+sub password_reset_post {
+    my ($self) = @_;
+
+    my $query = $self->query();
+    my %prm = $query->Vars;
+    my $email = $prm{user};
+    my $back_url = "/exec/home/password_reset";
+
+    if (! $email) {
+        $self->log("No email to be looked up");
+        return $self->redirect($back_url);
+    }
+
+    my $users = BabyDiary::File::Users->new();
+    my $this_user = $users->get({ where => { username => $email }});
+
+    if (! $this_user) {
+        $self->log("User '$email' not found?");
+        return $self->redirect($back_url);
+    }
+
+    $self->log("Found user email '$$this_user{username}'");
+
+    BabyDiary::Notifications::lost_password_mail(
+        $this_user->{username}, $this_user->{password}
+    );
+
+    my $tmpl = $self->render_view();
+    return $tmpl->output();
+}
+
 sub process {
     my ($self) = @_;
     $self->log('notice', 'Processing signup form');

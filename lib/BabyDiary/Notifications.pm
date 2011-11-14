@@ -39,6 +39,17 @@ sub mail {
     return 1;
 }
 
+sub lost_password_mail {
+    my ($email, $password) = @_;
+
+    return mail({
+        to => $email,
+        subject => 'Informazioni di accesso a CurveDiCrescita.com',
+        text => "Ecco le informazioni di accesso che hai richiesto su curvedicrescita.com.\n\nEmail: $email\nPassword: $password\n\n-- \nCurveDiCrescita.com\n",
+    });
+
+}
+
 sub send_activation_mail {
     my ($user) = @_;
 

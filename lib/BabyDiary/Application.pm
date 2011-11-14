@@ -129,9 +129,11 @@ sub setup
         login           => \&BabyDiary::Application::Auth::login,
         logout          => \&BabyDiary::Application::Auth::logout,
 
-        signup          => \&BabyDiary::Application::Signup::signup,
-        signup_activation=>\&BabyDiary::Application::Signup::activation,
-        signup_thanks   => \&BabyDiary::Application::Signup::thanks,
+        signup           => \&BabyDiary::Application::Signup::signup,
+        signup_activation=> \&BabyDiary::Application::Signup::activation,
+        signup_thanks    => \&BabyDiary::Application::Signup::thanks,
+        password_reset   => \&BabyDiary::Application::Signup::password_reset,
+        password_reset_post => \&BabyDiary::Application::Signup::password_reset_post,
 
         charts_basicdata => \&BabyDiary::Application::Charts::input_basicdata,
         charts_measures  => \&BabyDiary::Application::Charts::input_measures,
