@@ -14,7 +14,8 @@ sub mail {
     my ($args) = @_;
 
     my $conf = Config::Auto::parse('../conf/babydiary.conf');
-    $args->{smtp} ||= $conf->{smtp_host};
+    my $smtp = Config::Auto::parse('../conf/smtp.conf');
+    $args->{smtp} ||= $smtp->{host};
     $args->{from} ||= default_sender();
 
     require MIME::Lite;
@@ -28,7 +29,13 @@ sub mail {
 
     $msg->add(Organization => 'CurveDiCrescita.com');
 
-    MIME::Lite->send('smtp', $args->{smtp}, Timeout => 30);
+    MIME::Lite->send(
+        smtp => $smtp->{host},
+		Port => $smtp->{port} || 25,
+		AuthUser => $smtp->{user} || '',
+	    AuthPass => $smtp->{pass} || '',
+        Timeout => $smtp->{timeout} || 30
+	);
 
     eval { $msg->send() };
     if ($@) {
